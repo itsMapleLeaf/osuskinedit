@@ -10,11 +10,11 @@ app.on('ready', () => {
 
     minHeight: 500,
     minWidth: 800,
-    
+
     backgroundColor: '#000'
   })
 
-  win.loadURL(resolve(__dirname, '../renderer/index.html'))
+  win.loadURL(resolve(__dirname, 'index.html'))
 
   win.once('ready-to-show', () => {
     win.show()
