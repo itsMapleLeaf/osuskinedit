@@ -5,5 +5,5 @@
     "lib": ["dom", "esnext"],
     "jsx": "react"
   },
-  "include": ["./main/**/*", "./renderer/**/*"]
+  "include": ["./src/main/**/*", "./src/renderer/**/*"]
 }
