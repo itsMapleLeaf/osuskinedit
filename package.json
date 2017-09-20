@@ -1,0 +1,21 @@
+{
+  "name": "osu-skin-editor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "tsc && electron ."
+  },
+  "dependencies": {
+    "electron": "^1.7.6",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.5.2"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.28",
+    "@types/react": "^16.0.5",
+    "@types/react-dom": "^15.5.4"
+  }
+}
