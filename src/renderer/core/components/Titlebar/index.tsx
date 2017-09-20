@@ -6,19 +6,21 @@ import Icon from '../../../common/components/Icon'
 
 const window = remote.getCurrentWindow()
 
-export default class Titlebar extends React.Component {
-  public state = {
-    'isMaximized': null
+interface TitlebarState {
+  isMaximized: boolean
+}
+
+export default class Titlebar extends React.Component<{}, TitlebarState> {
+  state = {
+    'isMaximized': window.isMaximized(),
   }
 
-  constructor() {
-    super()
-
-    this.state = {
-      'isMaximized': window.isMaximized(),
-    }
-
+  componentDidMount() {
     window.on('resize', this.handleResize)
+  }
+
+  componentWillUnmount() {
+    window.removeListener('resize', this.handleResize)
   }
 
   @bind
