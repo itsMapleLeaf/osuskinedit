@@ -375,6 +375,10 @@ decamelize@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
 
+decko@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/decko/-/decko-1.2.0.tgz#fd43c735e967b8013306884a56fbe665996b6817"
+
 deep-equal@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
@@ -1191,7 +1195,7 @@ memory-streams@^0.1.2:
   dependencies:
     readable-stream "~1.0.2"
 
-meow@^3.1.0, meow@^3.7.0:
+meow@^3.1.0:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/meow/-/meow-3.7.0.tgz#72cb668b425228290abbfa856892587308a801fb"
   dependencies:
@@ -1350,14 +1354,6 @@ npm-run-all@^4.1.1:
     read-pkg "^2.0.0"
     shell-quote "^1.6.1"
     string.prototype.padend "^3.0.0"
-
-npm-run-parallel@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/npm-run-parallel/-/npm-run-parallel-0.5.0.tgz#3e4fd9c6d280e013182cbe2806c110b178421a0e"
-  dependencies:
-    meow "^3.7.0"
-    rx "^4.0.8"
-    rx-node "^1.0.1"
 
 npm-run-path@^2.0.0:
   version "2.0.2"
@@ -1768,16 +1764,6 @@ rimraf@2, rimraf@^2.2.8, rimraf@^2.5.1, rimraf@^2.6.1:
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.2.tgz#2ed8150d24a16ea8651e6d6ef0f47c4158ce7a36"
   dependencies:
     glob "^7.0.5"
-
-rx-node@^1.0.1:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/rx-node/-/rx-node-1.0.2.tgz#151240725a79e857360ab06cc626799965e094de"
-  dependencies:
-    rx "*"
-
-rx@*, rx@^4.0.8:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/rx/-/rx-4.1.0.tgz#a5f13ff79ef3b740fe30aa803fb09f98805d4782"
 
 safe-buffer@^5.0.1, safe-buffer@^5.1.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.1"
