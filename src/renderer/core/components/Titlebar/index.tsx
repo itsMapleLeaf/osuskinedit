@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { bind } from 'decko'
+import { remote } from 'electron'
 
 import Icon from '../../../common/components/Icon'
 
-const window = require('electron').remote.getCurrentWindow()
+const window = remote.getCurrentWindow()
 
 export default class Titlebar extends React.Component {
   public state = {
