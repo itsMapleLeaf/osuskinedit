@@ -50,7 +50,7 @@ const rendererConfig = merge(baseConfig, {
     ]
   },
   plugins: [
-    new HtmlPlugin({ template: './index.html' })
+    new HtmlPlugin({ template: './src/renderer/index.html' })
   ],
   target: 'electron-renderer',
 })
