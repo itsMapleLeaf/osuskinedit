@@ -25,8 +25,8 @@ const baseConfig = {
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
     alias: {
-      main: './src/main',
-      renderer: './src/renderer',
+      main: resolve(__dirname, './src/main'),
+      renderer: resolve(__dirname, './src/renderer'),
     },
   },
   node: false,
