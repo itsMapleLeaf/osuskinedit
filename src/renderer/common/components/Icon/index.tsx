@@ -2,11 +2,11 @@ import * as React from 'react'
 
 import * as icons from 'renderer/common/icons'
 
-export default class Icon extends React.Component {
-  public props = {
-    name: null,
-  }
+interface IconProps {
+  name: string
+}
 
+export default class Icon extends React.Component<IconProps> {
   renderSVG() {
     const { name } = this.props
 
