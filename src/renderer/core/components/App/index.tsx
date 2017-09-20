@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import Titlebar from '../Titlebar'
+import Titlebar from 'renderer/core/components/Titlebar'
 
 export default class App extends React.Component {
   render() {

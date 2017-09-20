@@ -2,7 +2,7 @@ import * as React from 'react'
 import { bind } from 'decko'
 import { remote } from 'electron'
 
-import Icon from '../../../common/components/Icon'
+import Icon from 'renderer/common/components/Icon'
 
 const window = remote.getCurrentWindow()
 

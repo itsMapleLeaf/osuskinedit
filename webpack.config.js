@@ -24,8 +24,12 @@ const baseConfig = {
   },
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
+    alias: {
+      main: './src/main',
+      renderer: './src/renderer',
+    },
   },
-  node: false
+  node: false,
 }
 
 const mainConfig = merge(baseConfig, {
@@ -44,14 +48,9 @@ const rendererConfig = merge(baseConfig, {
     filename: 'renderer.js',
   },
   module: {
-    rules: [
-      cssLoader,
-      sassLoader,
-    ]
+    rules: [cssLoader, sassLoader],
   },
-  plugins: [
-    new HtmlPlugin({ template: './src/renderer/index.html' })
-  ],
+  plugins: [new HtmlPlugin({ template: './src/renderer/index.html' })],
   target: 'electron-renderer',
 })
 

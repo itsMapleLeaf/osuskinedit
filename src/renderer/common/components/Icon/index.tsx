@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import * as icons from '../../icons'
+import * as icons from 'renderer/common/icons'
 
 export default class Icon extends React.Component {
   public props = {
