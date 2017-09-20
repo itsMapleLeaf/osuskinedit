@@ -6,7 +6,8 @@
       "dom",
       "esnext"
     ],
-    "jsx": "react"
+    "jsx": "react",
+    "experimentalDecorators": true
   },
   "include": ["./src/main/**/*", "./src/renderer/**/*"]
 }
