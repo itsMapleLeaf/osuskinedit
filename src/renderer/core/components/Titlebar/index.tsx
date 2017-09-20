@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { bind } from 'decko'
 
-import Icon from '../../../../common/components/Icon'
+import Icon from '../../../common/components/Icon'
 
 const window = require('electron').remote.getCurrentWindow()
 
@@ -26,7 +26,7 @@ export default class Titlebar extends React.Component {
       'isMaximized': window.isMaximized()
     })
   }
-  
+
   @bind
   minimizeWindow() {
     window.minimize()
@@ -35,7 +35,7 @@ export default class Titlebar extends React.Component {
   @bind
   toggleMaximized() {
     const { isMaximized } = this.state
-    
+
     if (isMaximized) window.unmaximize()
     if (!isMaximized) window.maximize()
   }
