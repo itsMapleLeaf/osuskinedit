@@ -2,8 +2,14 @@
   "compilerOptions": {
     "target": "es2017",
     "module": "commonjs",
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "jsx": "react"
   },
-  "include": ["./main/**/*", "./renderer/**/*"]
+  "include": [
+    "./src/main/**/*",
+    "./src/renderer/**/*"
+  ]
 }
