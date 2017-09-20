@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { bind } from 'decko'
 import { remote } from 'electron'
-
 import Icon from 'renderer/common/components/Icon'
+import './styles.scss'
 
 const window = remote.getCurrentWindow()
 

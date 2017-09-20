@@ -1,6 +1,6 @@
 import * as React from 'react'
-
 import * as icons from 'renderer/common/icons'
+import './styles.scss'
 
 interface IconProps {
   name: string
