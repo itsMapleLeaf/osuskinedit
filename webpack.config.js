@@ -30,6 +30,10 @@ const baseConfig = {
     },
   },
   node: false,
+  externals: {
+    'react': `require('react')`,
+    'react-dom': `require('react-dom')`,
+  },
 }
 
 const mainConfig = merge(baseConfig, {
