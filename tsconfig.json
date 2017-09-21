@@ -9,6 +9,7 @@
     ],
     "jsx": "react",
     "experimentalDecorators": true,
+    "strict": true,
     "baseUrl": "./src"
   },
   "include": ["./src/main/**/*", "./src/renderer/**/*"]

@@ -11,8 +11,10 @@ app.on('ready', () => {
     minHeight: 500,
     minWidth: 800,
 
-    backgroundColor: '#000'
+    backgroundColor: '#000',
   })
+
+  win.maximize()
 
   win.loadURL(resolve(__dirname, 'index.html'))
 

@@ -1,0 +1,9 @@
+.Sidebar {
+  border-right: var(--border-divider);
+  padding: var(--padding-default);
+
+  height: calc(100vh - 56px);
+  width: 80px;
+
+  box-sizing: border-box;
+}
