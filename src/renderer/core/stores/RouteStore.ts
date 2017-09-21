@@ -1,9 +1,13 @@
-import { action, computed, observable } from 'mobx'
 import * as React from 'react'
+import { action, computed, observable } from 'mobx'
+
 import { IconType } from 'renderer/common/icons/types'
-import SkinColorsView from 'renderer/core/components/SkinColorsView'
+
 import SkinElementsView from 'renderer/core/components/SkinElementsView'
 import SkinMetadataView from 'renderer/core/components/SkinMetadataView'
+import SkinColorsView from 'renderer/core/components/SkinColorsView'
+import SkinSoundsView from 'renderer/core/components/SkinSoundsView'
+
 import SettingsView from 'renderer/settings/components/SettingsView'
 
 interface RouteDefinition {
@@ -27,6 +31,10 @@ export const routes: RouteDefinition = {
   colors: {
     component: SkinColorsView,
     icon: 'navColors',
+  },
+  sounds: {
+    component: SkinSoundsView,
+    icon: 'navSounds',
   },
   settings: {
     component: SettingsView,
