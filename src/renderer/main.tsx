@@ -1,12 +1,18 @@
+import { Provider } from 'mobx-react'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+
 import App from 'renderer/core/components/App'
-import StoreProvider from 'renderer/core/components/StoreProvider'
+import stores from 'renderer/stores'
+
 import './index.scss'
 
-ReactDOM.render(
-  <StoreProvider>
-    <App />
-  </StoreProvider>,
-  document.getElementById('root'),
-)
+function Root() {
+  return (
+    <Provider {...stores}>
+      <App />
+    </Provider>
+  )
+}
+
+ReactDOM.render(<Root />, document.getElementById('root'))

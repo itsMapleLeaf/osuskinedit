@@ -1,8 +1,6 @@
 import { inject, observer } from 'mobx-react'
 import * as React from 'react'
 
-import StoreProvider from 'renderer/core/components/StoreProvider'
-
 import Button from 'renderer/common/components/Button'
 import Navigator from 'renderer/core/components/Navigator'
 import RouteRenderer from 'renderer/core/components/RouteRenderer'
