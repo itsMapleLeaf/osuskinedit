@@ -14,43 +14,45 @@
   border-bottom: var(--border-divider);
 
   > .title {
-    flex-grow: 1;
-
     color: var(--color-accent);
 
     font-weight: 600;
     text-transform: uppercase;
+
+    flex-grow: 1;
   }
 
   > .buttons {
     margin-right: -20px;
     display: flex;
 
+    align-self: flex-end;
+
     -webkit-app-region: no-drag;
+  }
 
-    > .button {
-      display: flex;
+  > .buttons > .button {
+    display: flex;
 
-      justify-content: center;
-      align-items: center;
+    justify-content: center;
+    align-items: center;
 
-      height: var(--height-titlebar);
-      width: var(--height-titlebar);
+    height: var(--height-titlebar);
+    width: var(--height-titlebar);
 
-      opacity: 0.3;
+    opacity: 0.3;
 
-      transition: var(--transition-default);
+    transition: var(--transition-default);
+  }
 
-      &:hover {
-        cursor: pointer;
-        opacity: 1;
-      }
+  > .buttons > .button:hover {
+    cursor: pointer;
+    opacity: 1;
+  }
 
-      > .Icon {
-        width: 18px;
-        height: 18px;
-      }
-    }
+  > .buttons > .button > .Icon {
+    width: 18px;
+    height: 18px;
   }
 }
 

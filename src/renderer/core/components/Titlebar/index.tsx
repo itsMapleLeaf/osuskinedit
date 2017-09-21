@@ -1,6 +1,7 @@
-import * as React from 'react'
 import { bind } from 'decko'
 import { remote } from 'electron'
+import * as React from 'react'
+import Button from 'renderer/common/components/Button';
 import Icon from 'renderer/common/components/Icon'
 import './styles.scss'
 
