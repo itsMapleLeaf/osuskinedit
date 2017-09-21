@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "es2015",
     "module": "esnext",
     "moduleResolution": "node",
     "lib": [
@@ -11,7 +11,8 @@
     "experimentalDecorators": true,
     "strict": true,
     "baseUrl": "./src",
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["./src/main/**/*", "./src/renderer/**/*"]
+  "include": ["./src/**/*"]
 }

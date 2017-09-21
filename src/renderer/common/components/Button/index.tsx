@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import * as getClassName from 'classnames'
+import getClassName from 'classnames'
 
 import { IconType } from 'renderer/common/icons/types'
 import Icon from "renderer/common/components/Icon"

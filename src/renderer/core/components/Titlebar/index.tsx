@@ -4,7 +4,7 @@ import * as React from 'react'
 import Icon from 'renderer/common/components/Icon'
 import './styles.scss'
 
-const window = remote.getCurrentWindow()
+const win = remote.getCurrentWindow()
 
 interface TitlebarState {
   isMaximized: boolean
@@ -12,40 +12,40 @@ interface TitlebarState {
 
 export default class Titlebar extends React.Component<{}, TitlebarState> {
   state = {
-    'isMaximized': window.isMaximized(),
+    'isMaximized': win.isMaximized(),
   }
 
   componentDidMount() {
-    window.on('resize', this.handleResize)
+    win.on('resize', this.handleResize)
   }
 
   componentWillUnmount() {
-    window.removeListener('resize', this.handleResize)
+    win.removeListener('resize', this.handleResize)
   }
 
   @bind
   handleResize() {
     this.setState({
-      'isMaximized': window.isMaximized()
+      'isMaximized': win.isMaximized()
     })
   }
 
   @bind
   minimizeWindow() {
-    window.minimize()
+    win.minimize()
   }
 
   @bind
   toggleMaximized() {
     const { isMaximized } = this.state
 
-    if (isMaximized) window.unmaximize()
-    if (!isMaximized) window.maximize()
+    if (isMaximized) win.unmaximize()
+    if (!isMaximized) win.maximize()
   }
 
   @bind
   closeWindow() {
-    window.close()
+    win.close()
   }
 
   render() {
