@@ -1,7 +1,10 @@
 import { action, computed, observable } from 'mobx'
 import * as React from 'react'
 import { IconType } from 'renderer/common/icons/types'
-import { FileView } from 'renderer/file/components/FileView/index'
+import SkinColorsView from 'renderer/core/components/SkinColorsView'
+import SkinElementsView from 'renderer/core/components/SkinElementsView'
+import SkinMetadataView from 'renderer/core/components/SkinMetadataView'
+import SettingsView from 'renderer/settings/components/SettingsView'
 
 interface RouteDefinition {
   [key: string]: Route
@@ -13,30 +16,26 @@ interface Route {
 }
 
 export const routes: RouteDefinition = {
-  file: {
-    component: FileView,
-    icon: 'navFile',
-  },
   elementList: {
-    component: FileView,
+    component: SkinElementsView,
     icon: 'navList',
   },
   skinData: {
-    component: FileView,
+    component: SkinMetadataView,
     icon: 'navSkinData',
   },
   colors: {
-    component: FileView,
+    component: SkinColorsView,
     icon: 'navColors',
   },
   settings: {
-    component: FileView,
+    component: SettingsView,
     icon: 'navSettings',
   },
 }
 
 export class RouteStore {
-  @observable currentRouteName = 'file'
+  @observable currentRouteName = 'elementList'
 
   @action
   setRoute(routeName: string) {
