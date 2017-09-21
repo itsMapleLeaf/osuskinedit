@@ -22,7 +22,6 @@ export default class App extends React.Component<AppProps> {
     if (!appStore.skin) {
       return (
         <div className="body">
-          {/* center this */}
           <Button label="Load Skin" onClick={appStore.loadSkin} />
         </div>
       )
