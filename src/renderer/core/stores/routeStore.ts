@@ -1,26 +1,38 @@
-import { observable, computed, action } from 'mobx'
+import { action, computed, observable } from 'mobx'
+import * as React from 'react'
+import { IconType } from 'renderer/common/icons/types'
+import { FileView } from 'renderer/file/components/FileView/index'
 
-export const routes: { [key: string]: any } = {
-  'file': {
-    'component': null,
-    'icon': 'navFile',
+interface RouteDefinition {
+  [key: string]: Route
+}
+
+interface Route {
+  component: React.ComponentClass
+  icon: IconType
+}
+
+export const routes: RouteDefinition = {
+  file: {
+    component: FileView,
+    icon: 'navFile',
   },
-  'elementList': {
-    'component': null,
-    'icon': 'navList',
+  elementList: {
+    component: FileView,
+    icon: 'navList',
   },
-  'skinData': {
-    'component': null,
-    'icon': 'navSkinData',
+  skinData: {
+    component: FileView,
+    icon: 'navSkinData',
   },
-  'colors': {
-    'component': null,
-    'icon': 'navColors',
+  colors: {
+    component: FileView,
+    icon: 'navColors',
   },
-  'settings': {
-    'component': null,
-    'icon': 'navSettings'
-  }
+  settings: {
+    component: FileView,
+    icon: 'navSettings',
+  },
 }
 
 export class RouteStore {
@@ -28,7 +40,7 @@ export class RouteStore {
 
   @action
   setRoute(routeName: string) {
-    this.currentRouteName = routeName;
+    this.currentRouteName = routeName
   }
 
   @computed
@@ -37,4 +49,4 @@ export class RouteStore {
   }
 }
 
-export default new RouteStore
+export default new RouteStore()
