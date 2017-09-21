@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start:rollup": "node scripts/watch",
-    "start:nodemon": "nodemon -w ./build -x \"electron build/main.js\"",
-    "start": "run-p start:*",
-    "build": "webpack"
+    "start-dev:rollup": "node scripts/watch",
+    "start-dev:nodemon": "nodemon -w ./build -x \"electron build/main.js\"",
+    "start-dev": "run-p start-dev:*",
+    "build": "node scripts/build",
+    "start": "electron build/main.js"
   },
   "dependencies": {
     "classnames": "^2.2.5",
