@@ -1,4 +1,3 @@
-import { bind } from 'decko'
 import { inject, observer } from 'mobx-react'
 import * as React from 'react'
 
@@ -30,7 +29,7 @@ export default class Navigator extends React.Component<NavigatorProps> {
         <Button
           key={key}
           type="NavigationButton"
-          icon={route.icon}
+          icon={route!.icon}
           isActive={isActive}
           onClick={handleClick}
         />
