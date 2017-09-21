@@ -31,6 +31,7 @@ const baseConfig = {
     react: `require('react')`,
     'react-dom': `require('react-dom')`,
   },
+  devtool: 'source-map'
 }
 
 const mainConfig = merge(baseConfig, {
