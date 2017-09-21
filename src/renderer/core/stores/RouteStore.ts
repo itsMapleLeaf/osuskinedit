@@ -1,17 +1,17 @@
-import * as React from 'react'
 import { action, computed, observable } from 'mobx'
+import * as React from 'react'
 
 import { IconType } from 'renderer/common/icons/types'
 
+import SkinColorsView from 'renderer/core/components/SkinColorsView'
 import SkinElementsView from 'renderer/core/components/SkinElementsView'
 import SkinMetadataView from 'renderer/core/components/SkinMetadataView'
-import SkinColorsView from 'renderer/core/components/SkinColorsView'
 import SkinSoundsView from 'renderer/core/components/SkinSoundsView'
 
 import SettingsView from 'renderer/settings/components/SettingsView'
 
 interface RouteDefinition {
-  [key: string]: Route
+  [key: string]: Route | void
 }
 
 interface Route {
@@ -43,7 +43,7 @@ export const routes: RouteDefinition = {
 }
 
 export class RouteStore {
-  @observable currentRouteName = 'elementList'
+  @observable currentRouteName = ''
 
   @action
   setRoute(routeName: string) {
