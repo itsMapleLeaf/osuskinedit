@@ -8,7 +8,14 @@ function watch({ input, output }) {
 
   const watcher = rollup.watch(watchOptions)
 
-  watcher.on('event', console.log)
+  watcher.on('event', event => {
+    if (event.code === 'BUNDLE_START') {
+      console.log(`bundling ${event.input}...`)
+    }
+    if (event.code === 'BUNDLE_END') {
+      console.log('done')
+    }
+  })
 }
 
 watch(config.mainConfig)
