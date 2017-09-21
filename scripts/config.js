@@ -4,6 +4,7 @@ const scss = require('rollup-plugin-scss')
 const json = require('rollup-plugin-json')
 const { resolve } = require('path')
 const fs = require('fs')
+const { dependencies } = require('../package.json')
 
 const root = resolve(__dirname, '..')
 const sourcePath = resolve(root, 'src')
@@ -22,7 +23,7 @@ const mainConfig = {
   input: {
     input: resolve(sourcePath, 'main/app.ts'),
     plugins: [typescriptPlugin, jsonPlugin],
-    external: ['electron', 'path', 'lodash', 'configstore'],
+    external: Object.keys(dependencies),
   },
   output: {
     file: resolve(outputPath, 'main.js'),
@@ -34,7 +35,7 @@ const rendererConfig = {
   input: {
     input: resolve(sourcePath, 'renderer/main.tsx'),
     plugins: [typescriptPlugin, jsonPlugin, scssPlugin],
-    external: ['react', 'react-dom'],
+    external: Object.keys(dependencies),
   },
   output: {
     file: resolve(outputPath, 'renderer.js'),
