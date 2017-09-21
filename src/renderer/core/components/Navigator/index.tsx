@@ -4,7 +4,7 @@ import * as React from 'react'
 
 import Button from 'renderer/common/components/Button'
 
-import { routes, RouteStore } from 'renderer/core/stores/routeStore'
+import { routes, RouteStore } from 'renderer/core/stores/RouteStore'
 
 import './styles.scss'
 
