@@ -1,18 +1,38 @@
-import { observable, computed } from 'mobx'
+import { observable, computed, action } from 'mobx'
 
-const routes = {
+export const routes: { [key: string]: any } = {
   'file': {
     'component': null,
     'icon': 'navFile',
+  },
+  'elementList': {
+    'component': null,
+    'icon': 'navList',
+  },
+  'skinData': {
+    'component': null,
+    'icon': 'navSkinData',
+  },
+  'colors': {
+    'component': null,
+    'icon': 'navColors',
+  },
+  'settings': {
+    'component': null,
+    'icon': 'navSettings'
   }
 }
 
-type RouteName = keyof typeof routes
+export class RouteStore {
+  @observable currentRouteName = 'file'
 
-class RouteStore {
-  @observable currentRouteName: RouteName = 'file'
+  @action
+  setRoute(routeName: string) {
+    this.currentRouteName = routeName;
+  }
 
-  @computed get currentRoute() {
+  @computed
+  get currentRoute() {
     return routes[this.currentRouteName]
   }
 }

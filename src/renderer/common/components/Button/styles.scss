@@ -1,0 +1,39 @@
+.Button {
+  display: inline-flex;
+
+  padding: 15px;
+  height: 45px;
+
+  border-radius: 4px;
+  box-sizing: border-box;
+
+  border: solid 2px var(--color-accent);
+
+  justify-content: center;
+  align-items: center;
+
+  transition: var(--transition-default);
+
+  &:hover {
+    background-color: var(--color-accent);
+    cursor: pointer;
+  }
+
+  > .icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  > .label {
+    text-transform: uppercase;
+    font-weight: 600;
+
+    &:last-child {
+      margin-left: 10px;
+    }
+
+    &:first-child {
+      margin-left: 0px;
+    }
+  }
+}

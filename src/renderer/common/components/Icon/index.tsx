@@ -1,9 +1,12 @@
 import * as React from 'react'
+
+import { IconType } from 'renderer/common/icons/types'
 import * as icons from 'renderer/common/icons'
+
 import './styles.scss'
 
 interface IconProps {
-  name: keyof typeof icons // lol
+  name: IconType
 }
 
 export default class Icon extends React.Component<IconProps> {

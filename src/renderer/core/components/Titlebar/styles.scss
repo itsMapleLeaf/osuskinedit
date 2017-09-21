@@ -15,9 +15,9 @@
 
   > .title {
     flex-grow: 1;
-  
+
     color: var(--color-accent);
-  
+
     font-weight: 600;
     text-transform: uppercase;
   }
@@ -25,20 +25,20 @@
   > .buttons {
     margin-right: -20px;
     display: flex;
-  
+
     -webkit-app-region: no-drag;
 
     > .button {
       display: flex;
-  
+
       justify-content: center;
       align-items: center;
-  
+
       height: var(--height-titlebar);
       width: var(--height-titlebar);
-  
+
       opacity: 0.3;
-  
+
       transition: var(--transition-default);
 
       &:hover {

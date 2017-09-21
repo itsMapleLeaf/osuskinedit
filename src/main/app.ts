@@ -23,7 +23,7 @@ app.on('ready', () => {
   })
 
   // Remove in prod
-  // win.webContents.openDevTools()
+  win.webContents.openDevTools()
 })
 
 app.on('window-all-closed', () => {
