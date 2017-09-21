@@ -4,7 +4,6 @@ import * as path from 'path'
 import SkinImage from 'renderer/skin/models/SkinImage'
 
 import * as fs from 'fs'
-import parseIni from 'renderer/common/util/parseIni'
 import SkinIni from './SkinIni';
 
 export enum SkinLoadingState {
@@ -43,49 +42,35 @@ export default class Skin {
       fs.readdir(skinPath, (error, fileNames) => {
         if (error) handleError(error)
 
-        this.sortFiles(fileNames, skinPath)
+        this.parseFiles(fileNames, skinPath)
 
         resolve()
       })
     })
   }
 
-  sortFiles(fileNames: string[], skinPath: string) {
-    const filteredElements = {
-      images: [] as SkinImage[],
-      sounds: [] as string[],
-      ini: '',
-    }
-
-    const extensionMap = {
+  parseFiles(fileNames: string[], skinPath: string) {
+    const extensions = {
       image: ['.jpg', '.png'],
       sound: ['.mp3', '.wav'],
-      ini: ['.ini'],
     }
 
-    fileNames.forEach(fileName => {
-      const extension = path.extname(fileName)
+    const filterExtensions = (ext: string[]) => {
+      return (x:string) => {
+        return ext.includes(path.extname(x))
+      }
+    }
 
-      const isSound = extensionMap.sound.includes(extension)
-      const isImage = extensionMap.image.includes(extension)
-      const isInit = extensionMap.ini.includes(extension)
+    this.images = fileNames
+      .filter(filterExtensions(extensions.image))
+      .map(x => new SkinImage(path.resolve(skinPath, x)))
 
-      if (isSound) filteredElements.sounds.push(fileName)
-      if (isImage) filteredElements.images.push(new SkinImage(fileName))
-      if (isInit) filteredElements.ini = fileName
-    })
+    this.sounds = fileNames
+      .filter(filterExtensions(extensions.sound))
+      .map(x => x)
 
-    this.images = filteredElements.images
-    this.sounds = filteredElements.sounds
+    this.ini.read(path.resolve(skinPath, 'skin.ini'))
 
-    this.parseIniData(path.resolve(skinPath, filteredElements.ini))
-  }
-
-  parseIniData(iniFilePath: string) {
-    fs.readFile(iniFilePath, (error, buffer) => {
-      const content = buffer.toString()
-      this.ini.parseIniData(parseIni(content))
-      console.log(this.ini)
-    })
+    console.log(this)
   }
 }
