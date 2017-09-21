@@ -5,24 +5,25 @@ import Button from 'renderer/common/components/Button'
 import Navigator from 'renderer/core/components/Navigator'
 import RouteRenderer from 'renderer/core/components/RouteRenderer'
 import Titlebar from 'renderer/core/components/Titlebar'
-import { AppStore } from 'renderer/core/stores/AppStore'
+import { SkinLoadingState } from 'renderer/skin/models/Skin';
+import { SkinStore } from 'renderer/skin/stores/SkinStore'
 
 import './styles.scss'
 
 interface AppProps {
-  appStore?: AppStore
+  skinStore?: SkinStore
 }
 
-@inject('appStore')
+@inject('skinStore')
 @observer
 export default class App extends React.Component<AppProps> {
   renderBody() {
-    const appStore = this.props.appStore!
+    const skinStore = this.props.skinStore!
 
-    if (!appStore.skin) {
+    if (skinStore.skin.loadStatus === SkinLoadingState.none) {
       return (
         <div className="body">
-          <Button label="Load Skin" onClick={appStore.loadSkin} />
+          <Button label="Load Skin" onClick={() => skinStore.loadSkin()} />
         </div>
       )
     }

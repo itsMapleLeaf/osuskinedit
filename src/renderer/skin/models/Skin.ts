@@ -7,7 +7,7 @@ import * as fs from 'fs'
 import parseIni from 'renderer/common/util/parseIni'
 import SkinIni from './SkinIni';
 
-enum SkinLoadingState {
+export enum SkinLoadingState {
   none,
   loading,
   failed,
@@ -25,13 +25,11 @@ export default class Skin {
   @observable sounds = [] as string[]
   @observable ini = new SkinIni()
 
-  constructor(public path: string) {}
-
   /**
    * Loads the skin using the path provided
    */
   @action
-  load() {
+  load(skinPath: string) {
     return new Promise((resolve, reject) => {
       this.loadStatus = SkinLoadingState.loading
 
@@ -42,17 +40,17 @@ export default class Skin {
         reject(error)
       }
 
-      fs.readdir(this.path, (error, fileNames) => {
+      fs.readdir(skinPath, (error, fileNames) => {
         if (error) handleError(error)
 
-        this.sortFiles(fileNames)
+        this.sortFiles(fileNames, skinPath)
 
         resolve()
       })
     })
   }
 
-  sortFiles(fileNames: string[]) {
+  sortFiles(fileNames: string[], skinPath: string) {
     const filteredElements = {
       images: [] as SkinImage[],
       sounds: [] as string[],
@@ -80,13 +78,11 @@ export default class Skin {
     this.images = filteredElements.images
     this.sounds = filteredElements.sounds
 
-    this.parseIniData(filteredElements.ini)
+    this.parseIniData(path.resolve(skinPath, filteredElements.ini))
   }
 
-  parseIniData(ini: string) {
-    const fullPath = path.resolve(this.path, ini)
-
-    fs.readFile(fullPath, (error, buffer) => {
+  parseIniData(iniFilePath: string) {
+    fs.readFile(iniFilePath, (error, buffer) => {
       const content = buffer.toString()
       this.ini.parseIniData(parseIni(content))
       console.log(this.ini)
