@@ -4,5 +4,5 @@ import { Provider } from 'mobx-react'
 
 const stores = {}
 
-const StoreProvider = (props: object) => <Provider {...props} {...stores}/>
+const StoreProvider = (props: any) => <Provider {...props} {...stores}/>
 export default StoreProvider
