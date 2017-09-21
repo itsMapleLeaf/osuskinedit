@@ -1,4 +1,11 @@
 .RouteRenderer {
   flex-grow: 1;
   padding: var(--padding-default);
+
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  max-width: calc(100vw - 70px);
+
+  transform: translateZ(0);
 }
