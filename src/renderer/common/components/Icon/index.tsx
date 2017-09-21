@@ -3,18 +3,15 @@ import * as icons from 'renderer/common/icons'
 import './styles.scss'
 
 interface IconProps {
-  name: string
+  name: keyof typeof icons // lol
 }
 
 export default class Icon extends React.Component<IconProps> {
   renderSVG() {
-    const { name } = this.props
-
-    const hasIcon = !!icons[name]
-
-    if (hasIcon) return icons[name]()
-
-    return 'Missing icon'
+    // TS should yell at you if you decide to specify an invalid icon name
+    // so no checks should be required here, in theory
+    // also autocomplete!
+    return icons[this.props.name]()
   }
 
   render() {
