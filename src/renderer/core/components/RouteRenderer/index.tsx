@@ -15,7 +15,7 @@ interface RouteRendererProps {
 export default class RouteRenderer extends React.Component<RouteRendererProps> {
   render() {
     const routeStore = this.props.routeStore!
-    const Component = routeStore.currentRoute.component
+    const Component = routeStore.currentRoute.component || ''
 
     return (
       <div className="RouteRenderer">

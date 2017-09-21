@@ -1,27 +1,51 @@
+import { inject, observer } from 'mobx-react'
 import * as React from 'react'
 
 import StoreProvider from 'renderer/core/components/StoreProvider'
 
-import Titlebar from 'renderer/core/components/Titlebar'
+import Button from 'renderer/common/components/Button'
 import Navigator from 'renderer/core/components/Navigator'
 import RouteRenderer from 'renderer/core/components/RouteRenderer'
+import Titlebar from 'renderer/core/components/Titlebar'
+import { AppStore } from 'renderer/core/stores/AppStore'
 
 import './styles.scss'
 
-export default class App extends React.Component {
+interface AppProps {
+  appStore?: AppStore
+}
+
+@inject('appStore')
+@observer
+export default class App extends React.Component<AppProps> {
+  renderBody() {
+    const appStore = this.props.appStore!
+
+    if (!appStore.skin) {
+      return (
+        <div className="body">
+          {/* center this */}
+          <Button label="Load Skin" onClick={appStore.loadSkin} />
+        </div>
+      )
+    }
+
+    return (
+      <div className="body">
+        <Navigator />
+        <RouteRenderer />
+      </div>
+    )
+  }
+
   render() {
     return (
-      <StoreProvider>
-        <main className="App">
-          <div className="header">
-            <Titlebar/>
-          </div>
-          <div className="body">
-            <Navigator/>
-            <RouteRenderer/>
-          </div>
-        </main>
-      </StoreProvider>
+      <main className="App">
+        <div className="header">
+          <Titlebar />
+        </div>
+        {this.renderBody()}
+      </main>
     )
   }
 }

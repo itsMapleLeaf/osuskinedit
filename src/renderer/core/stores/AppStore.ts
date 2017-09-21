@@ -1,7 +1,11 @@
-import { observable } from 'mobx'
+import { action, observable } from 'mobx';
 
-class AppStore {
-  @observable route = 'file'
+export class AppStore {
+  @observable skin = false
+
+  @action.bound loadSkin() {
+    this.skin = true
+  }
 }
 
-export default new AppStore
+export default new AppStore()
