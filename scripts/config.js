@@ -11,6 +11,8 @@ const sourcePath = resolve(root, 'src')
 const outputPath = resolve(root, 'build')
 const htmlPath = resolve(sourcePath, 'renderer/index.html')
 
+const external = Object.keys(dependencies).concat('path')
+
 const typescriptPlugin = typescript()
 
 const scssPlugin = scss({
@@ -23,7 +25,7 @@ const mainConfig = {
   input: {
     input: resolve(sourcePath, 'main/app.ts'),
     plugins: [typescriptPlugin, jsonPlugin],
-    external: Object.keys(dependencies),
+    external,
   },
   output: {
     file: resolve(outputPath, 'main.js'),
@@ -35,7 +37,7 @@ const rendererConfig = {
   input: {
     input: resolve(sourcePath, 'renderer/main.tsx'),
     plugins: [typescriptPlugin, jsonPlugin, scssPlugin],
-    external: Object.keys(dependencies),
+    external,
   },
   output: {
     file: resolve(outputPath, 'renderer.js'),
