@@ -5,7 +5,8 @@
   "scripts": {
     "start:webpack": "webpack -w",
     "start:nodemon": "nodemon -w ./build -x \"electron build/main.js\"",
-    "start": "run-p start:*"
+    "start": "run-p start:*",
+    "build": "webpack"
   },
   "dependencies": {
     "decko": "^1.2.0",

@@ -24,14 +24,11 @@ const baseConfig = {
   },
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
-    alias: {
-      main: resolve(__dirname, './src/main'),
-      renderer: resolve(__dirname, './src/renderer'),
-    },
+    modules: [resolve(__dirname, 'src'), 'node_modules'],
   },
   node: false,
   externals: {
-    'react': `require('react')`,
+    react: `require('react')`,
     'react-dom': `require('react-dom')`,
   },
 }
