@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start:webpack": "webpack -w",
+    "start:rollup": "node scripts/watch",
     "start:nodemon": "nodemon -w ./build -x \"electron build/main.js\"",
     "start": "run-p start:*",
     "build": "webpack"
