@@ -20,14 +20,65 @@
           "align": "center"
         },
         {
-          "filename": "approachcircle",
+          "filename": "default-1",
           "x": 0,
           "y": 0,
-          "colored": true,
-          "align": "center",
-          "scale": 1.5
+          "align": "center"
         }
-      ]
+      ],
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "imageMap": [
+        {
+          "filename": "cursor",
+          "x": 0,
+          "y": 0,
+          "colored": false,
+          "align": "center"
+        }
+      ],
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "spinner",
+      "name": "Spinner",
+      "imageMap": [
+        {
+          "filename": "spinner-glow",
+          "x": 0,
+          "y": 0,
+          "colored": false,
+          "align": "center"
+        },
+        {
+          "filename": "spinner-bottom",
+          "x": 0,
+          "y": 0,
+          "colored": false,
+          "align": "center"
+        },
+        {
+          "filename": "spinner-top",
+          "x": 0,
+          "y": 0,
+          "colored": false,
+          "align": "center"
+        },
+        {
+          "filename": "spinner-middle",
+          "x": 0,
+          "y": 0,
+          "colored": false,
+          "align": "center"
+        }
+      ],
+      "width": 256,
+      "height": 256
     }
   ]
 }
