@@ -62,7 +62,7 @@ export default class Skin {
 
   @action
   private async loadIni(fileNames: string[]) {
-    const iniFileName = fileNames.find(name => path.extname(name) === '.ini')
+    const iniFileName = fileNames.find(name => name.toLowerCase() === 'skin.ini')
     if (iniFileName) {
       await this.ini.read(path.resolve(this.skinPath, iniFileName))
     } else {
