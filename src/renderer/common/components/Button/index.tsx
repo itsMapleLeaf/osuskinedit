@@ -42,10 +42,10 @@ export default class Button extends React.Component<ButtonProps> {
     })
 
     return (
-      <a role="button" className={classNames} onClick={onClick}>
+      <div role="button" className={classNames} onClick={onClick}>
         {this.renderIcon()}
         {this.renderLabel()}
-      </a>
+      </div>
     )
   }
 }

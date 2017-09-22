@@ -16,6 +16,9 @@ function watch({ input, output }) {
       if (event.code === 'BUNDLE_END') {
         console.log('done')
       }
+      if (event.code === 'ERROR' || event.code === 'FATAL') {
+        console.log('plugin error', event)
+      }
     })
     .on('error', console.error)
 }

@@ -8,4 +8,78 @@
     left: 0px;
     right: 0px;
   }
+
+  > .body > .sidebar {
+    --size-default: 70px;
+
+    border-right: var(--border-divider);
+    background: var(--color-primary);
+
+    width: var(--size-default);
+
+    box-sizing: border-box;
+  }
+}
+
+.NavigationButton {
+  --size-default: 70px;
+
+  display: flex;
+
+  height: var(--size-default);
+  width: var(--size-default);
+
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+
+  transition: var(--transition-default);
+
+  &:after {
+    display: block;
+    content: '';
+
+    width: 2px;
+
+    background: var(--color-accent);
+
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+
+    transition: var(--transition-default);
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:hover > .icon {
+    opacity: 1;
+  }
+
+  &.-isActive {
+    background: rgba(0, 0, 0, 0.2);
+
+    &:after {
+      transform: scaleX(1);
+    }
+  }
+
+  &.-isActive > .icon {
+    opacity: 1;
+  }
+
+  > .icon {
+    opacity: 0.5;
+
+    height: 24px;
+    width: 24px;
+
+    transition: var(--transition-default);
+  }
 }

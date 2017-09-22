@@ -1,9 +1,9 @@
+import createMemoryHistory from 'history/createMemoryHistory'
 import { inject, observer } from 'mobx-react'
 import * as React from 'react'
 import { SkinStore } from 'renderer/skin/stores/SkinStore'
 
-import { observable } from 'mobx'
-import Button from 'renderer/common/components/Button'
+import { NavLink, Route, Router } from 'react-router-dom'
 import './styles.scss'
 
 interface SkinElementsViewProps {
@@ -13,34 +13,34 @@ interface SkinElementsViewProps {
 @inject('skinStore')
 @observer
 export default class SkinElementsView extends React.Component<SkinElementsViewProps> {
-  categories = [
-    { label: 'Title' },
-    { label: 'Song Select' },
-    { label: 'Results' },
-    { label: 'osu!' },
-    { label: 'osu!mania' },
-    { label: 'osu!taiko' },
-    { label: 'osu!catch' },
-  ]
+  history = createMemoryHistory()
 
-  @observable activeCategory = 0
+  componentWillMount() {
+    this.history.push('/title')
+  }
 
   render() {
     return (
-      <div className="SkinElementsView">
-        <div className="categories">
-          {this.categories.map((cat, index) => (
-            <Button
-              type="TabButton"
-              label={cat.label}
-              key={index}
-              isActive={index === this.activeCategory}
-              onClick={() => (this.activeCategory = index)}
-            />
-          ))}
+      <Router history={this.history}>
+        <div className="SkinElementsView">
+          <div className="categories">
+            <NavLink to="/title" className="TabButton" activeClassName="-isActive">
+              Title
+            </NavLink>
+            <NavLink to="/songSelect" className="TabButton" activeClassName="-isActive">
+              Song Select
+            </NavLink>
+            <NavLink to="/ranking" className="TabButton" activeClassName="-isActive">
+              Ranking
+            </NavLink>
+          </div>
+          <div className="categoryView">
+            <Route exact path="/title" render={() => <div>title preview</div>}></Route>
+            <Route exact path="/songSelect" render={() => <div>song select preview</div>}></Route>
+            <Route exact path="/ranking" render={() => <div>ranking preview</div>}></Route>
+          </div>
         </div>
-        <div className="categoryView" />
-      </div>
+      </Router>
     )
   }
 }
