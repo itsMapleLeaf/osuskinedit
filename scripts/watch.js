@@ -3,6 +3,7 @@ const { resolve, dirname } = require('path')
 const rollup = require('rollup')
 const config = require('./config')
 const childProcess = require('child_process')
+const copyHtml = require('./copyHtml')
 
 async function logTime(fn) {
   const time = Date.now()
@@ -23,6 +24,7 @@ function watch({ input, output }) {
         switch (event.code) {
           case 'BUNDLE_START':
             console.log(`bundling ${event.input}...`)
+            copyHtml()
             break
 
           case 'BUNDLE_END':
@@ -44,7 +46,7 @@ function watch({ input, output }) {
             break
 
           default:
-            console.log(event)
+            console.log('unknown event: ', event)
         }
       })
       .on('error', console.error)
