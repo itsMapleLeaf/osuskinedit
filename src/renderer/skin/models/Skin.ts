@@ -11,9 +11,8 @@ import SkinSound from 'renderer/skin/models/SkinSound'
 import defaultSchema from '../defaultSchema.json'
 export { defaultSchema }
 
-interface SkinClassConstructor<T> {
-  new (id: string, fullpath: string): T
-}
+const imageExtensions = ['.png', '.jpg']
+const soundExtensions = ['.ogg', '.wav', '.mp3']
 
 export enum SkinLoadingState {
   none,
@@ -42,13 +41,15 @@ export default class Skin {
    */
   @action
   async load(skinPath: string) {
-    try {
-      this.loadStatus = SkinLoadingState.loading
-      this.skinPath = skinPath
+    this.skinPath = skinPath
+    this.loadStatus = SkinLoadingState.loading
 
+    try {
       const fileNames = await readdir(skinPath)
 
-      await this.parseFiles(fileNames)
+      this.images = await this.loadImages(fileNames)
+      this.sounds = await this.loadSounds(fileNames)
+      await this.loadIni(fileNames)
       this.createElements()
 
       this.loadStatus = SkinLoadingState.finished
@@ -59,48 +60,59 @@ export default class Skin {
     }
   }
 
-  async parseFiles(fileNames: string[]) {
-    const extensions = {
-      image: ['.jpg', '.png'],
-      sound: ['.mp3', '.wav'],
+  @action
+  private async loadIni(fileNames: string[]) {
+    const iniFileName = fileNames.find(name => path.extname(name) === '.ini')
+    if (iniFileName) {
+      await this.ini.read(path.resolve(this.skinPath, iniFileName))
+    } else {
+      throw new Error('skin.ini file not found')
     }
+  }
 
-    const filterExtensions = (ext: string[]) => {
-      return (x: string) => {
-        return ext.includes(path.extname(x))
-      }
-    }
+  @action
+  private async loadImages(fileNames: string[]) {
+    const images = [] as SkinImage[]
 
-    const createSkinClass = async <T>(filename: string, skinClass: SkinClassConstructor<T>): Promise<T> => {
-      const { name, ext } = path.parse(filename)
+    const imageFileNames = fileNames.filter(fileName => {
+      return imageExtensions.includes(path.extname(fileName))
+    })
+
+    for (const fileName of imageFileNames) {
+      const { name, ext } = path.parse(fileName)
       const fullPath = path.resolve(this.skinPath, name)
+      const hasDoubleRes = await exists(fullPath + '@2x' + ext)
 
-      const fullPathWithExtension = (await exists(fullPath + '@2x' + ext))
+      const fullPathWithExtension = hasDoubleRes
         ? fullPath + '@2x' + ext
         : fullPath + ext
 
-      return new skinClass(name, fullPathWithExtension)
+      images.push(new SkinImage(name, fullPathWithExtension))
     }
 
-    this.images = await Promise.all(
-      fileNames
-        .filter(filterExtensions(extensions.image))
-        .map(filename => createSkinClass(filename, SkinImage)),
-    )
+    await Promise.all(images.map(img => img.load()))
 
-    this.sounds = await Promise.all(
-      fileNames
-        .filter(filterExtensions(extensions.sound))
-        .map(filename => createSkinClass(filename, SkinSound)),
-    )
-
-    await Promise.all(this.images.map(image => image.load()))
-    await Promise.all(this.sounds.map(sound => sound.load()))
-
-    this.ini.read(path.resolve(this.skinPath, 'skin.ini'))
+    return images
   }
 
-  createElements() {
+  @action
+  private async loadSounds(fileNames: string[]) {
+    const sounds = [] as SkinSound[]
+
+    fileNames
+      .filter(fileName => soundExtensions.includes(path.extname(fileName)))
+      .forEach(fileName => {
+        const {name} = path.parse(fileName)
+        const fullPath = path.resolve(this.skinPath, name)
+        sounds.push(new SkinSound(name, fullPath))
+      })
+
+    await Promise.all(sounds.map(img => img.load()))
+
+    return sounds
+  }
+
+  private createElements() {
     const { elements } = defaultSchema
 
     const skinElements = elements.map((elementOptions: any) => {
