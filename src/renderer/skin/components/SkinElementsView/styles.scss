@@ -5,14 +5,4 @@
     display: flex;
     background: var(--color-primary);
   }
-
-  > .categories > .category {
-    opacity: 0.5;
-    padding: var(--padding-default);
-  }
-
-  > .categories > .category.-isActive {
-    opacity: 1;
-    border-bottom: 2px solid var(--color-accent);
-  }
 }
