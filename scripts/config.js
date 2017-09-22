@@ -12,7 +12,7 @@ const sourcePath = resolve(root, 'src')
 const outputPath = resolve(root, 'build')
 const htmlPath = resolve(sourcePath, 'renderer/index.html')
 
-const external = Object.keys(dependencies).concat('path')
+const external = Object.keys(dependencies).concat('path', 'fs', 'history/createMemoryHistory')
 
 const scssPlugin = scss({
   output: resolve(outputPath, 'styles.css'),
