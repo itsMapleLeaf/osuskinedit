@@ -11,10 +11,14 @@ class ImageMap {
   align: string
 
   constructor(options: any) {
-    const { x, y, color, align, filename } = options;
+    const { x, y, color, align, filename } = options
 
     Object.assign(this, {
-      x, y, color, align, filename,
+      x,
+      y,
+      color,
+      align,
+      filename,
     })
   }
 }
@@ -29,7 +33,7 @@ class SkinElementOptions {
 export default class SkinElement extends SkinElementOptions {
   maps = [] as ImageMap[]
 
-  constructor(options: SkinElementOptions, imageMap: any, images: SkinImage[] ) {
+  constructor(options: SkinElementOptions, imageMap: any, images: SkinImage[]) {
     super()
 
     this.assignOptions(options)
@@ -40,7 +44,10 @@ export default class SkinElement extends SkinElementOptions {
     const { id, name, width, height } = options
 
     Object.assign(this, {
-      id, name, width, height
+      id,
+      name,
+      width,
+      height,
     })
   }
 
@@ -49,9 +56,12 @@ export default class SkinElement extends SkinElementOptions {
       const filename = options.filename
       const skinImage = images.find(img => img.id == filename)
 
-      return Object.assign({
-        skinImage
-      }, options)
+      return Object.assign(
+        {
+          skinImage,
+        },
+        options,
+      )
     })
   }
 
@@ -65,7 +75,6 @@ export default class SkinElement extends SkinElementOptions {
 
     context.drawImage(image, centeredX, centeredY)
 
-
     if (map.colored) {
       context.globalCompositeOperation = 'source-atop'
       context.fillStyle = 'rgb(255, 85, 171)'
@@ -76,9 +85,9 @@ export default class SkinElement extends SkinElementOptions {
   }
 
   render(context: CanvasRenderingContext2D) {
-    const images = this.maps
-      .filter(x => x.skinImage != null)
-      .map(x => x.skinImage.image)
+    const validMaps = this.maps.filter(map => map.skinImage != null)
+
+    const images = validMaps.map(map => map.skinImage.image)
 
     const { canvas } = context
 
@@ -93,6 +102,6 @@ export default class SkinElement extends SkinElementOptions {
 
     context.imageSmoothingEnabled = false
 
-    this.maps.forEach(x => this.renderLayer(context, x))
+    validMaps.forEach(map => this.renderLayer(context, map))
   }
 }
