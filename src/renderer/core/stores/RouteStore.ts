@@ -3,10 +3,10 @@ import * as React from 'react'
 
 import { IconType } from 'renderer/common/icons/types'
 
-import SkinColorsView from 'renderer/core/components/SkinColorsView'
-import SkinElementsView from 'renderer/core/components/SkinElementsView'
-import SkinMetadataView from 'renderer/core/components/SkinMetadataView'
-import SkinSoundsView from 'renderer/core/components/SkinSoundsView'
+import SkinColorsView from 'renderer/skin/components/SkinColorsView'
+import SkinElementsView from 'renderer/skin/components/SkinElementsView'
+import SkinMetadataView from 'renderer/skin/components/SkinMetadataView'
+import SkinSoundsView from 'renderer/skin/components/SkinSoundsView'
 
 import SettingsView from 'renderer/settings/components/SettingsView'
 
