@@ -1,5 +1,5 @@
 import { debounce } from 'lodash'
-import store from './configStore'
+import store from 'shared/configStore'
 
 function _storeWindowState(win: Electron.BrowserWindow) {
   const isMaximized = win.isMaximized()

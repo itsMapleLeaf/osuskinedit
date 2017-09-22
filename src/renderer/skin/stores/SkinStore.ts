@@ -1,8 +1,8 @@
 import { remote } from 'electron'
 import { action, observable } from 'mobx'
 
-import configStore from 'main/configStore'
 import Skin from 'renderer/skin/models/Skin'
+import configStore from 'shared/configStore'
 
 const dialog = remote.dialog
 
