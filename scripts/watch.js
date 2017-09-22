@@ -32,7 +32,7 @@ function watch({ input, output }) {
             break
 
           case 'ERROR':
-            console.log('error', event)
+            console.error(event.error)
             break
 
           case 'FATAL':
