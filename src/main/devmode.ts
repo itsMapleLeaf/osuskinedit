@@ -8,7 +8,7 @@ export function handleDevMode(win: Electron.BrowserWindow) {
 
     win.webContents.openDevTools()
 
-    fs.watch(resolve(__dirname, 'renderer.js'), win.reload)
-    fs.watch(resolve(__dirname, '../assets'), win.reload)
+    fs.watch(resolve(__dirname, 'renderer.js'), win.reload.bind(win))
+    fs.watch(resolve(__dirname, '../assets'), win.reload.bind(win))
   }
 }
