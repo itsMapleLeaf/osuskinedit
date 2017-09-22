@@ -18,7 +18,7 @@ export default function parseIni(input: string) {
 
   input
     .split('\r\n')
-    .filter(line => line.trim())
+    .map(line => line.trim())
     .filter(line => line.length > 0)
     .forEach(line => {
       const sectionMatch = line.match(sectionExpression)
