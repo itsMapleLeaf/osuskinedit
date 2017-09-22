@@ -1,7 +1,7 @@
 import { action, observable } from 'mobx'
 import * as path from 'path'
 
-import { readdir } from 'renderer/common/util/fs'
+import { exists, readdir } from 'renderer/common/util/fs'
 
 import SkinElement from 'renderer/skin/models/SkinElement'
 import SkinImage from 'renderer/skin/models/SkinImage'
@@ -10,6 +10,10 @@ import SkinSound from 'renderer/skin/models/SkinSound'
 
 import defaultSchema from '../defaultSchema.json'
 export { defaultSchema }
+
+interface SkinClassConstructor<T> {
+  new (id: string, fullpath: string): T
+}
 
 export enum SkinLoadingState {
   none,
@@ -67,21 +71,28 @@ export default class Skin {
       }
     }
 
-    const createSkinClass = (x: string, skinClass: any) => {
-      const extension = path.extname(x)
-      const basename = path.basename(x, extension)
-      const fullPath = path.resolve(this.skinPath, x)
+    const createSkinClass = async <T>(filename: string, skinClass: SkinClassConstructor<T>): Promise<T> => {
+      const { name, ext } = path.parse(filename)
+      const fullPath = path.resolve(this.skinPath, name)
 
-      return new skinClass(basename, fullPath)
+      const fullPathWithExtension = (await exists(fullPath + '@2x' + ext))
+        ? fullPath + '@2x' + ext
+        : fullPath + ext
+
+      return new skinClass(name, fullPathWithExtension)
     }
 
-    this.images = fileNames
-      .filter(filterExtensions(extensions.image))
-      .map(x => createSkinClass(x, SkinImage))
+    this.images = await Promise.all(
+      fileNames
+        .filter(filterExtensions(extensions.image))
+        .map(filename => createSkinClass(filename, SkinImage)),
+    )
 
-    this.sounds = fileNames
-      .filter(filterExtensions(extensions.sound))
-      .map(x => createSkinClass(x, SkinSound))
+    this.sounds = await Promise.all(
+      fileNames
+        .filter(filterExtensions(extensions.sound))
+        .map(filename => createSkinClass(filename, SkinSound)),
+    )
 
     await Promise.all(this.images.map(image => image.load()))
     await Promise.all(this.sounds.map(sound => sound.load()))
@@ -93,11 +104,7 @@ export default class Skin {
     const { elements } = defaultSchema
 
     const skinElements = elements.map((elementOptions: any) => {
-      return new SkinElement(
-        elementOptions,
-        elementOptions.imageMap,
-        this.images,
-      )
+      return new SkinElement(elementOptions, elementOptions.imageMap, this.images)
     })
 
     this.elements.push(...skinElements)
