@@ -1,12 +1,14 @@
 .SkinElementsView {
+  flex-grow: 1;
+
   > .categories {
     display: flex;
+    background: var(--color-primary);
   }
 
   > .categories > .category {
     opacity: 0.5;
     padding: var(--padding-default);
-    background: rgba(0, 0, 0, 0.3);
   }
 
   > .categories > .category.-isActive {

@@ -6,6 +6,7 @@ import Icon from 'renderer/common/components/Icon'
 import { IconType } from 'renderer/common/icons/types'
 
 import './default.scss'
+import './navigation.scss'
 import './tab.scss'
 
 interface ButtonProps {
