@@ -20,7 +20,7 @@ export enum SkinLoadingState {
 
 export default class Skin {
   @observable loadStatus = SkinLoadingState.none
-  @observable loadError: any
+  @observable loadError: Error | void
 
   @observable name = 'Unnamed skin'
   @observable description = ''
