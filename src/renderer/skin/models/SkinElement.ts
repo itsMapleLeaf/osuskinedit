@@ -70,7 +70,19 @@ export default class SkinElement extends SkinElementOptions {
     const { width, height } = canvas
     const image = map.skinImage.image
 
-    context.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height)
+    // the multiplier here is artificial scaling
+    // since the default scale is too small in most cases
+    const scale = (1 / map.skinImage.resolution) * 1.8
+
+    context.save()
+
+    context.translate(width / 2, height / 2)
+    context.scale(scale, scale)
+    context.translate(image.width / -2, image.height / -2)
+
+    context.drawImage(image, 0, 0)
+
+    context.restore()
 
     if (map.colored) {
       context.globalCompositeOperation = 'source-atop'

@@ -89,7 +89,9 @@ export default class Skin {
         ? doubleResPath
         : normalResPath
 
-      images.push(new SkinImage(name, fullPathWithExtension))
+      const scale = hasDoubleRes ? 2 : 1
+
+      images.push(new SkinImage(name, fullPathWithExtension, scale))
     }
 
     await Promise.all(images.map(img => img.load()))

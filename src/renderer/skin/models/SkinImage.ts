@@ -1,7 +1,7 @@
 export default class SkinImage {
   image = new Image()
 
-  constructor(public id: string, public imagePath: string) {}
+  constructor(public id: string, public imagePath: string, public resolution: number) {}
 
   load() {
     return new Promise((resolve, reject) => {
