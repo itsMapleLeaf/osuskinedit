@@ -12,7 +12,7 @@ function _storeWindowState(win: Electron.BrowserWindow) {
   }
 }
 
-export const storeWindowState = debounce(_storeWindowState)
+export const storeWindowState = debounce(_storeWindowState, 500)
 
 export function restoreWindowState(win: Electron.BrowserWindow) {
   const { x, y, width, height, isMaximized } = store.get('window')
