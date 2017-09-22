@@ -3,4 +3,8 @@ export default class SkinSound {
     public id: string,
     public soundPath: string
   ) {}
+
+  async load() {
+    // TODO
+  }
 }

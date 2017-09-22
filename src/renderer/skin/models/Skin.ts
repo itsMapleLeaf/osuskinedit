@@ -81,7 +81,7 @@ export default class Skin {
       .map(x => createSkinClass(x, SkinSound))
 
     await Promise.all(this.images.map(image => image.load()))
-    // do the same for sounds when those are implemented
+    await Promise.all(this.sounds.map(sound => sound.load()))
 
     this.ini.read(path.resolve(this.skinPath, 'skin.ini'))
   }
