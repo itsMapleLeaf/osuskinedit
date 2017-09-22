@@ -5,8 +5,8 @@ import { readdir } from 'renderer/common/util/fs'
 
 import SkinElement from 'renderer/skin/models/SkinElement'
 import SkinImage from 'renderer/skin/models/SkinImage'
-import SkinSound from 'renderer/skin/models/SkinSound'
 import SkinIni from 'renderer/skin/models/SkinIni'
+import SkinSound from 'renderer/skin/models/SkinSound'
 
 import defaultSchema from '../defaultSchema.json'
 export { defaultSchema }
@@ -86,8 +86,15 @@ export default class Skin {
   createElements() {
     const { elements } = defaultSchema
 
-    this.elements = elements.map((elementOptions:any) => {
-      return new SkinElement(elementOptions.id, elementOptions.imageMap, this.images)
+    const skinElements = elements.map((elementOptions: any) => {
+      return new SkinElement(
+        elementOptions.id,
+        elementOptions.name,
+        elementOptions.imageMap,
+        this.images,
+      )
     })
+
+    this.elements.push(...skinElements)
   }
 }

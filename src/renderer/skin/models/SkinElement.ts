@@ -12,11 +12,12 @@ class ImageMap {
 }
 
 export default class SkinElement {
-  @observable name:string
+  @observable name: string
 
   images = [] as ImageMap[]
 
   constructor(
+    public id: string,
     name: string,
     map: any[],
     images: SkinImage[]
