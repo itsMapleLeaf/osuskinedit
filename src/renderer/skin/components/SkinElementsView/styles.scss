@@ -1,8 +1,11 @@
 .SkinElementsView {
   flex-grow: 1;
 
-  > .categories {
-    display: flex;
-    background: var(--color-primary);
-  }
+  display: flex;
+  flex-wrap: wrap;
+
+  padding: 10px;
+  box-sizing: border-box;
+
+  align-items: flex-start
 }

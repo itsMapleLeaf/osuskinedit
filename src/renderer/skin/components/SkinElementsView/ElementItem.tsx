@@ -1,7 +1,10 @@
 import { observer } from 'mobx-react'
+import { bind } from 'decko'
 import * as React from 'react'
 
 import SkinElement from 'renderer/skin/models/SkinElement'
+
+import './ElementItem.scss'
 
 interface ElementItemProps {
   element: SkinElement
@@ -9,6 +12,19 @@ interface ElementItemProps {
 
 @observer
 export default class ElementItem extends React.Component<ElementItemProps> {
+  context: CanvasRenderingContext2D
+
+  @bind
+  getCanvasRef(ref: HTMLCanvasElement) {
+    if (ref) {
+      this.context = ref.getContext('2d')! // lol
+    }
+  }
+
+  componentDidMount() {
+    this.props.element.render(this.context)
+  }
+
   render() {
     const { element } = this.props
 
@@ -16,8 +32,8 @@ export default class ElementItem extends React.Component<ElementItemProps> {
       <div className="ElementItem">
         <div className="thumbnail">
           <div className="background"></div>
-          <div className="canvas">
-            <canvas/>
+          <div className="image">
+            <canvas className="canvas" ref={this.getCanvasRef}/>
           </div>
         </div>
         <div className="footer">
