@@ -88,13 +88,14 @@ export default class Skin {
 
     const skinElements = elements.map((elementOptions: any) => {
       return new SkinElement(
-        elementOptions.id,
-        elementOptions.name,
+        elementOptions,
         elementOptions.imageMap,
         this.images,
       )
     })
 
     this.elements.push(...skinElements)
+
+    console.log(this)
   }
 }

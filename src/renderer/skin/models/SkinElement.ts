@@ -1,42 +1,99 @@
-import { observable } from 'mobx'
 import SkinImage from 'renderer/skin/models/SkinImage'
 
 class ImageMap {
-  image: SkinImage
+  skinImage: SkinImage
+  filename: string
+
   x: number
   y: number
 
+  colored: boolean
+  align: string
+
   constructor(options: any) {
-    Object.assign(this, options)
+    const { x, y, color, align, filename } = options;
+
+    Object.assign(this, {
+      x, y, color, align, filename,
+    })
   }
 }
 
-export default class SkinElement {
-  @observable name: string
+class SkinElementOptions {
+  id: string
+  name: string
+  width: number
+  height: number
+}
 
-  images = [] as ImageMap[]
+export default class SkinElement extends SkinElementOptions {
+  maps = [] as ImageMap[]
 
-  constructor(
-    public id: string,
-    name: string,
-    map: any[],
-    images: SkinImage[]
-  ) {
-    this.name = name
+  constructor(options: SkinElementOptions, imageMap: any, images: SkinImage[] ) {
+    super()
 
-    this.images = map.map(options => {
-      const filename = options.filename
-      const image = images.find(img => img.id == filename)
+    this.assignOptions(options)
+    this.registerImages(imageMap, images)
+  }
 
-      return new ImageMap({
-        image,
-        x: options.x,
-        y: options.y
-      })
+  assignOptions(options: SkinElementOptions) {
+    const { id, name, width, height } = options
+
+    Object.assign(this, {
+      id, name, width, height
     })
   }
 
+  registerImages(imageMap: any, images: SkinImage[]) {
+    this.maps = imageMap.map((options: any) => {
+      const filename = options.filename
+      const skinImage = images.find(img => img.id == filename)
+
+      return Object.assign({
+        skinImage
+      }, options)
+    })
+  }
+
+  renderLayer(context: CanvasRenderingContext2D, map: ImageMap) {
+    const { canvas } = context
+    const { width, height } = canvas
+    const image = map.skinImage.image
+
+    const centeredX = width / 2 - image.width / 2
+    const centeredY = height / 2 - image.height / 2
+
+    context.drawImage(image, centeredX, centeredY)
+
+
+    if (map.colored) {
+      context.globalCompositeOperation = 'source-atop'
+      context.fillStyle = 'rgb(255, 85, 171)'
+      context.fillRect(0, 0, width, height)
+    }
+
+    context.globalCompositeOperation = 'source-over'
+  }
+
   render(context: CanvasRenderingContext2D) {
-    alert('Not implemented!!!!')
+    const imagePromises = this.maps.map(x => x.skinImage.promise)
+    const images = this.maps.map(x => x.skinImage.image)
+
+    const { canvas } = context
+
+    canvas.width = this.width
+    canvas.height = this.height
+
+    // REFACTOR REFACTOR REFACTOR
+    images.forEach(img => {
+      if (img.width > canvas.width) canvas.width = img.width
+      if (img.height > canvas.height) canvas.height = img.height
+    })
+
+    context.imageSmoothingEnabled = false;
+
+    Promise.all(imagePromises).then(() => {
+      this.maps.forEach(x => this.renderLayer(context, x))
+    })
   }
 }
