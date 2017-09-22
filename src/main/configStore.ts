@@ -8,7 +8,8 @@ const store = new ConfigStore(meta.name, {
     width: 800,
     height: 500,
     isMaximized: false
-  }
+  },
+  lastLoadedSkin: ''
 })
 
 export default store

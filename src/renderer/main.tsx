@@ -15,4 +15,9 @@ function Root() {
   )
 }
 
-ReactDOM.render(<Root />, document.getElementById('root'))
+function start() {
+  stores.skinStore.initialize()
+  ReactDOM.render(<Root />, document.getElementById('root'))
+}
+
+start()
