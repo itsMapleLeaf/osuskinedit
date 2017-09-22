@@ -2,6 +2,7 @@ const rollup = require('rollup')
 const typescript = require('rollup-plugin-typescript2')
 const scss = require('rollup-plugin-scss')
 const json = require('rollup-plugin-json')
+const nodeBuiltins = require('rollup-plugin-node-builtins')
 const { resolve } = require('path')
 const fs = require('fs')
 const { dependencies } = require('../package.json')
@@ -13,18 +14,20 @@ const htmlPath = resolve(sourcePath, 'renderer/index.html')
 
 const external = Object.keys(dependencies).concat('path')
 
-const typescriptPlugin = typescript()
-
 const scssPlugin = scss({
   output: resolve(outputPath, 'styles.css'),
 })
 
-const jsonPlugin = json()
+const plugins = [
+  typescript(),
+  json(),
+  // nodeBuiltins()
+]
 
 const mainConfig = {
   input: {
     input: resolve(sourcePath, 'main/app.ts'),
-    plugins: [typescriptPlugin, jsonPlugin],
+    plugins,
     external,
   },
   output: {
@@ -36,7 +39,7 @@ const mainConfig = {
 const rendererConfig = {
   input: {
     input: resolve(sourcePath, 'renderer/main.tsx'),
-    plugins: [typescriptPlugin, jsonPlugin, scssPlugin],
+    plugins: plugins.concat(scss({ output: resolve(outputPath, 'styles.css') })),
     external,
   },
   output: {
