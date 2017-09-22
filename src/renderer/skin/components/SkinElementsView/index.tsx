@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react'
 import * as React from 'react'
 
 import ElementItem from 'renderer/skin/components/SkinElementsView/ElementItem'
-import { SkinLoadingState } from 'renderer/skin/models/Skin';
+import { SkinLoadingState } from 'renderer/skin/models/Skin'
 import { SkinStore } from 'renderer/skin/stores/SkinStore'
 
 import './styles.scss'
@@ -26,13 +26,19 @@ export default class SkinElementsView extends React.Component<SkinElementsViewPr
       case SkinLoadingState.finished:
         return elements.map(element => <ElementItem element={element} key={element.name} />)
       case SkinLoadingState.failed:
-        return <div>Error loading skin: {(loadError || 'unknown error').toString()}</div>
+        return this.renderError(loadError || new Error('unknown error'))
     }
   }
 
+  renderError(error: Error) {
+    return (
+      <div style={{ whiteSpace: 'pre' }}>
+        Error loading skin elements: {error.stack || error.toString()}
+      </div>
+    )
+  }
+
   render() {
-    return <div className="SkinElementsView">
-      {this.renderElements()}
-    </div>
+    return <div className="SkinElementsView">{this.renderElements()}</div>
   }
 }
