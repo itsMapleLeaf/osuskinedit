@@ -1,10 +1,9 @@
 import { action, observable } from 'mobx'
 import * as path from 'path'
 
+import { readdir } from 'renderer/common/util/fs'
 import SkinImage from 'renderer/skin/models/SkinImage'
-
-import * as fs from 'fs'
-import SkinIni from './SkinIni';
+import SkinIni from 'renderer/skin/models/SkinIni'
 
 export enum SkinLoadingState {
   none,
@@ -20,6 +19,7 @@ export default class Skin {
   @observable name = 'Unnamed skin'
   @observable description = ''
 
+  skinPath = ''
   @observable images = [] as SkinImage[]
   @observable sounds = [] as string[]
   @observable ini = new SkinIni()
@@ -28,49 +28,37 @@ export default class Skin {
    * Loads the skin using the path provided
    */
   @action
-  load(skinPath: string) {
-    return new Promise((resolve, reject) => {
+  async load(skinPath: string) {
+    try {
       this.loadStatus = SkinLoadingState.loading
+      this.skinPath = skinPath
 
-      const handleError = (error: any) => {
-        this.loadStatus = SkinLoadingState.failed
-        this.loadError = error
-
-        reject(error)
-      }
-
-      fs.readdir(skinPath, (error, fileNames) => {
-        if (error) handleError(error)
-
-        this.parseFiles(fileNames, skinPath)
-
-        resolve()
-      })
-    })
+      const fileNames = await readdir(skinPath)
+      this.parseFiles(fileNames)
+    } catch (error) {
+      this.loadStatus = SkinLoadingState.failed
+      this.loadError = error
+    }
   }
 
-  parseFiles(fileNames: string[], skinPath: string) {
+  parseFiles(fileNames: string[]) {
     const extensions = {
       image: ['.jpg', '.png'],
       sound: ['.mp3', '.wav'],
     }
 
     const filterExtensions = (ext: string[]) => {
-      return (x:string) => {
+      return (x: string) => {
         return ext.includes(path.extname(x))
       }
     }
 
     this.images = fileNames
       .filter(filterExtensions(extensions.image))
-      .map(x => new SkinImage(path.resolve(skinPath, x)))
+      .map(x => new SkinImage(path.resolve(this.skinPath, x)))
 
-    this.sounds = fileNames
-      .filter(filterExtensions(extensions.sound))
-      .map(x => x)
+    this.sounds = fileNames.filter(filterExtensions(extensions.sound)).map(x => x)
 
-    this.ini.read(path.resolve(skinPath, 'skin.ini'))
-
-    console.log(this)
+    this.ini.read(path.resolve(this.skinPath, 'skin.ini'))
   }
 }

@@ -12,7 +12,8 @@
     "strict": true,
     "baseUrl": "./src",
     "noUnusedLocals": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true
   },
   "include": ["./src/**/*"]
 }

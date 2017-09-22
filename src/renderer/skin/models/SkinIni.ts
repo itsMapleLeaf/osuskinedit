@@ -1,17 +1,15 @@
-import { observable, computed } from 'mobx'
+import { computed, observable } from 'mobx'
 
-import * as fs from 'fs'
+import { readFile } from 'renderer/common/util/fs'
 import parseIni, { IniData } from 'renderer/common/util/parseIni'
 
 export default class SkinIni {
   @observable data: IniData = []
 
-  read(iniPath: string) {
-    fs.readFile(iniPath, (error, buffer) => {
-      const content = buffer.toString()
-
-      this.data = parseIni(content)
-    })
+  async read(iniPath: string) {
+    const buffer = await readFile(iniPath)
+    const content = buffer.toString()
+    this.data = parseIni(content)
   }
 
   getPropertyBySection(sectionName: string, propertyName: string) {
