@@ -1,0 +1,33 @@
+{
+  "name": "osu!",
+  "version": "2.5",
+  "elements": [
+    {
+      "id": "hitcircle",
+      "name": "Hit Circle",
+      "imageMap": [
+        {
+          "filename": "hitcircle",
+          "x": 0,
+          "y": 0,
+          "colored": true,
+          "align": "center"
+        },
+        {
+          "filename": "hitcircleoverlay",
+          "x": 0,
+          "y": 0,
+          "align": "center"
+        },
+        {
+          "filename": "approachcircle",
+          "x": 0,
+          "y": 0,
+          "colored": true,
+          "align": "center",
+          "scale": 1.5
+        }
+      ]
+    }
+  ]
+}

@@ -2,8 +2,14 @@ import { action, observable } from 'mobx'
 import * as path from 'path'
 
 import { readdir } from 'renderer/common/util/fs'
+
+import SkinElement from 'renderer/skin/models/SkinElement'
 import SkinImage from 'renderer/skin/models/SkinImage'
+import SkinSound from 'renderer/skin/models/SkinSound'
 import SkinIni from 'renderer/skin/models/SkinIni'
+
+import defaultSchema from '../defaultSchema.json'
+export { defaultSchema }
 
 export enum SkinLoadingState {
   none,
@@ -20,8 +26,11 @@ export default class Skin {
   @observable description = ''
 
   skinPath = ''
+
+  @observable elements = [] as SkinElement[]
   @observable images = [] as SkinImage[]
-  @observable sounds = [] as string[]
+  @observable sounds = [] as SkinSound[]
+
   @observable ini = new SkinIni()
 
   /**
@@ -34,7 +43,9 @@ export default class Skin {
       this.skinPath = skinPath
 
       const fileNames = await readdir(skinPath)
+
       this.parseFiles(fileNames)
+      this.createElements()
     } catch (error) {
       this.loadStatus = SkinLoadingState.failed
       this.loadError = error
@@ -53,12 +64,30 @@ export default class Skin {
       }
     }
 
+    const createSkinClass = (x: string, skinClass: any) => {
+      const extension = path.extname(x)
+      const basename = path.basename(x, extension)
+      const fullPath = path.resolve(this.skinPath, x)
+
+      return new skinClass(basename, fullPath)
+    }
+
     this.images = fileNames
       .filter(filterExtensions(extensions.image))
-      .map(x => new SkinImage(path.resolve(this.skinPath, x)))
+      .map(x => createSkinClass(x, SkinImage))
 
-    this.sounds = fileNames.filter(filterExtensions(extensions.sound)).map(x => x)
+    this.sounds = fileNames
+      .filter(filterExtensions(extensions.sound))
+      .map(x => createSkinClass(x, SkinSound))
 
     this.ini.read(path.resolve(this.skinPath, 'skin.ini'))
+  }
+
+  createElements() {
+    const { elements } = defaultSchema
+
+    this.elements = elements.map((elementOptions:any) => {
+      return new SkinElement(elementOptions.id, elementOptions.imageMap, this.images)
+    })
   }
 }

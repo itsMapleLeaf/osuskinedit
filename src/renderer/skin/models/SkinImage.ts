@@ -1,9 +1,10 @@
-import { observable } from 'mobx'
-
 export default class SkinImage {
-  @observable imagePath = ''
+  image = new Image()
 
-  constructor(imagePath: string) {
-    this.imagePath = imagePath
+  constructor(
+    public id: string,
+    public imagePath: string,
+  ) {
+    this.image.src = imagePath
   }
 }
