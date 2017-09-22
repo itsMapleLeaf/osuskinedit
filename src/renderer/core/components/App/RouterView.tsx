@@ -10,6 +10,20 @@ import SkinElementsView from 'renderer/skin/components/SkinElementsView'
 import SkinMetadataView from 'renderer/skin/components/SkinMetadataView'
 import SkinSoundsView from 'renderer/skin/components/SkinSoundsView'
 
+interface RouteDefinition {
+  path: string,
+  icon: IconType,
+  component: React.ComponentClass,
+}
+
+const routes: RouteDefinition[] = [
+  { path: '/elementList', icon: 'navList', component: SkinElementsView },
+  { path: '/skinData', icon: 'navSkinData', component: SkinMetadataView },
+  { path: '/colors', icon: 'navColors', component: SkinColorsView },
+  { path: '/sounds', icon: 'navSounds', component: SkinSoundsView },
+  { path: '/settings', icon: 'navSettings', component: SettingsView },
+]
+
 export default class AppRouterView extends React.Component {
   history = createMemoryHistory()
 
@@ -17,14 +31,18 @@ export default class AppRouterView extends React.Component {
     this.history.push('/elementList')
   }
 
-  renderNavLink(route: string, icon: IconType) {
+  renderNavLink = (route: RouteDefinition) => {
     return (
-      <NavLink to={route} className="NavigationButton" activeClassName="-isActive">
+      <NavLink to={route.path} className="NavigationButton" activeClassName="-isActive" key={route.path}>
         <div className="icon">
-          <Icon name={icon} />
+          <Icon name={route.icon} />
         </div>
       </NavLink>
     )
+  }
+
+  renderRoute = (route: RouteDefinition) => {
+    return <Route path={route.path} component={route.component} key={route.path} />
   }
 
   render() {
@@ -32,18 +50,9 @@ export default class AppRouterView extends React.Component {
       <Router history={this.history}>
         <div className="body">
           <div className="sidebar">
-            {this.renderNavLink('/elementList', 'navList')}
-            {this.renderNavLink('/skinData', 'navSkinData')}
-            {this.renderNavLink('/colors', 'navColors')}
-            {this.renderNavLink('/sounds', 'navSounds')}
-            {this.renderNavLink('/settings', 'navSettings')}
+            {routes.map(this.renderNavLink)}
           </div>
-
-          <Route exact path="/elementList" component={SkinElementsView} />
-          <Route exact path="/skinData" component={SkinMetadataView} />
-          <Route exact path="/colors" component={SkinColorsView} />
-          <Route exact path="/sounds" component={SkinSoundsView} />
-          <Route exact path="/settings" component={SettingsView} />
+          {routes.map(this.renderRoute)}
         </div>
       </Router>
     )
