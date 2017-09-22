@@ -1,17 +1,11 @@
 export default class SkinImage {
   image = new Image()
-  promise: Promise<any>
 
-  constructor(
-    public id: string,
-    public imagePath: string,
-  ) {
-    this.load(imagePath)
-  }
+  constructor(public id: string, public imagePath: string) {}
 
-  load(imagePath: string) {
-    this.promise = new Promise((resolve, reject) => {
-      this.image.src = imagePath
+  load() {
+    return new Promise((resolve, reject) => {
+      this.image.src = this.imagePath
 
       this.image.onload = resolve
       this.image.onerror = reject

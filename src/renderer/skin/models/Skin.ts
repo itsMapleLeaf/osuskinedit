@@ -44,7 +44,7 @@ export default class Skin {
 
       const fileNames = await readdir(skinPath)
 
-      this.parseFiles(fileNames)
+      await this.parseFiles(fileNames)
       this.createElements()
     } catch (error) {
       this.loadStatus = SkinLoadingState.failed
@@ -52,7 +52,7 @@ export default class Skin {
     }
   }
 
-  parseFiles(fileNames: string[]) {
+  async parseFiles(fileNames: string[]) {
     const extensions = {
       image: ['.jpg', '.png'],
       sound: ['.mp3', '.wav'],
@@ -80,6 +80,9 @@ export default class Skin {
       .filter(filterExtensions(extensions.sound))
       .map(x => createSkinClass(x, SkinSound))
 
+    await Promise.all(this.images.map(image => image.load()))
+    // do the same for sounds when those are implemented
+
     this.ini.read(path.resolve(this.skinPath, 'skin.ini'))
   }
 
@@ -95,7 +98,5 @@ export default class Skin {
     })
 
     this.elements.push(...skinElements)
-
-    console.log(this)
   }
 }

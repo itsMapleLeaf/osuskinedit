@@ -76,7 +76,6 @@ export default class SkinElement extends SkinElementOptions {
   }
 
   render(context: CanvasRenderingContext2D) {
-    const imagePromises = this.maps.map(x => x.skinImage.promise)
     const images = this.maps.map(x => x.skinImage.image)
 
     const { canvas } = context
@@ -90,10 +89,8 @@ export default class SkinElement extends SkinElementOptions {
       if (img.height > canvas.height) canvas.height = img.height
     })
 
-    context.imageSmoothingEnabled = false;
+    context.imageSmoothingEnabled = false
 
-    Promise.all(imagePromises).then(() => {
-      this.maps.forEach(x => this.renderLayer(context, x))
-    })
+    this.maps.forEach(x => this.renderLayer(context, x))
   }
 }
