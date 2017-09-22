@@ -76,7 +76,9 @@ export default class SkinElement extends SkinElementOptions {
   }
 
   render(context: CanvasRenderingContext2D) {
-    const images = this.maps.map(x => x.skinImage.image)
+    const images = this.maps
+      .filter(x => x.skinImage != null)
+      .map(x => x.skinImage.image)
 
     const { canvas } = context
 
