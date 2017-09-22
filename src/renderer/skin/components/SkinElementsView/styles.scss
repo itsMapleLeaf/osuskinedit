@@ -1,0 +1,16 @@
+.SkinElementsView {
+  > .categories {
+    display: flex;
+  }
+
+  > .categories > .category {
+    opacity: 0.5;
+    padding: var(--padding-default);
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  > .categories > .category.-isActive {
+    opacity: 1;
+    border-bottom: 2px solid var(--color-accent);
+  }
+}

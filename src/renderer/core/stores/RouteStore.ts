@@ -43,7 +43,7 @@ export const routes: RouteDefinition = {
 }
 
 export class RouteStore {
-  @observable currentRouteName = ''
+  @observable currentRouteName = 'elementList'
 
   @action
   setRoute(routeName: string) {

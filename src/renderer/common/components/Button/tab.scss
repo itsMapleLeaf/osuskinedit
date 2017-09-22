@@ -1,0 +1,20 @@
+@import './default';
+
+.TabButton {
+  @extend .Button;
+
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 0px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  opacity: 0.5;
+
+  &:hover {
+    background-color: var(--color-accent-faded);
+  }
+
+  &.-isActive {
+    border-bottom: solid 2px var(--color-accent);
+    opacity: 1;
+  }
+}
