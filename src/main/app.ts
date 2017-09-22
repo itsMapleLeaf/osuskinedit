@@ -1,11 +1,9 @@
 import { app, BrowserWindow } from 'electron'
-import * as fs from 'fs'
 import { resolve } from 'path'
+import { handleDevMode } from './devmode'
 import { restoreWindowState, storeWindowState } from './windowState'
 
 let win: Electron.BrowserWindow
-
-const devmode = process.argv.includes('--dev')
 
 app.on('ready', () => {
   win = new BrowserWindow({
@@ -29,15 +27,7 @@ app.on('ready', () => {
   win.on('move', () => storeWindowState(win))
   win.on('resize', () => storeWindowState(win))
 
-  if (devmode) {
-    console.log('devmode enabled')
-
-    win.webContents.openDevTools()
-
-    fs.watch(resolve(__dirname, 'renderer.js'), (event, filename) => {
-      win.reload()
-    })
-  }
+  handleDevMode(win)
 })
 
 app.on('window-all-closed', () => {
