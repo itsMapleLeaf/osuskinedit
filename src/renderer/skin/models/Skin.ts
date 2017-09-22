@@ -20,7 +20,7 @@ export enum SkinLoadingState {
 
 export default class Skin {
   @observable loadStatus = SkinLoadingState.none
-  @observable loadError = null
+  @observable loadError: any
 
   @observable name = 'Unnamed skin'
   @observable description = ''
@@ -46,6 +46,8 @@ export default class Skin {
 
       await this.parseFiles(fileNames)
       this.createElements()
+
+      this.loadStatus = SkinLoadingState.finished
     } catch (error) {
       this.loadStatus = SkinLoadingState.failed
       this.loadError = error

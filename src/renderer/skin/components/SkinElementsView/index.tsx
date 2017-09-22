@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react'
 import * as React from 'react'
 
 import ElementItem from 'renderer/skin/components/SkinElementsView/ElementItem'
+import { SkinLoadingState } from 'renderer/skin/models/Skin';
 import { SkinStore } from 'renderer/skin/stores/SkinStore'
 
 import './styles.scss'
@@ -16,12 +17,17 @@ interface SkinElementsViewProps {
 export default class SkinElementsView extends React.Component<SkinElementsViewProps> {
   @bind
   renderElements() {
-    const { elements } = this.props.skinStore!.skin
+    const { elements, loadStatus, loadError } = this.props.skinStore!.skin
 
-    if (elements.length > 0) {
-      return elements.map(element => <ElementItem element={element} key={element.name} />)
+    switch (loadStatus) {
+      case SkinLoadingState.none:
+      case SkinLoadingState.loading:
+        return <div>Loading skin elements...</div>
+      case SkinLoadingState.finished:
+        return elements.map(element => <ElementItem element={element} key={element.name} />)
+      case SkinLoadingState.failed:
+        return <div>Error loading skin: {loadError.toString()}</div>
     }
-    return <div>Loading skin elements...</div>
   }
 
   render() {
