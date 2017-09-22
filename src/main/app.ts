@@ -18,7 +18,7 @@ app.on('ready', () => {
 
   restoreWindowState(win)
 
-  win.loadURL(resolve(__dirname, 'index.html'))
+  win.loadURL(resolve(__dirname, '../assets/index.html'))
 
   win.once('ready-to-show', () => {
     win.show()
