@@ -5,7 +5,7 @@
   "main": "build/main.js",
   "scripts": {
     "start-dev:rollup": "node scripts/watch",
-    "start-dev:nodemon": "nodemon -w ./build/main.js -x \"electron . --dev\"",
+    "start-dev:nodemon": "nodemon -w build/main.js -x \"electron . --dev\"",
     "start-dev": "run-p start-dev:*",
     "build": "node scripts/build",
     "start": "electron ."
