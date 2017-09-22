@@ -18,14 +18,15 @@ export default class SkinElementsView extends React.Component<SkinElementsViewPr
   renderElements() {
     const { elements } = this.props.skinStore!.skin
 
-    return (
-      <div className="SkinElementsView">
-        {elements.map(element => <ElementItem element={element} key={element.name} />)}
-      </div>
-    )
+    if (elements.length > 0) {
+      return elements.map(element => <ElementItem element={element} key={element.name} />)
+    }
+    return <div>Loading skin elements...</div>
   }
 
   render() {
-    return this.renderElements()
+    return <div className="SkinElementsView">
+      {this.renderElements()}
+    </div>
   }
 }
