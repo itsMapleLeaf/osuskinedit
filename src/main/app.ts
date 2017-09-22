@@ -30,6 +30,8 @@ app.on('ready', () => {
   win.on('resize', () => storeWindowState(win))
 
   if (devmode) {
+    console.log('devmode enabled')
+
     win.webContents.openDevTools()
 
     fs.watch(resolve(__dirname, 'renderer.js'), (event, filename) => {
