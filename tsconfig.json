@@ -13,7 +13,7 @@
     "baseUrl": "./src",
     "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true,
-    "sourceMap": true
+    "inlineSourceMap": true
   },
   "include": ["./src/**/*"]
 }

@@ -7,9 +7,9 @@ const store = new ConfigStore(meta.name, {
     y: 100,
     width: 800,
     height: 500,
-    isMaximized: false
+    isMaximized: false,
   },
-  lastLoadedSkin: ''
+  lastLoadedSkin: '',
 })
 
 export default store

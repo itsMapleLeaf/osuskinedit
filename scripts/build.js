@@ -15,7 +15,7 @@ function copyHTML() {
   return new Promise((resolve, reject) => {
     htmlInput
       .pipe(htmlOutput)
-      .on('end', resolve)
+      .on('close', resolve)
       .on('error', reject)
   })
 }

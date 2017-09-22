@@ -3,6 +3,7 @@ const typescript = require('rollup-plugin-typescript2')
 const scss = require('rollup-plugin-scss')
 const json = require('rollup-plugin-json')
 const nodeBuiltins = require('rollup-plugin-node-builtins')
+const sourceMaps = require('rollup-plugin-sourcemaps')
 const { resolve } = require('path')
 const fs = require('fs')
 const { dependencies } = require('../package.json')
@@ -19,6 +20,7 @@ const scssPlugin = scss({
 })
 
 const plugins = [
+  sourceMaps(),
   typescript(),
   json(),
   // nodeBuiltins()
@@ -33,6 +35,7 @@ const mainConfig = {
   output: {
     file: resolve(outputPath, 'main.js'),
     format: 'cjs',
+    sourcemap: true,
   },
 }
 
@@ -45,6 +48,7 @@ const rendererConfig = {
   output: {
     file: resolve(outputPath, 'renderer.js'),
     format: 'cjs',
+    sourcemap: true,
   },
 }
 

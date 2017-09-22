@@ -2,12 +2,13 @@
   "name": "osu-skin-editor",
   "version": "1.0.0",
   "license": "MIT",
+  "main": "build/main.js",
   "scripts": {
     "start-dev:rollup": "node scripts/watch",
-    "start-dev:nodemon": "nodemon -w ./build -x \"electron build/main.js\"",
+    "start-dev:nodemon": "nodemon -w ./build/main.js -x \"electron . --dev\"",
     "start-dev": "run-p start-dev:*",
     "build": "node scripts/build",
-    "start": "electron build/main.js"
+    "start": "electron ."
   },
   "dependencies": {
     "classnames": "^2.2.5",
@@ -39,6 +40,7 @@
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-scss": "^0.3.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-typescript2": "^0.5.2",
     "typescript": "^2.5.2"
   }

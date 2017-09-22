@@ -1,5 +1,14 @@
+const fs = require('fs')
+const { resolve, dirname } = require('path')
 const rollup = require('rollup')
 const config = require('./config')
+const childProcess = require('child_process')
+
+async function logTime(fn) {
+  const time = Date.now()
+  await fn()
+  console.log(`Finished in ${Date.now() - time}ms`)
+}
 
 function watch({ input, output }) {
   const watchOptions = Object.assign({}, input, {
@@ -10,14 +19,26 @@ function watch({ input, output }) {
 
   watcher
     .on('event', event => {
-      if (event.code === 'BUNDLE_START') {
-        console.log(`bundling ${event.input}...`)
-      }
-      if (event.code === 'BUNDLE_END') {
-        console.log('done')
-      }
-      if (event.code === 'ERROR' || event.code === 'FATAL') {
-        console.log('plugin error', event)
+      switch (event.code) {
+        case 'BUNDLE_START':
+          console.log(`bundling ${event.input}...`)
+          break
+
+        case 'BUNDLE_END':
+          console.log('done')
+          break
+
+        case 'ERROR':
+        case 'FATAL':
+          console.log('error', event)
+          break
+
+        case 'START':
+        case 'END':
+          break
+
+        default:
+          console.log(event)
       }
     })
     .on('error', console.error)
@@ -25,3 +46,4 @@ function watch({ input, output }) {
 
 watch(config.mainConfig)
 watch(config.rendererConfig)
+console.log('Watching files...')

@@ -51,6 +51,7 @@ export default class Skin {
     } catch (error) {
       this.loadStatus = SkinLoadingState.failed
       this.loadError = error
+      console.error('Error loading skin:', error)
     }
   }
 
