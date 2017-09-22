@@ -15,33 +15,42 @@ function watch({ input, output }) {
     output: [output],
   })
 
-  const watcher = rollup.watch(watchOptions)
+  function startWatcher() {
+    const watcher = rollup.watch(watchOptions)
 
-  watcher
-    .on('event', event => {
-      switch (event.code) {
-        case 'BUNDLE_START':
-          console.log(`bundling ${event.input}...`)
-          break
+    watcher
+      .on('event', event => {
+        switch (event.code) {
+          case 'BUNDLE_START':
+            console.log(`bundling ${event.input}...`)
+            break
 
-        case 'BUNDLE_END':
-          console.log('done')
-          break
+          case 'BUNDLE_END':
+            console.log(`wrote to ${event.output}`)
+            break
 
-        case 'ERROR':
-        case 'FATAL':
-          console.log('error', event)
-          break
+          case 'ERROR':
+            console.log('error', event)
+            break
 
-        case 'START':
-        case 'END':
-          break
+          case 'FATAL':
+            console.log('fatal error', event)
+            console.log('restarting...')
+            startWatcher()
+            break
 
-        default:
-          console.log(event)
-      }
-    })
-    .on('error', console.error)
+          case 'START':
+          case 'END':
+            break
+
+          default:
+            console.log(event)
+        }
+      })
+      .on('error', console.error)
+  }
+
+  startWatcher()
 }
 
 watch(config.mainConfig)
