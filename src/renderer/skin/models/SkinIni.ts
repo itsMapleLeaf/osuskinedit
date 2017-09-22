@@ -19,9 +19,7 @@ export default class SkinIni {
 
     if (!section) return undefined
 
-    const value = section.values[propertyName]
-
-    return value
+    return section.values[propertyName]
   }
 
 
