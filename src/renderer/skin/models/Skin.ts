@@ -81,11 +81,13 @@ export default class Skin {
     for (const fileName of imageFileNames) {
       const { name, ext } = path.parse(fileName)
       const fullPath = path.resolve(this.skinPath, name)
-      const hasDoubleRes = await exists(fullPath + '@2x' + ext)
+      const normalResPath = fullPath + ext
+      const doubleResPath = fullPath + '@2x' + ext
+      const hasDoubleRes = await exists(doubleResPath)
 
       const fullPathWithExtension = hasDoubleRes
-        ? fullPath + '@2x' + ext
-        : fullPath + ext
+        ? doubleResPath
+        : normalResPath
 
       images.push(new SkinImage(name, fullPathWithExtension))
     }
