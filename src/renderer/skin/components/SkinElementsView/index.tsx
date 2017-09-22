@@ -26,7 +26,7 @@ export default class SkinElementsView extends React.Component<SkinElementsViewPr
       case SkinLoadingState.finished:
         return elements.map(element => <ElementItem element={element} key={element.name} />)
       case SkinLoadingState.failed:
-        return <div>Error loading skin: {loadError.toString()}</div>
+        return <div>Error loading skin: {(loadError || 'unknown error').toString()}</div>
     }
   }
 
