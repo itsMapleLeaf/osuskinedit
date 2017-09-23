@@ -8,6 +8,7 @@ import SkinImage from 'renderer/skin/models/SkinImage'
 import SkinIni from 'renderer/skin/models/SkinIni'
 import SkinSound from 'renderer/skin/models/SkinSound'
 
+import { loadImage } from 'renderer/common/util'
 import defaultSchema from '../defaultSchema.json'
 export { defaultSchema }
 
@@ -72,13 +73,11 @@ export default class Skin {
 
   @action
   private async loadImages(fileNames: string[]) {
-    const images = [] as SkinImage[]
-
     const imageFileNames = fileNames.filter(fileName => {
       return imageExtensions.includes(path.extname(fileName))
     })
 
-    for (const fileName of imageFileNames) {
+    const createImageObject = async (fileName: string) => {
       const { name, ext } = path.parse(fileName)
       const fullPath = path.resolve(this.skinPath, name)
       const normalResPath = fullPath + ext
@@ -91,12 +90,12 @@ export default class Skin {
 
       const scale = hasDoubleRes ? 2 : 1
 
-      images.push(new SkinImage(name, fullPathWithExtension, scale))
+      const image = await loadImage(fullPathWithExtension)
+
+      return new SkinImage(name, image, scale)
     }
 
-    await Promise.all(images.map(img => img.load()))
-
-    return images
+    return Promise.all(imageFileNames.map(createImageObject))
   }
 
   @action
