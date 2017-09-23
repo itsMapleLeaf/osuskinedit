@@ -4,7 +4,7 @@ import promisify from 'pify'
 export const readdir = promisify(fs.readdir)
 export const readFile = promisify(fs.readFile)
 export const writeFile = promisify(fs.writeFile)
-export const access = promisify(fs.access)
+export const access = promisify(fs.access) as (path: string, mode: number) => Promise<void>
 
 export async function exists(path: string) {
   try {
