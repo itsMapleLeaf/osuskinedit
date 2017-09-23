@@ -1,5 +1,11 @@
 import SkinImage from 'renderer/skin/models/SkinImage'
 
+import { Scene, Layer } from 'renderer/canvas'
+import { Bitmap } from 'renderer/canvas/drawables'
+import { ColorizeFilter } from 'renderer/canvas/filters'
+
+import Color from 'color'
+
 class ImageMap {
   skinImage: SkinImage
   filename: string
@@ -31,6 +37,8 @@ class SkinElementOptions {
 }
 
 export default class SkinElement extends SkinElementOptions {
+  scene = new Scene()
+
   maps = [] as ImageMap[]
 
   constructor(options: SkinElementOptions, imageMap: any, images: SkinImage[]) {
@@ -65,7 +73,7 @@ export default class SkinElement extends SkinElementOptions {
     })
   }
 
-  renderLayer(context: CanvasRenderingContext2D, map: ImageMap) {
+  /**renderLayer(context: CanvasRenderingContext2D, map: ImageMap) {
     const { canvas } = context
     const { width, height } = canvas
     const image = map.skinImage.image
@@ -91,26 +99,36 @@ export default class SkinElement extends SkinElementOptions {
     }
 
     context.globalCompositeOperation = 'source-over'
+  }**/
+
+  prepareScene() {
+    const validMaps = this.maps.filter(map => map.skinImage != null)
+
+    const layers = validMaps.map(map => {
+      const filters = []
+
+      const layer = new Layer()
+      const bitmap = new Bitmap(map.skinImage.imagePath)
+
+      if (map.colored) {
+        const colorizeFilter = new ColorizeFilter(Color('rgb(255, 85, 171)'))
+        filters.push(colorizeFilter)
+      }
+
+      layer.assignDrawables([bitmap])
+      layer.assignFilters(filters)
+
+      return layer
+    })
+
+    this.scene.assignLayers(layers)
+    this.scene.prepare()
   }
 
   render(context: CanvasRenderingContext2D) {
-    const validMaps = this.maps.filter(map => map.skinImage != null)
+    if (!this.scene.isPrepared) this.prepareScene()
 
-    const images = validMaps.map(map => map.skinImage.image)
-
-    const { canvas } = context
-
-    canvas.width = this.width
-    canvas.height = this.height
-
-    // REFACTOR REFACTOR REFACTOR
-    images.forEach(img => {
-      if (img.width > canvas.width) canvas.width = img.width
-      if (img.height > canvas.height) canvas.height = img.height
-    })
-
-    context.imageSmoothingEnabled = false
-
-    validMaps.forEach(map => this.renderLayer(context, map))
+    this.scene.setContext(context)
+    this.scene.render()
   }
 }
