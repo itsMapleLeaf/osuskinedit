@@ -1,4 +1,4 @@
-import { CanvasRenderable } from '../types'
+import { CanvasRenderable } from 'renderer/canvas/types'
 
 export function clearContext(context: CanvasRenderingContext2D) {
   const { width, height } = context.canvas
@@ -19,4 +19,18 @@ export function resizeImage(image: CanvasRenderable, targetWidth: number, target
   context.drawImage(image, 0, 0, image.width, image.height, 0, 0, targetWidth, targetHeight)
 
   return canvas
+}
+
+export function drawCentered(
+  context: CanvasRenderingContext2D,
+  image: CanvasRenderable,
+  x = 0,
+  y = 0,
+) {
+  context.save()
+
+  context.translate(-image.width / 2, -image.height / 2)
+  context.drawImage(image, x, y)
+
+  context.restore()
 }
