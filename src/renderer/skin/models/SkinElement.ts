@@ -23,32 +23,18 @@ class ImageMap {
   }
 }
 
-class SkinElementOptions {
+interface SkinElementOptions {
   id: string
   name: string
   width: number
   height: number
 }
 
-export default class SkinElement extends SkinElementOptions {
+export default class SkinElement {
   maps = [] as ImageMap[]
 
-  constructor(options: SkinElementOptions, imageMap: any, images: SkinImage[]) {
-    super()
-
-    this.assignOptions(options)
+  constructor(public options: SkinElementOptions, imageMap: any, images: SkinImage[]) {
     this.registerImages(imageMap, images)
-  }
-
-  assignOptions(options: SkinElementOptions) {
-    const { id, name, width, height } = options
-
-    Object.assign(this, {
-      id,
-      name,
-      width,
-      height,
-    })
   }
 
   registerImages(imageMap: any, images: SkinImage[]) {
@@ -100,8 +86,8 @@ export default class SkinElement extends SkinElementOptions {
 
     const { canvas } = context
 
-    canvas.width = this.width
-    canvas.height = this.height
+    canvas.width = this.options.width
+    canvas.height = this.options.height
 
     // REFACTOR REFACTOR REFACTOR
     images.forEach(img => {
