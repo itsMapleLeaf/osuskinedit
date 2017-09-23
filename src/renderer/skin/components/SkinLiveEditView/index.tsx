@@ -113,6 +113,7 @@ class HitCircleRenderer {
   private approach = 1
   private approachTime = 1.5
   private position = { x: 0, y: 0 }
+  private color = ''
 
   constructor(
     hitCircleImage: CanvasRenderable,
@@ -122,6 +123,7 @@ class HitCircleRenderer {
     this.hitCircle = new Colorizer(hitCircleImage)
     this.approachCircle = new Colorizer(approachCircleImage)
     this.resetPosition()
+    this.resetColor()
   }
 
   update(dt: number) {
@@ -130,14 +132,13 @@ class HitCircleRenderer {
     if (this.approach <= 0) {
       this.approach = 1
       this.resetPosition()
+      this.resetColor()
     }
 
     this.approach -= dt / this.approachTime
   }
 
   render(context: CanvasRenderingContext2D) {
-    const hue = (this.time * 50) % 360
-    const color = `hsla(${hue}, 70%, 50%, 0.3)`
     const approachCircleScale = this.approach * 3 + 1
 
     context.save()
@@ -145,12 +146,12 @@ class HitCircleRenderer {
     context.translate(this.position.x, this.position.y)
 
     drawCentered(context, this.overlay)
-    drawCentered(context, this.hitCircle.render(color))
+    drawCentered(context, this.hitCircle.render(this.color))
 
     context.save()
     context.scale(approachCircleScale, approachCircleScale)
     context.globalAlpha = 1 - this.approach
-    drawCentered(context, this.approachCircle.render(color))
+    drawCentered(context, this.approachCircle.render(this.color))
     context.restore()
 
     context.restore()
@@ -161,6 +162,10 @@ class HitCircleRenderer {
       x: randomBetween(100, 1280 - 100),
       y: randomBetween(100, 720 - 100),
     }
+  }
+
+  private resetColor() {
+    this.color = `hsla(${randomBetween(0, 360)}, 60%, 60%, 0.5)`
   }
 }
 
