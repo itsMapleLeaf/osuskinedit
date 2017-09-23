@@ -3,7 +3,7 @@ import { computed } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import * as React from 'react'
 import { CanvasRenderable } from 'renderer/canvas/types'
-import { clearContext, sizeToContents } from 'renderer/canvas/util/index'
+import { clearContext, drawCentered } from 'renderer/canvas/util/index'
 import Skin from 'renderer/skin/models/Skin'
 import { SkinStore } from 'renderer/skin/stores/SkinStore'
 import './index.scss'
@@ -67,18 +67,29 @@ class PreviewRenderer {
 
   constructor(private context: CanvasRenderingContext2D, skin: Skin) {
     const hitCircleImage = skin.getImage('hitcircle')
-    const overlayImage = skin.getImage('hitcircleoverlay')
+    const hitCircleOverlayImage = skin.getImage('hitcircleoverlay')
+    const approachCircleImage = skin.getImage('approachcircle')
 
-    this.hitCircle = new HitCircleRenderer(hitCircleImage.image, overlayImage.image)
+    this.hitCircle = new HitCircleRenderer(
+      hitCircleImage.image,
+      hitCircleOverlayImage.image,
+      approachCircleImage.image,
+    )
   }
 
   start() {
     this.running = true
 
+    let time: number
+
     const runFrame = (frameTime: number) => {
+      const elapsed = frameTime - (time || frameTime)
+      time = frameTime
+
       clearContext(this.context)
 
-      this.context.drawImage(this.hitCircle.render(frameTime), 0, 0)
+      this.hitCircle.update(elapsed / 1000)
+      this.hitCircle.render(this.context)
 
       if (this.running) {
         requestAnimationFrame(runFrame)
@@ -94,26 +105,50 @@ class PreviewRenderer {
 }
 
 class HitCircleRenderer {
-  private canvas = document.createElement('canvas')
-  private context = this.canvas.getContext('2d')!
+  private hitCircle: Colorizer
+  private time = 0
+  private approach = 1
+  private approachTime = 1.5
+  private position = { x: 0, y: 0 }
 
-  private hitCircleColorizer: Colorizer
-
-  constructor(hitCircleImage: CanvasRenderable, private overlayImage: CanvasRenderable) {
-    sizeToContents(this.canvas, [hitCircleImage, overlayImage])
-    this.hitCircleColorizer = new Colorizer(hitCircleImage)
+  constructor(
+    hitCircleImage: CanvasRenderable,
+    private overlay: CanvasRenderable,
+    private approachCircle: CanvasRenderable,
+  ) {
+    this.hitCircle = new Colorizer(hitCircleImage)
   }
 
-  render(time: number) {
-    clearContext(this.context)
+  update(dt: number) {
+    this.time += dt
 
-    const hue = (time * 0.05) % 360
+    if (this.approach <= 0) {
+      this.approach = 1
+      this.position = { x: Math.random() * 1280, y: Math.random() * 720 }
+    }
+
+    this.approach -= dt / this.approachTime
+  }
+
+  render(context: CanvasRenderingContext2D) {
+    const hue = (this.time * 50) % 360
     const color = `hsla(${hue}, 70%, 50%, 0.3)`
+    const approachCircleScale = this.approach * 3 + 1
 
-    this.context.drawImage(this.hitCircleColorizer.render(color), 0, 0)
-    this.context.drawImage(this.overlayImage, 0, 0)
+    context.save()
 
-    return this.canvas
+    context.translate(this.position.x, this.position.y)
+
+    drawCentered(context, this.overlay)
+    drawCentered(context, this.hitCircle.render(color))
+
+    context.save()
+    context.scale(approachCircleScale, approachCircleScale)
+    context.globalAlpha = 1 - this.approach
+    drawCentered(context, this.approachCircle)
+    context.restore()
+
+    context.restore()
   }
 }
 
