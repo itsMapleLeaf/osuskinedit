@@ -125,4 +125,8 @@ export default class Skin {
 
     this.elements.push(...skinElements)
   }
+
+  getImage(id: string) {
+    return this.images.find(image => image.id === id)
+  }
 }
