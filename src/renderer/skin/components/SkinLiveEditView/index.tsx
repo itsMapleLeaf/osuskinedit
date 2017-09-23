@@ -43,11 +43,12 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
   @computed
   private get backgroundImage() {
     const { skin } = this.props.skinStore!
-    const background = skin.getImage('menu-background')
-    if (background) {
+    try {
+      const background = skin.getImage('menu-background')
       return background.rawImage.src
+    } catch {
+      return ''
     }
-    return ''
   }
 
   private startAnimation() {
@@ -159,7 +160,7 @@ class HitCircleRenderer {
 
   private resetPosition() {
     this.position = {
-      x: randomBetween(100, 1280 - 100),
+      x: randomBetween(300, 1280 - 300),
       y: randomBetween(100, 720 - 100),
     }
   }
