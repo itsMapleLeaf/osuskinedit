@@ -45,10 +45,14 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
   }
 
   @computed
+  private get skin() {
+    return this.props.skinStore!.skin
+  }
+
+  @computed
   private get backgroundImage() {
-    const { skin } = this.props.skinStore!
     try {
-      const background = skin.getImage('menu-background')
+      const background = this.skin.getImage('menu-background')
       return background.rawImage.src
     } catch {
       return ''
@@ -56,8 +60,7 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
   }
 
   private startAnimation() {
-    const { skin } = this.props.skinStore!
-    this.preview = new PreviewRenderer(this.context, skin)
+    this.preview = new PreviewRenderer(this.context, this.skin)
     this.preview.start()
   }
 
