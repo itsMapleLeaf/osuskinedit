@@ -94,7 +94,7 @@ export default class SkinElement {
       const filters = []
 
       const layer = new Layer()
-      const bitmap = new Bitmap(map.skinImage!.image.src)
+      const bitmap = new Bitmap(map.skinImage!.rawImage.src)
 
       if (map.colored) {
         const colorizeFilter = new ColorizeFilter(Color('rgb(255, 85, 171)'))

@@ -1,9 +1,9 @@
 import { resizeImage } from '../../canvas/util/index'
 
 export default class SkinImage {
-  scaledImage: HTMLCanvasElement
+  image: HTMLCanvasElement
 
-  constructor(public id: string, public image: HTMLImageElement, public resolution: number) {
-    this.scaledImage = resizeImage(image, image.width / resolution, image.height / resolution)
+  constructor(public id: string, public rawImage: HTMLImageElement, public resolution: number) {
+    this.image = resizeImage(rawImage, rawImage.width / resolution, rawImage.height / resolution)
   }
 }

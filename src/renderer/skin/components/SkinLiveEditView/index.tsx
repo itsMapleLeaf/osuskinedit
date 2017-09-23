@@ -44,7 +44,7 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
     const { skin } = this.props.skinStore!
     const background = skin.getImage('menu-background')
     if (background) {
-      return background.image.src
+      return background.rawImage.src
     }
     return ''
   }
@@ -69,7 +69,7 @@ class PreviewRenderer {
     const hitCircleImage = skin.getImage('hitcircle')
     const overlayImage = skin.getImage('hitcircleoverlay')
 
-    this.hitCircle = new HitCircleRenderer(hitCircleImage.scaledImage, overlayImage.scaledImage)
+    this.hitCircle = new HitCircleRenderer(hitCircleImage.image, overlayImage.image)
   }
 
   start() {
