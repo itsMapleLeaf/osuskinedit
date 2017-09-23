@@ -27,7 +27,7 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
       <div className="SkinLiveEditView">
         <div className="previewContainer">
           <canvas
-            className="background"
+            className="preview"
             width={1280}
             height={720}
             style={{ backgroundImage: `url(${this.backgroundImage})` }}
