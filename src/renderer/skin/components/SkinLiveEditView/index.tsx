@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react'
 import * as React from 'react'
 import { CanvasRenderable } from 'renderer/canvas/types'
 import { clearContext, drawCentered } from 'renderer/canvas/util/index'
+import { randomBetween } from 'renderer/common/util/math'
 import Skin from 'renderer/skin/models/Skin'
 import { SkinStore } from 'renderer/skin/stores/SkinStore'
 import './index.scss'
@@ -117,6 +118,7 @@ class HitCircleRenderer {
     private approachCircle: CanvasRenderable,
   ) {
     this.hitCircle = new Colorizer(hitCircleImage)
+    this.resetPosition()
   }
 
   update(dt: number) {
@@ -124,7 +126,7 @@ class HitCircleRenderer {
 
     if (this.approach <= 0) {
       this.approach = 1
-      this.position = { x: Math.random() * 1280, y: Math.random() * 720 }
+      this.resetPosition()
     }
 
     this.approach -= dt / this.approachTime
@@ -149,6 +151,13 @@ class HitCircleRenderer {
     context.restore()
 
     context.restore()
+  }
+
+  private resetPosition() {
+    this.position = {
+      x: randomBetween(100, 1280 - 100),
+      y: randomBetween(100, 720 - 100),
+    }
   }
 }
 
