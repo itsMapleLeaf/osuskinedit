@@ -66,8 +66,8 @@ class PreviewRenderer {
   private running = false
 
   constructor(private context: CanvasRenderingContext2D, skin: Skin) {
-    const hitCircleImage = skin.getImage('hitcircle')!
-    const overlayImage = skin.getImage('hitcircleoverlay')!
+    const hitCircleImage = skin.getImage('hitcircle')
+    const overlayImage = skin.getImage('hitcircleoverlay')
 
     this.hitCircle = new HitCircleRenderer(hitCircleImage.scaledImage, overlayImage.scaledImage)
   }

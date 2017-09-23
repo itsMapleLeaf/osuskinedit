@@ -62,7 +62,12 @@ export default class Skin {
   }
 
   getImage(id: string) {
-    return this.images.find(image => image.id === id)
+    const image = this.images.find(image => image.id === id)
+    if (image == null) {
+      // perhaps return a "missing image" placeholder graphic instead?
+      throw new Error(`Could not find image "${id}"`)
+    }
+    return image
   }
 
   @action
