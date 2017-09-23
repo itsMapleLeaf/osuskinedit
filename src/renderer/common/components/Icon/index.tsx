@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import { IconType } from 'renderer/common/icons/types'
 import * as icons from 'renderer/common/icons'
+import { IconType } from 'renderer/common/icons/types'
 
 import './styles.scss'
 
@@ -18,10 +18,6 @@ export default class Icon extends React.Component<IconProps> {
   }
 
   render() {
-    return (
-      <div className="Icon">
-        { this.renderSVG() }
-      </div>
-    )
+    return <div className="Icon">{this.renderSVG()}</div>
   }
 }

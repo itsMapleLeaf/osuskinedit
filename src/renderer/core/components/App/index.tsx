@@ -16,7 +16,7 @@ interface AppProps {
 @inject('skinStore')
 @observer
 export default class App extends React.Component<AppProps> {
-  private renderLoadSkinScreen() {
+  renderLoadSkinScreen() {
     const skinStore = this.props.skinStore!
     return (
       <div className="body">
@@ -25,7 +25,7 @@ export default class App extends React.Component<AppProps> {
     )
   }
 
-  private renderBody() {
+  renderBody() {
     const skinStore = this.props.skinStore!
     if (skinStore.skin.loadStatus === SkinLoadingState.none) {
       return this.renderLoadSkinScreen()

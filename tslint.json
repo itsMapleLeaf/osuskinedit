@@ -2,6 +2,7 @@
   "extends": ["tslint-config-standard", "tslint-config-prettier"],
   "defaultSeverity": "warn",
   "rules": {
-    "ordered-imports": true
+    "ordered-imports": true,
+    "no-empty": false
   }
 }

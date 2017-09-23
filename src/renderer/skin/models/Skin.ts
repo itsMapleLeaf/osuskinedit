@@ -61,6 +61,10 @@ export default class Skin {
     }
   }
 
+  getImage(id: string) {
+    return this.images.find(image => image.id === id)
+  }
+
   @action
   private async loadIni(fileNames: string[]) {
     const iniFileName = fileNames.find(name => name.toLowerCase() === 'skin.ini')
@@ -84,9 +88,7 @@ export default class Skin {
       const doubleResPath = fullPath + '@2x' + ext
       const hasDoubleRes = await exists(doubleResPath)
 
-      const fullPathWithExtension = hasDoubleRes
-        ? doubleResPath
-        : normalResPath
+      const fullPathWithExtension = hasDoubleRes ? doubleResPath : normalResPath
 
       const scale = hasDoubleRes ? 2 : 1
 
@@ -101,13 +103,14 @@ export default class Skin {
   @action
   private async loadSounds(fileNames: string[]) {
     const createSoundObject = (fileName: string) => {
-      const {name} = path.parse(fileName)
+      const { name } = path.parse(fileName)
       const soundPath = path.resolve(this.skinPath, fileName)
       return new SkinSound(name, soundPath)
     }
 
-    const soundFileNames = fileNames
-      .filter(fileName => soundExtensions.includes(path.extname(fileName)))
+    const soundFileNames = fileNames.filter(fileName =>
+      soundExtensions.includes(path.extname(fileName)),
+    )
 
     return soundFileNames.map(createSoundObject)
   }
@@ -120,9 +123,5 @@ export default class Skin {
     })
 
     this.elements.push(...skinElements)
-  }
-
-  getImage(id: string) {
-    return this.images.find(image => image.id === id)
   }
 }

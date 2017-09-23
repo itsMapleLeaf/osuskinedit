@@ -10,20 +10,20 @@ export class SkinStore {
   @observable skin = new Skin()
 
   @action.bound
-  initialize() {
+  async initialize() {
     const skinPath = configStore.get('lastLoadedSkin')
     if (skinPath) {
-      this.skin.load(skinPath)
+      await this.skin.load(skinPath)
     }
   }
 
   @action.bound
-  loadSkin() {
+  async loadSkin() {
     const [path] = dialog.showOpenDialog({
       properties: ['openDirectory'],
     })
     configStore.set('lastLoadedSkin', path)
-    this.skin.load(path)
+    await this.skin.load(path)
   }
 }
 

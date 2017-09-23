@@ -27,12 +27,13 @@ export default class Button extends React.Component<ButtonProps> {
   renderIcon() {
     const { icon } = this.props
 
-    if (icon)
+    if (icon) {
       return (
         <div className="icon">
           <Icon name={icon} />
         </div>
       )
+    }
   }
 
   render() {

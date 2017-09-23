@@ -15,9 +15,9 @@ function Root() {
   )
 }
 
-function start() {
-  stores.skinStore.initialize()
+async function start() {
+  await stores.skinStore.initialize()
   ReactDOM.render(<Root />, document.getElementById('root'))
 }
 
-start()
+start().catch(console.error)

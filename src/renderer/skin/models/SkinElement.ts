@@ -7,7 +7,7 @@ import { ColorizeFilter } from 'renderer/canvas/filters'
 import Color from 'color'
 
 class ImageMap {
-  skinImage: SkinImage
+  skinImage: SkinImage | void
   filename: string
 
   x: number
@@ -48,7 +48,7 @@ export default class SkinElement {
   registerImages(imageMap: any, images: SkinImage[]) {
     this.maps = imageMap.map((options: any) => {
       const filename = options.filename
-      const skinImage = images.find(img => img.id == filename)
+      const skinImage = images.find(img => img.id === filename)
 
       return Object.assign(
         {
@@ -59,7 +59,7 @@ export default class SkinElement {
     })
   }
 
-  /**renderLayer(context: CanvasRenderingContext2D, map: ImageMap) {
+  /*renderLayer(context: CanvasRenderingContext2D, map: ImageMap) {
     const { canvas } = context
     const { width, height } = canvas
     const image = map.skinImage.image
@@ -85,16 +85,16 @@ export default class SkinElement {
     }
 
     context.globalCompositeOperation = 'source-over'
-  }**/
+  }*/
 
   prepareScene() {
-    const validMaps = this.maps.filter(map => map.skinImage != null)
+    const validMaps = this.maps.filter(map => map.skinImage !== undefined)
 
     const layers = validMaps.map(map => {
       const filters = []
 
       const layer = new Layer()
-      const bitmap = new Bitmap(map.skinImage.image.src)
+      const bitmap = new Bitmap(map.skinImage!.image.src)
 
       if (map.colored) {
         const colorizeFilter = new ColorizeFilter(Color('rgb(255, 85, 171)'))
