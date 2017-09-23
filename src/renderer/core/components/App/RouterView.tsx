@@ -7,16 +7,18 @@ import { IconType } from 'renderer/common/icons/types'
 import SettingsView from 'renderer/settings/components/SettingsView'
 import SkinColorsView from 'renderer/skin/components/SkinColorsView'
 import SkinElementsView from 'renderer/skin/components/SkinElementsView'
+import SkinLiveEditView from 'renderer/skin/components/SkinLiveEditView'
 import SkinMetadataView from 'renderer/skin/components/SkinMetadataView'
 import SkinSoundsView from 'renderer/skin/components/SkinSoundsView'
 
 interface RouteDefinition {
-  path: string,
-  icon: IconType,
-  component: React.ComponentClass,
+  path: string
+  icon: IconType
+  component: React.ComponentClass
 }
 
 const routes: RouteDefinition[] = [
+  { path: '/liveEdit', icon: 'edit', component: SkinLiveEditView },
   { path: '/elementList', icon: 'navList', component: SkinElementsView },
   { path: '/skinData', icon: 'navSkinData', component: SkinMetadataView },
   { path: '/colors', icon: 'navColors', component: SkinColorsView },
@@ -28,12 +30,17 @@ export default class AppRouterView extends React.Component {
   history = createMemoryHistory()
 
   componentWillMount() {
-    this.history.push('/elementList')
+    this.history.push('/liveEdit')
   }
 
   renderNavLink = (route: RouteDefinition) => {
     return (
-      <NavLink to={route.path} className="NavigationButton" activeClassName="-isActive" key={route.path}>
+      <NavLink
+        to={route.path}
+        className="NavigationButton"
+        activeClassName="-isActive"
+        key={route.path}
+      >
         <div className="icon">
           <Icon name={route.icon} />
         </div>
@@ -49,9 +56,7 @@ export default class AppRouterView extends React.Component {
     return (
       <Router history={this.history}>
         <div className="body">
-          <div className="sidebar">
-            {routes.map(this.renderNavLink)}
-          </div>
+          <div className="sidebar">{routes.map(this.renderNavLink)}</div>
           {routes.map(this.renderRoute)}
         </div>
       </Router>

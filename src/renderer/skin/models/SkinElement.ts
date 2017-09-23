@@ -41,22 +41,10 @@ export default class SkinElement extends SkinElementOptions {
 
   maps = [] as ImageMap[]
 
-  constructor(options: SkinElementOptions, imageMap: any, images: SkinImage[]) {
+  constructor(public options: SkinElementOptions, imageMap: any, images: SkinImage[]) {
     super()
 
-    this.assignOptions(options)
     this.registerImages(imageMap, images)
-  }
-
-  assignOptions(options: SkinElementOptions) {
-    const { id, name, width, height } = options
-
-    Object.assign(this, {
-      id,
-      name,
-      width,
-      height,
-    })
   }
 
   registerImages(imageMap: any, images: SkinImage[]) {

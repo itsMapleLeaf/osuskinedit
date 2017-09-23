@@ -1,0 +1,30 @@
+.SkinLiveEditView {
+  flex-grow: 1;
+
+  display: flex;
+
+  > .previewContainer {
+    flex-grow: 1;
+    flex-shrink: 1;
+
+    display: flex;
+
+    background-size: cover;
+  }
+
+  > .previewContainer > .background {
+    display: block;
+    margin: auto;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  > .sidePanel {
+    background: var(--color-primary);
+    padding: var(--padding-default);
+    flex-shrink: 0;
+    width: 12em;
+  }
+}

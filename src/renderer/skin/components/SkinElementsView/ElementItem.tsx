@@ -38,7 +38,7 @@ export default class ElementItem extends React.Component<ElementItemProps> {
         </div>
         <div className="footer">
           <div className="name">
-            {element.name}
+            {element.options.name}
           </div>
         </div>
       </div>
