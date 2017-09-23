@@ -8,7 +8,8 @@
     "start-dev:nodemon": "nodemon -w build/main.js -x \"electron . --dev\"",
     "start-dev": "run-p start-dev:*",
     "build": "node scripts/build",
-    "start": "electron ."
+    "start": "electron .",
+    "check": "tsc --noEmit"
   },
   "dependencies": {
     "classnames": "^2.2.5",
