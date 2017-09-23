@@ -107,6 +107,8 @@ class PreviewRenderer {
 
 class HitCircleRenderer {
   private hitCircle: Colorizer
+  private approachCircle: Colorizer
+
   private time = 0
   private approach = 1
   private approachTime = 1.5
@@ -115,9 +117,10 @@ class HitCircleRenderer {
   constructor(
     hitCircleImage: CanvasRenderable,
     private overlay: CanvasRenderable,
-    private approachCircle: CanvasRenderable,
+    approachCircleImage: CanvasRenderable,
   ) {
     this.hitCircle = new Colorizer(hitCircleImage)
+    this.approachCircle = new Colorizer(approachCircleImage)
     this.resetPosition()
   }
 
@@ -147,7 +150,7 @@ class HitCircleRenderer {
     context.save()
     context.scale(approachCircleScale, approachCircleScale)
     context.globalAlpha = 1 - this.approach
-    drawCentered(context, this.approachCircle)
+    drawCentered(context, this.approachCircle.render(color))
     context.restore()
 
     context.restore()
