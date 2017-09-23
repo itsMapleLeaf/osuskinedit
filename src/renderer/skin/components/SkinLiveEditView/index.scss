@@ -3,19 +3,22 @@
 
   display: flex;
 
-  > .preview {
+  > .previewContainer {
     flex-grow: 1;
+    flex-shrink: 1;
 
     display: flex;
-  }
-
-  > .preview > canvas {
-    margin: auto;
-    max-width: 100%;
-    max-height: 100%;
-    background: black;
 
     background-size: cover;
+  }
+
+  > .previewContainer > .background {
+    display: block;
+    margin: auto;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
   }
 
   > .sidePanel {

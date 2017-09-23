@@ -14,8 +14,8 @@ interface SkinLiveEditViewProps {
 export default class SkinLiveEditView extends React.Component<SkinLiveEditViewProps> {
   @computed
   get backgroundImage() {
-    const {skin} = this.props.skinStore!
-    const background = skin.images.find(image => image.id === 'menu-background')
+    const { skin } = this.props.skinStore!
+    const background = skin.getImage('menu-background')
     if (background) {
       return background.image.src
     }
@@ -23,13 +23,18 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
   }
 
   render() {
-    return <div className="SkinLiveEditView">
-      <div className="preview">
-        <canvas width={1280} height={720} style={{ backgroundImage: `url(${this.backgroundImage})` }}></canvas>
+    return (
+      <div className="SkinLiveEditView">
+        <div className="previewContainer">
+          <canvas
+            className="background"
+            width={1280}
+            height={720}
+            style={{ backgroundImage: `url(${this.backgroundImage})` }}
+          />
+        </div>
+        <div className="sidePanel">fsdklfjklsdfjkslfjsd;</div>
       </div>
-      <div className="sidePanel">
-        fsdklfjklsdfjkslfjsd;
-      </div>
-    </div>
+    )
   }
 }
