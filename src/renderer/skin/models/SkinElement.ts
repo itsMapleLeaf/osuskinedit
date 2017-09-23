@@ -1,6 +1,6 @@
 import SkinImage from 'renderer/skin/models/SkinImage'
 
-import { Scene, Layer } from 'renderer/canvas'
+import { Layer, Scene } from 'renderer/canvas'
 import { Bitmap } from 'renderer/canvas/drawables'
 import { ColorizeFilter } from 'renderer/canvas/filters'
 
@@ -29,21 +29,19 @@ class ImageMap {
   }
 }
 
-class SkinElementOptions {
+interface SkinElementOptions {
   id: string
   name: string
   width: number
   height: number
 }
 
-export default class SkinElement extends SkinElementOptions {
+export default class SkinElement {
   scene = new Scene()
 
   maps = [] as ImageMap[]
 
   constructor(public options: SkinElementOptions, imageMap: any, images: SkinImage[]) {
-    super()
-
     this.registerImages(imageMap, images)
   }
 
@@ -96,7 +94,7 @@ export default class SkinElement extends SkinElementOptions {
       const filters = []
 
       const layer = new Layer()
-      const bitmap = new Bitmap(map.skinImage.imagePath)
+      const bitmap = new Bitmap(map.skinImage.image.src)
 
       if (map.colored) {
         const colorizeFilter = new ColorizeFilter(Color('rgb(255, 85, 171)'))
