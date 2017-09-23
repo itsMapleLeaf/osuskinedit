@@ -8,7 +8,7 @@ import SkinImage from 'renderer/skin/models/SkinImage'
 import SkinIni from 'renderer/skin/models/SkinIni'
 import SkinSound from 'renderer/skin/models/SkinSound'
 
-import { loadImage } from 'renderer/common/util'
+import { loadImage, loadSound } from 'renderer/common/util'
 import defaultSchema from '../defaultSchema.json'
 export { defaultSchema }
 
@@ -100,19 +100,17 @@ export default class Skin {
 
   @action
   private async loadSounds(fileNames: string[]) {
-    const sounds = [] as SkinSound[]
+    const createSoundObject = async (fileName: string) => {
+      const {name} = path.parse(fileName)
+      const fullPath = path.resolve(this.skinPath, name)
+      const sound = await loadSound(fullPath)
+      return new SkinSound(name, sound)
+    }
 
-    fileNames
+    const soundFileNames = fileNames
       .filter(fileName => soundExtensions.includes(path.extname(fileName)))
-      .forEach(fileName => {
-        const {name} = path.parse(fileName)
-        const fullPath = path.resolve(this.skinPath, name)
-        sounds.push(new SkinSound(name, fullPath))
-      })
 
-    await Promise.all(sounds.map(img => img.load()))
-
-    return sounds
+    return Promise.all(soundFileNames.map(createSoundObject))
   }
 
   private createElements() {
