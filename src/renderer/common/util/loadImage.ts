@@ -1,4 +1,4 @@
-export default function loadImage(src: string) {
+export function loadImage(src: string) {
   return new Promise((resolve, reject) => {
     const image = new Image()
     image.src = src

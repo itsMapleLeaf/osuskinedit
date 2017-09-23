@@ -1,7 +1,7 @@
 import { computed, observable } from 'mobx'
 
 import { readFile } from 'renderer/common/util/fs'
-import parseIni, { IniData } from 'renderer/common/util/parseIni'
+import { IniData, parseIni } from 'renderer/common/util/parseIni'
 
 export default class SkinIni {
   @observable data: IniData = []

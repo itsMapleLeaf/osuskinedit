@@ -8,7 +8,7 @@ export interface IniSection {
 
 export type IniData = IniSection[]
 
-export default function parseIni(input: string) {
+export function parseIni(input: string) {
   const sections = [] as IniSection[]
 
   let currentSection: IniSection = {
