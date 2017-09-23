@@ -23,6 +23,10 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
     this.startAnimation()
   }
 
+  componentWillUnmount() {
+    this.preview.stop()
+  }
+
   render() {
     return (
       <div className="SkinLiveEditView">
