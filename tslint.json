@@ -1,5 +1,5 @@
 {
-  "extends": ["eslint-config-standard", "eslint-config-prettier"],
+  "extends": ["tslint-config-standard", "tslint-config-prettier"],
   "defaultSeverity": "warn",
   "rules": {
     "ordered-imports": true
