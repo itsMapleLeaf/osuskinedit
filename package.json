@@ -9,7 +9,7 @@
     "start-dev": "run-p start-dev:*",
     "build": "node scripts/build",
     "start": "electron .",
-    "check": "tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "classnames": "^2.2.5",
