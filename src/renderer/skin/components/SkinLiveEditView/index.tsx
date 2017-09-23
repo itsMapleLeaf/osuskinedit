@@ -62,8 +62,8 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
   }
 
   @bind
-  private getCanvasRef(el: HTMLCanvasElement) {
-    this.context = el.getContext('2d')!
+  private getCanvasRef(el: HTMLCanvasElement | null) {
+    if (el) this.context = el.getContext('2d')!
   }
 }
 
