@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "color": "^2.0.0",
     "configstore": "^3.1.1",
     "decko": "^1.2.0",
     "electron": "^1.7.6",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@types/classnames": "^2.2.3",
+    "@types/color": "^2.0.0",
     "@types/configstore": "^2.1.1",
     "@types/lodash": "^4.14.74",
     "@types/node": "^8.0.28",
