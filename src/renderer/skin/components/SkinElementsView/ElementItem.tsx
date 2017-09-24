@@ -33,7 +33,7 @@ export default class ElementItem extends React.Component<ElementItemProps> {
         <div className="thumbnail">
           <div className="background"></div>
           <div className="image">
-            <canvas className="canvas" ref={this.getCanvasRef}/>
+            <canvas width="175" height="175" className="canvas" ref={this.getCanvasRef}/>
           </div>
         </div>
         <div className="footer">
