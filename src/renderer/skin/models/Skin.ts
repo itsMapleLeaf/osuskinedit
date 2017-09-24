@@ -42,6 +42,10 @@ export default class Skin {
    */
   @action
   async load(skinPath: string) {
+    this.elements = []
+    this.images = []
+    this.sounds = []
+
     this.skinPath = skinPath
     this.loadStatus = SkinLoadingState.loading
 

@@ -11,6 +11,8 @@ export default class SkinIni {
   @observable version = ''
 
   async read(iniPath: string) {
+    this.data = []
+
     const buffer = await readFile(iniPath)
     const content = buffer.toString()
     this.data = parseIni(content)
