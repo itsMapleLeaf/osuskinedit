@@ -1,12 +1,13 @@
+import { CanvasRenderable } from 'renderer/canvas/types'
 import Drawable from './index'
 import { DrawableProps } from './index'
 
 export interface BitmapProps extends DrawableProps {
-  image: HTMLImageElement
+  image: CanvasRenderable
 }
 
 export default class Bitmap extends Drawable {
-  image: HTMLImageElement
+  image: CanvasRenderable
 
   constructor(options: BitmapProps) {
     super(options)

@@ -3,8 +3,8 @@ import Drawable from 'renderer/canvas/classes/Drawable'
 import { bind } from 'decko'
 
 export interface SceneProps {
-  width?: number | null,
-  height?: number | null,
+  width?: number | null
+  height?: number | null
 }
 
 export default class Scene {
@@ -46,9 +46,6 @@ export default class Scene {
 
     this.drawables.forEach(drawable => {
       const { x, y } = drawable.getPosition(newWidth, newHeight)
-
-      console.log(newWidth, newHeight)
-      console.log(x, y)
 
       const renderedCanvasLayer = drawable.render()
 

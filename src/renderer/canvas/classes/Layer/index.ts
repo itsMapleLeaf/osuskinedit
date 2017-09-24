@@ -17,8 +17,6 @@ export default class Layer extends Drawable {
   }
 
   draw() {
-    super.draw()
-
     this.renderDrawables()
   }
 }

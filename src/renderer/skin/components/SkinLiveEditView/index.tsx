@@ -1,10 +1,12 @@
+import Color from 'color'
 import { bind } from 'decko'
 import { computed } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import * as React from 'react'
-import { CanvasRenderable } from 'renderer/canvas/types'
-import { clearContext, drawCentered } from 'renderer/canvas/util/index'
-import { randomBetween } from 'renderer/common/util/math'
+import { Scene } from 'renderer/canvas'
+import Drawable from 'renderer/canvas/classes/Drawable'
+import { Bitmap } from 'renderer/canvas/drawables'
+import { ColorizeFilter } from 'renderer/canvas/filters'
 import Skin from 'renderer/skin/models/Skin'
 import { SkinStore } from 'renderer/skin/stores/SkinStore'
 import './index.scss'
@@ -31,13 +33,7 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
     return (
       <div className="SkinLiveEditView">
         <div className="previewContainer">
-          <canvas
-            className="preview"
-            width={1280}
-            height={720}
-            style={{ backgroundImage: `url(${this.backgroundImage})` }}
-            ref={this.getCanvasRef}
-          />
+          <canvas className="preview" width={1280} height={720} ref={this.getCanvasRef} />
         </div>
         <div className="sidePanel">fsdklfjklsdfjkslfjsd;</div>
       </div>
@@ -49,19 +45,9 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
     return this.props.skinStore!.skin
   }
 
-  @computed
-  private get backgroundImage() {
-    try {
-      const background = this.skin.getImage('menu-background')
-      return background.rawImage.src
-    } catch {
-      return ''
-    }
-  }
-
   private startAnimation() {
     this.preview = new PreviewRenderer(this.canvasContext, this.skin)
-    this.preview.start()
+    // this.preview.start()
   }
 
   @bind
@@ -71,19 +57,28 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
 }
 
 class PreviewRenderer {
-  private hitCircle: HitCircleRenderer
-  private running = false
+  running = false
+  hitCircle: Drawable
+  scene = new Scene()
 
-  constructor(private context: CanvasRenderingContext2D, skin: Skin) {
-    const hitCircleImage = skin.getImage('hitcircle')
-    const hitCircleOverlayImage = skin.getImage('hitcircleoverlay')
-    const approachCircleImage = skin.getImage('approachcircle')
+  constructor(context: CanvasRenderingContext2D, skin: Skin) {
+    const colorizer = new ColorizeFilter()
+    colorizer.color = Color('hsla(170, 70%, 50%, 0.3)')
 
-    this.hitCircle = new HitCircleRenderer(
-      hitCircleImage.image,
-      hitCircleOverlayImage.image,
-      approachCircleImage.image,
-    )
+    const hitCircle = new Bitmap({ image: skin.getImage('hitcircle').image })
+    hitCircle.addFilter(colorizer)
+
+    const hitCircleOverlay = new Bitmap({ image: skin.getImage('hitcircleoverlay').image })
+    // hitCircleOverlay.addFilter(colorizer)
+
+    const approachCircle = new Bitmap({ image: skin.getImage('approachcircle').image })
+    approachCircle.addFilter(colorizer)
+
+    this.scene.addDrawable(hitCircle)
+    this.scene.addDrawable(hitCircleOverlay)
+    this.scene.addDrawable(approachCircle)
+    this.scene.setContext(context)
+    this.scene.render()
   }
 
   start() {
@@ -92,13 +87,8 @@ class PreviewRenderer {
     let time: number
 
     const runFrame = (frameTime: number) => {
-      const elapsed = frameTime - (time || frameTime)
+      // const elapsed = frameTime - (time || frameTime)
       time = frameTime
-
-      clearContext(this.context)
-
-      this.hitCircle.update(elapsed / 1000)
-      this.hitCircle.render(this.context)
 
       if (this.running) {
         requestAnimationFrame(runFrame)
@@ -110,93 +100,5 @@ class PreviewRenderer {
 
   stop() {
     this.running = false
-  }
-}
-
-class HitCircleRenderer {
-  private hitCircle: Colorizer
-  private approachCircle: Colorizer
-
-  private time = 0
-  private approach = 1
-  private approachTime = 1.5
-  private position = { x: 0, y: 0 }
-  private color = ''
-
-  constructor(
-    hitCircleImage: CanvasRenderable,
-    private overlay: CanvasRenderable,
-    approachCircleImage: CanvasRenderable,
-  ) {
-    this.hitCircle = new Colorizer(hitCircleImage)
-    this.approachCircle = new Colorizer(approachCircleImage)
-    this.resetPosition()
-    this.resetColor()
-  }
-
-  update(dt: number) {
-    this.time += dt
-
-    if (this.approach <= 0) {
-      this.approach = 1
-      this.resetPosition()
-      this.resetColor()
-    }
-
-    this.approach -= dt / this.approachTime
-  }
-
-  render(context: CanvasRenderingContext2D) {
-    const approachCircleScale = this.approach * 3 + 1
-
-    context.save()
-
-    context.translate(this.position.x, this.position.y)
-
-    drawCentered(context, this.overlay)
-    drawCentered(context, this.hitCircle.render(this.color))
-
-    context.save()
-    context.scale(approachCircleScale, approachCircleScale)
-    context.globalAlpha = 1 - this.approach
-    drawCentered(context, this.approachCircle.render(this.color))
-    context.restore()
-
-    context.restore()
-  }
-
-  private resetPosition() {
-    this.position = {
-      x: randomBetween(300, 1280 - 300),
-      y: randomBetween(100, 720 - 100),
-    }
-  }
-
-  private resetColor() {
-    this.color = `hsla(${randomBetween(0, 360)}, 60%, 60%, 0.5)`
-  }
-}
-
-class Colorizer {
-  private canvas = document.createElement('canvas')
-  private context = this.canvas.getContext('2d')!
-
-  constructor(private image: CanvasRenderable) {
-    this.canvas.width = image.width
-    this.canvas.height = image.height
-  }
-
-  render(color: string) {
-    clearContext(this.context)
-
-    this.context.drawImage(this.image, 0, 0)
-
-    this.context.save()
-    this.context.fillStyle = color
-    this.context.globalCompositeOperation = 'source-atop'
-    this.context.fillRect(0, 0, this.image.width, this.image.height)
-    this.context.restore()
-
-    return this.canvas
   }
 }

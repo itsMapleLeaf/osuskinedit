@@ -64,50 +64,22 @@ export default class SkinElement {
     })
   }
 
-  /*renderLayer(context: CanvasRenderingContext2D, map: ImageMap) {
-    const { canvas } = context
-    const { width, height } = canvas
-    const image = map.skinImage.image
-
-    // the multiplier here is artificial scaling
-    // since the default scale is too small in most cases
-    const scale = (1 / map.skinImage.resolution) * 1.8
-
-    context.save()
-
-    context.translate(width / 2, height / 2)
-    context.scale(scale, scale)
-    context.translate(image.width / -2, image.height / -2)
-
-    context.drawImage(image, 0, 0)
-
-    context.restore()
-
-    if (map.colored) {
-      context.globalCompositeOperation = 'source-atop'
-      context.fillStyle = 'rgb(255, 85, 171)'
-      context.fillRect(0, 0, width, height)
-    }
-
-    context.globalCompositeOperation = 'source-over'
-  }*/
-
   prepareScene() {
     this.scene = new Scene()
 
     const validMaps = this.maps.filter(map => map.skinImage !== undefined)
 
     const drawables = validMaps.map(map => {
-      const rawImage = map.skinImage!.rawImage
+      const image = map.skinImage!.image
 
       const bitmap = new Bitmap({
-        image: rawImage,
+        image: image,
         align: DrawableAlignment.center,
       })
 
       if (map.colored) {
         const colorizeFilter = new ColorizeFilter({
-          color: Color('rgb(255, 85, 171)')
+          color: Color('rgb(255, 85, 171)'),
         })
 
         bitmap.addFilter(colorizeFilter)

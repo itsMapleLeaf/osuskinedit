@@ -3,13 +3,13 @@ import Filter from './index.js'
 import Color from 'color'
 
 interface ColorizeFilterProps {
-  color: Color
+  color?: Color
 }
 
 export default class ColorizeFilter extends Filter {
-  color: Color
+  color = new Color('transparent')
 
-  constructor(options: ColorizeFilterProps) {
+  constructor(options: ColorizeFilterProps = {}) {
     super()
 
     Object.assign(this, options)

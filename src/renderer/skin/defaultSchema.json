@@ -32,6 +32,21 @@
       ]
     },
     {
+      "id": "approachcircle",
+      "name": "Approach Circle",
+      "imageMap": [
+        {
+          "filename": "approachcircle",
+          "x": 0,
+          "y": 0,
+          "width": 256,
+          "height": 256,
+          "align": "center",
+          "colored": true
+        }
+      ]
+    },
+    {
       "id": "cursor",
       "name": "Cursor",
       "imageMap": [

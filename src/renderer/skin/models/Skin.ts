@@ -74,6 +74,10 @@ export default class Skin {
     return image
   }
 
+  getElement(id: string) {
+    return this.elements.find(el => el.options.id === id)
+  }
+
   @action
   private async loadIni(fileNames: string[]) {
     const iniFileName = fileNames.find(name => name.toLowerCase() === 'skin.ini')
