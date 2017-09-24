@@ -1,10 +1,7 @@
 import Drawable from 'renderer/canvas/classes/Drawable'
 import Filter from 'renderer/canvas/classes/Filter'
 
-export default class Layer {
-  canvas = document.createElement('canvas')
-  context = this.canvas.getContext('2d')!
-
+export default class Layer extends Drawable {
   drawables = [] as Drawable[]
   filters = [] as Filter[]
 
@@ -29,7 +26,9 @@ export default class Layer {
   }
 
   render() {
-    const { width, height } = this.canvas
+    const canvas = super.render()
+
+    const { width, height } = canvas
 
     this.context.globalCompositeOperation = 'source-over'
     this.context.clearRect(0, 0, width, height)
