@@ -10,8 +10,8 @@
           "filename": "hitcircle",
           "x": 0,
           "y": 0,
-          "width": 256,
-          "height": 256,
+          "width": 128,
+          "height": 128,
           "colored": true,
           "align": "center"
         },
@@ -19,14 +19,8 @@
           "filename": "hitcircleoverlay",
           "x": 0,
           "y": 0,
-          "width": 256,
-          "height": 256,
-          "align": "center"
-        },
-        {
-          "filename": "default-1",
-          "x": 0,
-          "y": 0,
+          "width": 128,
+          "height": 128,
           "align": "center"
         }
       ]
@@ -39,8 +33,8 @@
           "filename": "approachcircle",
           "x": 0,
           "y": 0,
-          "width": 256,
-          "height": 256,
+          "width": 192,
+          "height": 192,
           "align": "center",
           "colored": true
         }
@@ -54,12 +48,12 @@
           "filename": "cursor",
           "x": 0,
           "y": 0,
+          "width": 64,
+          "height": 64,
           "colored": false,
           "align": "center"
         }
-      ],
-      "width": 256,
-      "height": 256
+      ]
     },
     {
       "id": "spinner",
@@ -69,6 +63,8 @@
           "filename": "spinner-glow",
           "x": 0,
           "y": 0,
+          "width": 128,
+          "height": 128,
           "colored": false,
           "align": "center"
         },
@@ -76,6 +72,8 @@
           "filename": "spinner-bottom",
           "x": 0,
           "y": 0,
+          "width": 128,
+          "height": 128,
           "colored": false,
           "align": "center"
         },
@@ -83,6 +81,8 @@
           "filename": "spinner-top",
           "x": 0,
           "y": 0,
+          "width": 128,
+          "height": 128,
           "colored": false,
           "align": "center"
         },
@@ -90,12 +90,12 @@
           "filename": "spinner-middle",
           "x": 0,
           "y": 0,
+          "width": 32,
+          "height": 32,
           "colored": false,
           "align": "center"
         }
-      ],
-      "width": 256,
-      "height": 256
+      ]
     }
   ]
 }
