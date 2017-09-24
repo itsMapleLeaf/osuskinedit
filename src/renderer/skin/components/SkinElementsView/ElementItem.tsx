@@ -22,9 +22,7 @@ export default class ElementItem extends React.Component<ElementItemProps> {
   }
 
   componentDidMount() {
-    logTime(this.props.element.options.id, () => {
-      this.props.element.render(this.canvasContext)
-    })
+    this.props.element.render(this.canvasContext)
   }
 
   render() {
