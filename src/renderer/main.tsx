@@ -5,7 +5,7 @@ import * as ReactDOM from 'react-dom'
 import App from 'renderer/core/components/App'
 import stores from 'renderer/stores'
 
-import './index.scss'
+import './styles/global.scss'
 
 function Root() {
   return (
