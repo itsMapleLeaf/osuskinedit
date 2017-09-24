@@ -18,7 +18,7 @@ export default class Bitmap extends Drawable {
       height: image.height,
     }, options)
 
-    console.log(this)
+
   }
 
   render() {

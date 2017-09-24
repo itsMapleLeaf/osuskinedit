@@ -3,7 +3,7 @@ export interface DrawableProps {
   y?: number
 
   width?: number
-  hight?: number
+  height?: number
 }
 
 export default abstract class Drawable {
