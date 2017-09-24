@@ -6,6 +6,14 @@ import { ColorizeFilter } from 'renderer/canvas/filters'
 
 import Color from 'color'
 
+interface ImageMapOptions {
+  x: number
+  y: number
+  width?: number
+  height?: number
+  align?: string
+}
+
 class ImageMap {
   skinImage: SkinImage | void
   filename: string
@@ -19,16 +27,8 @@ class ImageMap {
   colored: boolean
   align: string
 
-  constructor(options: any) {
-    const { x, y, color, align, filename } = options
-
-    Object.assign(this, {
-      x,
-      y,
-      color,
-      align,
-      filename,
-    })
+  constructor(options: ImageMapOptions) {
+    Object.assign(this, options)
   }
 }
 
@@ -55,12 +55,7 @@ export default class SkinElement {
       const filename = options.filename
       const skinImage = images.find(img => img.id === filename)
 
-      return Object.assign(
-        {
-          skinImage,
-        },
-        options,
-      )
+      return Object.assign({ skinImage }, options)
     })
   }
 
