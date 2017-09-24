@@ -12,6 +12,8 @@ export default class ScaleTransform extends Transform {
 
   constructor(options: TransformProps = {}) {
     super(options)
+
+    Object.assign(this, options)
   }
 
   apply(context: CanvasRenderingContext2D, drawable: Drawable) {
