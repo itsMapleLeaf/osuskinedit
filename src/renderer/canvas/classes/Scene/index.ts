@@ -49,7 +49,14 @@ export default class Scene {
 
       const renderedCanvasLayer = drawable.render()
 
-      currentContext.drawImage(renderedCanvasLayer, x, y)
+      currentContext.save()
+
+      currentContext.translate(x, y)
+      drawable.applyTransforms(currentContext)
+
+      currentContext.drawImage(renderedCanvasLayer, 0, 0)
+
+      currentContext.restore()
     })
   }
 }

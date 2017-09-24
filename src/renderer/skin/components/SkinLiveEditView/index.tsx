@@ -5,10 +5,11 @@ import { inject, observer } from 'mobx-react'
 import * as React from 'react'
 import { Scene } from 'renderer/canvas'
 import Drawable from 'renderer/canvas/classes/Drawable'
-import { Bitmap } from 'renderer/canvas/drawables'
+import { Bitmap, DrawableAlignment } from 'renderer/canvas/drawables'
 import { ColorizeFilter } from 'renderer/canvas/filters'
 import Skin from 'renderer/skin/models/Skin'
 import { SkinStore } from 'renderer/skin/stores/SkinStore'
+import ScaleTransform from '../../../canvas/classes/Transform/ScaleTransform'
 import './index.scss'
 
 interface SkinLiveEditViewProps {
@@ -59,9 +60,16 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
 class PreviewRenderer {
   running = false
   hitCircle: Drawable
-  scene = new Scene()
+  scene: Scene
 
   constructor(context: CanvasRenderingContext2D, skin: Skin) {
+    const { width, height } = context.canvas
+
+    this.scene = new Scene({
+      width,
+      height,
+    })
+
     const colorizer = new ColorizeFilter()
     colorizer.color = Color('hsla(170, 70%, 50%, 0.3)')
 
@@ -71,8 +79,14 @@ class PreviewRenderer {
     const hitCircleOverlay = new Bitmap({ image: skin.getImage('hitcircleoverlay').image })
     // hitCircleOverlay.addFilter(colorizer)
 
-    const approachCircle = new Bitmap({ image: skin.getImage('approachcircle').image })
+    const approachCircle = new Bitmap({
+      image: skin.getImage('approachcircle').image,
+      align: DrawableAlignment.center,
+    })
     approachCircle.addFilter(colorizer)
+
+    const approachScale = new ScaleTransform(1.5)
+    approachCircle.addTransform(approachScale)
 
     this.scene.addDrawable(hitCircle)
     this.scene.addDrawable(hitCircleOverlay)
