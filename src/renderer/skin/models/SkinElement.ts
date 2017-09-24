@@ -40,9 +40,7 @@ interface SkinElementOptions {
 }
 
 export default class SkinElement {
-  scene: Scene
-
-  isPrepared = false
+  scene: Scene | void
 
   maps = [] as ImageMap[]
 
@@ -83,15 +81,12 @@ export default class SkinElement {
       return bitmap
     })
 
-    drawables.forEach(drawable => this.scene.addDrawable(drawable))
-
-    this.isPrepared = true
+    drawables.forEach(drawable => this.scene!.addDrawable(drawable))
   }
 
   render(context: CanvasRenderingContext2D) {
-    if (!this.isPrepared) this.prepareScene()
-
-    this.scene.setContext(context)
-    this.scene.render()
+    if (this.scene === undefined) this.prepareScene()
+    this.scene!.setContext(context)
+    this.scene!.render()
   }
 }
