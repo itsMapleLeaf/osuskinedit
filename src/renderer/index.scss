@@ -1,4 +1,8 @@
-/** This is temporary, just until we can get SCSS working **/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 :root {
   --color-background: rgb(22, 22, 22);
@@ -18,10 +22,8 @@
   --transition-default: all 250ms ease;
 }
 
-html, body {
-  margin: 0;
-  padding: 0;
-
+html,
+body {
   font-family: 'Source Sans Pro', sans-serif;
 
   color: var(--color-text);

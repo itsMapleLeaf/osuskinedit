@@ -11,6 +11,8 @@ import SkinLiveEditView from 'renderer/skin/components/SkinLiveEditView'
 import SkinMetadataView from 'renderer/skin/components/SkinMetadataView'
 import SkinSoundsView from 'renderer/skin/components/SkinSoundsView'
 
+import './RouterView.scss'
+
 interface RouteDefinition {
   path: string
   icon: IconType
@@ -55,7 +57,7 @@ export default class AppRouterView extends React.Component {
   render() {
     return (
       <Router history={this.history}>
-        <div className="body">
+        <div className="AppRouterView">
           <div className="sidebar">{routes.map(this.renderNavLink)}</div>
           {routes.map(this.renderRoute)}
         </div>
