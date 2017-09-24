@@ -8,16 +8,12 @@ export default class Layer {
   drawables = [] as Drawable[]
   filters = [] as Filter[]
 
-  assignDrawables(drawables: Drawable[]) {
-    this.drawables = drawables
+  addDrawable(drawable: Drawable) {
+    this.drawables.push(drawable)
   }
 
-  assignFilters(filters: Filter[]) {
-    this.filters = filters
-  }
-
-  setRenderHook(render: () => any) {
-    this.drawables.forEach(drawable => drawable.setRenderHook(render))
+  addFilter(filter: Filter) {
+    this.filters.push(filter)
   }
 
   renderDrawables() {

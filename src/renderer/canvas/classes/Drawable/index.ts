@@ -1,3 +1,11 @@
+export interface DrawableProps {
+  x?: number
+  y?: number
+
+  width?: number
+  hight?: number
+}
+
 export default class Drawable {
   canvas = document.createElement('canvas')
   context = this.canvas.getContext('2d')!
@@ -5,13 +13,19 @@ export default class Drawable {
   x = 0
   y = 0
 
-  triggerRender = () => {}
+  width = 100
+  height = 100
 
-  setRenderHook(render: () => any) {
-    this.triggerRender = render
+  constructor(options: DrawableProps) {
+    Object.assign(this, options)
   }
 
   render() {
+    const { canvas, width, height } = this
+
+    canvas.width = width
+    canvas.height = height
+
     return this.canvas
   }
 }

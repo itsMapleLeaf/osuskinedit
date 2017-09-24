@@ -1,31 +1,33 @@
-import { bind } from 'decko'
-
 import Drawable from './index'
+import { DrawableProps } from './index'
+
+export interface BitmapProps extends DrawableProps {
+  image: HTMLImageElement
+}
 
 export default class Bitmap extends Drawable {
-  image = new Image()
+  image: HTMLImageElement
 
-  width = 0
-  height = 0
+  constructor(options: BitmapProps) {
+    super(options)
 
-  constructor(src: string) {
-    super()
+    const image = options.image
 
-    this.image.src = src
-    this.image.onload = this.handleLoad
+    Object.assign(this, {
+      width: image.width,
+      height: image.height,
+    }, options)
+
+    console.log(this)
   }
 
-  @bind
-  handleLoad() {
-    const { width, height } = this.image
+  render() {
+    const canvas = super.render()
 
-    this.canvas.width = width
-    this.canvas.height = height
+    const { context } = this
 
-    this.context.drawImage(this.image, 0, 0)
+    context.drawImage(this.image, 0, 0)
 
-    console.log(this.triggerRender)
-
-    this.triggerRender()
+    return canvas
   }
 }

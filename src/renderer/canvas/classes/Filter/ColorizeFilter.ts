@@ -2,9 +2,17 @@ import Filter from './index.js'
 
 import Color from 'color'
 
+interface ColorizeFilterProps {
+  color: Color
+}
+
 export default class ColorizeFilter extends Filter {
-  constructor(public color: Color) {
+  color: Color
+
+  constructor(options: ColorizeFilterProps) {
     super()
+
+    Object.assign(this, options)
   }
 
   run(context: CanvasRenderingContext2D) {
