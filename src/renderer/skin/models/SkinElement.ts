@@ -86,7 +86,6 @@ export default class SkinElement {
 
   render(context: CanvasRenderingContext2D) {
     if (this.scene === undefined) this.prepareScene()
-    this.scene!.setContext(context)
-    this.scene!.render()
+    this.scene!.render(context)
   }
 }

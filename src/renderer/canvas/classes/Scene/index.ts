@@ -8,7 +8,6 @@ export interface SceneProps {
 }
 
 export default class Scene {
-  currentContext: CanvasRenderingContext2D
   drawables = [] as Drawable[]
 
   width = null
@@ -22,15 +21,9 @@ export default class Scene {
     this.drawables.push(drawable)
   }
 
-  setContext(context: CanvasRenderingContext2D) {
-    this.currentContext = context
-  }
-
   @bind
-  render() {
-    if (!this.currentContext) throw new Error('Scene requires a context to render')
-
-    const { width, height, currentContext } = this
+  render(currentContext: CanvasRenderingContext2D) {
+    const { width, height } = this
     const { canvas } = currentContext
 
     const biggestWidth = Math.max(...this.drawables.map(d => d.width))

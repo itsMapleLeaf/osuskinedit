@@ -63,7 +63,7 @@ class PreviewRenderer {
   scene: Scene
   approachScale: ScaleTransform
 
-  constructor(context: CanvasRenderingContext2D, skin: Skin) {
+  constructor(private context: CanvasRenderingContext2D, skin: Skin) {
     const { width, height } = context.canvas
 
     this.scene = new Scene({
@@ -86,17 +86,16 @@ class PreviewRenderer {
     })
     approachCircle.addFilter(colorizer)
 
-    const approachScale = this.approachScale = new ScaleTransform({
+    const approachScale = (this.approachScale = new ScaleTransform({
       scaleX: 3,
-      scaleY: 3
-    })
+      scaleY: 3,
+    }))
 
     approachCircle.addTransform(approachScale)
 
     this.scene.addDrawable(hitCircle)
     this.scene.addDrawable(hitCircleOverlay)
     this.scene.addDrawable(approachCircle)
-    this.scene.setContext(context)
   }
 
   start() {
@@ -120,7 +119,7 @@ class PreviewRenderer {
         this.approachScale.scaleY = 3
       }
 
-      this.scene.render()
+      this.scene.render(this.context)
 
       if (this.running) {
         requestAnimationFrame(runFrame)
