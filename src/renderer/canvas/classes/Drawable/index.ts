@@ -16,7 +16,7 @@ export default class Drawable {
   width = 100
   height = 100
 
-  constructor(options: DrawableProps) {
+  constructor(options: DrawableProps = {}) {
     Object.assign(this, options)
   }
 
