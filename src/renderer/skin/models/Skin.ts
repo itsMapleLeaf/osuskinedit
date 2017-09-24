@@ -65,6 +65,7 @@ export default class Skin {
     }
   }
 
+  @action.bound
   getImage(id: string) {
     const image = this.images.find(image => image.id === id)
     if (image == null) {

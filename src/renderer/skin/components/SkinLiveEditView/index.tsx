@@ -1,15 +1,16 @@
-import Color from 'color'
 import { bind } from 'decko'
 import { computed } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import * as React from 'react'
 import { Scene } from 'renderer/canvas'
 import Drawable from 'renderer/canvas/classes/Drawable'
-import { Bitmap, DrawableAlignment } from 'renderer/canvas/drawables'
-import { ColorizeFilter } from 'renderer/canvas/filters'
+
+import { DrawableAlignment } from 'renderer/canvas/drawables'
+import HitCircle from 'renderer/skin/drawables/HitCircle'
+
 import Skin from 'renderer/skin/models/Skin'
 import { SkinStore } from 'renderer/skin/stores/SkinStore'
-import ScaleTransform from '../../../canvas/classes/Transform/ScaleTransform'
+
 import './index.scss'
 
 interface SkinLiveEditViewProps {
@@ -23,11 +24,13 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
   private preview: PreviewRenderer
 
   componentDidMount() {
+    console.log('hi')
     this.startAnimation()
+    console.log('bye')
   }
 
   componentWillUnmount() {
-    this.preview.stop()
+    if (this.preview) this.preview.stop()
   }
 
   render() {
@@ -61,7 +64,6 @@ class PreviewRenderer {
   running = false
   hitCircle: Drawable
   scene: Scene
-  approachScale: ScaleTransform
 
   constructor(private context: CanvasRenderingContext2D, skin: Skin) {
     const { width, height } = context.canvas
@@ -71,7 +73,12 @@ class PreviewRenderer {
       height,
     })
 
-    const colorizer = new ColorizeFilter()
+    const hitCircle = new HitCircle({
+      skin: skin,
+      align: DrawableAlignment.center,
+    })
+
+    /**const colorizer = new ColorizeFilter()
     colorizer.color = Color('hsla(170, 70%, 50%, 0.7)')
 
     const hitCircle = new Bitmap({ image: skin.getImage('hitcircle').image })
@@ -91,11 +98,9 @@ class PreviewRenderer {
       scaleY: 3,
     }))
 
-    approachCircle.addTransform(approachScale)
+    approachCircle.addTransform(approachScale)**/
 
     this.scene.addDrawable(hitCircle)
-    this.scene.addDrawable(hitCircleOverlay)
-    this.scene.addDrawable(approachCircle)
   }
 
   start() {
@@ -106,18 +111,6 @@ class PreviewRenderer {
     const runFrame = (frameTime: number) => {
       // const elapsed = frameTime - (time || frameTime)
       time = frameTime
-
-      const { approachScale } = this
-
-      if (this.approachScale.scaleX > 1) {
-        const newScale = approachScale.scaleX - 0.03
-
-        this.approachScale.scaleX = newScale
-        this.approachScale.scaleY = newScale
-      } else {
-        this.approachScale.scaleX = 3
-        this.approachScale.scaleY = 3
-      }
 
       this.scene.render(this.context)
 
