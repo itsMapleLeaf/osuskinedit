@@ -117,6 +117,8 @@ export default class SkinElement {
     })
 
     layers.forEach(layer => this.scene.addLayer(layer))
+
+    this.isPrepared = true
   }
 
   render(context: CanvasRenderingContext2D) {
