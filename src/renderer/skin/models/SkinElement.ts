@@ -55,12 +55,7 @@ export default class SkinElement {
       const filename = options.filename
       const skinImage = images.find(img => img.id === filename)
 
-      return Object.assign(
-        {
-          skinImage,
-        },
-        options,
-      )
+      return Object.assign({ skinImage }, options)
     })
   }
 
