@@ -9,7 +9,7 @@ export enum DrawableAlignment {
   centerRight,
   bottomLeft,
   bottomCenter,
-  bottomRight
+  bottomRight,
 }
 
 export interface DrawableProps {
@@ -46,24 +46,10 @@ export default abstract class Drawable {
   getPosition(boundingWidth: number, boundingHeight: number) {
     const { align, x, y, width, height } = this
 
-    console.log('alignment', align)
-    console.log('size', width, height)
-
-    const centeredX = (
-      (boundingWidth / 2 - width / 2) + x
-    )
-
-    const rightX = (
-      (boundingWidth - width) + x
-    )
-
-    const centeredY = (
-      (boundingHeight / 2 - height / 2) + y
-    )
-
-    const bottomY = (
-      (boundingHeight - height) + y
-    )
+    const centeredX = boundingWidth / 2 - width / 2 + x
+    const rightX = boundingWidth - width + x
+    const centeredY = boundingHeight / 2 - height / 2 + y
+    const bottomY = boundingHeight - height + y
 
     if (align === DrawableAlignment.topLeft) return { x, y }
     if (align === DrawableAlignment.topCenter) return { x: centeredX, y }
@@ -84,19 +70,16 @@ export default abstract class Drawable {
     this.filters.forEach(filter => filter.run(this.context))
   }
 
-  draw() {
+  abstract draw(): void
+
+  render() {
     const { canvas, width, height } = this
 
     canvas.width = width
     canvas.height = height
-  }
-
-  render() {
-    const { width, height } = this.canvas
 
     this.context.globalCompositeOperation = 'source-over'
     this.context.clearRect(0, 0, width, height)
-    //this.context.imageSmoothingEnabled = false
 
     this.draw()
     this.filter()

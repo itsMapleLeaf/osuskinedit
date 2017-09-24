@@ -11,17 +11,13 @@ export default class Bitmap extends Drawable {
   constructor(options: BitmapProps) {
     super(options)
 
-    const image = options.image
+    const { width, height } = options.image
 
-    Object.assign(this, {
-      width: image.width,
-      height: image.height,
-    }, options)
+    Object.assign(this, { width, height }, options)
   }
 
   draw() {
     const { context, width, height } = this
-
     context.drawImage(this.image, 0, 0, width, height)
   }
 }
