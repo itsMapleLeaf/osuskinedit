@@ -4,6 +4,7 @@ import * as React from 'react'
 
 import SkinElement from 'renderer/skin/models/SkinElement'
 
+import { logTime } from '../../../common/util/logTime'
 import './ElementItem.scss'
 
 interface ElementItemProps {
@@ -12,17 +13,17 @@ interface ElementItemProps {
 
 @observer
 export default class ElementItem extends React.Component<ElementItemProps> {
-  context: CanvasRenderingContext2D
+  canvasContext: CanvasRenderingContext2D
 
   @bind
   getCanvasRef(ref: HTMLCanvasElement) {
     if (ref) {
-      this.context = ref.getContext('2d')! // lol
+      this.canvasContext = ref.getContext('2d')! // lol
     }
   }
 
   componentDidMount() {
-    this.props.element.render(this.context)
+    this.props.element.render(this.canvasContext)
   }
 
   render() {
@@ -31,15 +32,13 @@ export default class ElementItem extends React.Component<ElementItemProps> {
     return (
       <div className="ElementItem">
         <div className="thumbnail">
-          <div className="background"></div>
+          <div className="background" />
           <div className="image">
-            <canvas width="175" height="175" className="canvas" ref={this.getCanvasRef}/>
+            <canvas width="175" height="175" className="canvas" ref={this.getCanvasRef} />
           </div>
         </div>
         <div className="footer">
-          <div className="name">
-            {element.options.name}
-          </div>
+          <div className="name">{element.options.name}</div>
         </div>
       </div>
     )

@@ -16,7 +16,7 @@ interface SkinLiveEditViewProps {
 @inject('skinStore')
 @observer
 export default class SkinLiveEditView extends React.Component<SkinLiveEditViewProps> {
-  context: CanvasRenderingContext2D
+  canvasContext: CanvasRenderingContext2D
   private preview: PreviewRenderer
 
   componentDidMount() {
@@ -60,13 +60,13 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
   }
 
   private startAnimation() {
-    this.preview = new PreviewRenderer(this.context, this.skin)
+    this.preview = new PreviewRenderer(this.canvasContext, this.skin)
     this.preview.start()
   }
 
   @bind
   private getCanvasRef(el: HTMLCanvasElement | null) {
-    if (el) this.context = el.getContext('2d')!
+    if (el) this.canvasContext = el.getContext('2d')!
   }
 }
 
