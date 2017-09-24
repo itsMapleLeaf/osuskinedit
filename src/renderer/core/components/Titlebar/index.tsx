@@ -1,18 +1,26 @@
 import { bind } from 'decko'
 import { remote } from 'electron'
+import { inject } from 'mobx-react'
 import * as React from 'react'
+import Button from 'renderer/common/components/Button'
 import Icon from 'renderer/common/components/Icon'
+import { SkinStore } from 'renderer/skin/stores/SkinStore'
 import './styles.scss'
 
 const win = remote.getCurrentWindow()
+
+interface TitlebarProps {
+  skinStore?: SkinStore
+}
 
 interface TitlebarState {
   isMaximized: boolean
 }
 
-export default class Titlebar extends React.Component<{}, TitlebarState> {
+@inject('skinStore')
+export default class Titlebar extends React.Component<TitlebarProps, TitlebarState> {
   state = {
-    'isMaximized': win.isMaximized(),
+    isMaximized: win.isMaximized(),
   }
 
   componentDidMount() {
@@ -26,7 +34,7 @@ export default class Titlebar extends React.Component<{}, TitlebarState> {
   @bind
   handleResize() {
     this.setState({
-      'isMaximized': win.isMaximized()
+      isMaximized: win.isMaximized(),
     })
   }
 
@@ -53,16 +61,22 @@ export default class Titlebar extends React.Component<{}, TitlebarState> {
 
     return (
       <header className="Titlebar">
-        <div className="title">{ document.title }</div>
+        <div className="title">{document.title}</div>
+        <div className="divider" />
+        <div className="actions">
+          <div className="action">
+            <Button type="FlatButton" label="Load Skin" onClick={this.props.skinStore!.loadSkin} />
+          </div>
+        </div>
         <div className="buttons">
           <a className="button" role="button" onClick={this.minimizeWindow}>
-            <Icon name="windowMinimize"/>
+            <Icon name="windowMinimize" />
           </a>
           <a className="button" role="button" onClick={this.toggleMaximized}>
-            <Icon name={ isMaximized ? 'windowUnmaximize' : 'windowMaximize' }/>
+            <Icon name={isMaximized ? 'windowUnmaximize' : 'windowMaximize'} />
           </a>
           <a className="button" role="button" onClick={this.closeWindow}>
-            <Icon name="windowClose"/>
+            <Icon name="windowClose" />
           </a>
         </div>
       </header>

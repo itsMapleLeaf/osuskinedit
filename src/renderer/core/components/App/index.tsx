@@ -1,13 +1,12 @@
 import { inject, observer } from 'mobx-react'
 import * as React from 'react'
 
-import Button from 'renderer/common/components/Button'
 import Titlebar from 'renderer/core/components/Titlebar'
 import { SkinLoadingState } from 'renderer/skin/models/Skin'
 import { SkinStore } from 'renderer/skin/stores/SkinStore'
 import AppRouterView from './RouterView'
 
-import './styles.scss'
+import './index.scss'
 
 interface AppProps {
   skinStore?: SkinStore
@@ -16,26 +15,21 @@ interface AppProps {
 @inject('skinStore')
 @observer
 export default class App extends React.Component<AppProps> {
-  renderLoadSkinScreen() {
-    const skinStore = this.props.skinStore!
-    return (
-      <div className="body">
-        <Button label="Load Skin" onClick={() => skinStore.loadSkin()} />
-      </div>
-    )
-  }
-
   renderBody() {
     const skinStore = this.props.skinStore!
-    if (skinStore.skin.loadStatus === SkinLoadingState.none) {
-      return this.renderLoadSkinScreen()
+    if (skinStore.skin.loadStatus !== SkinLoadingState.finished) {
+      return (
+        <div className="fill-area flex-center">
+          <h1>Loading skin...</h1>
+        </div>
+      )
     }
     return <AppRouterView />
   }
 
   render() {
     return (
-      <main className="App">
+      <main className="App fullscreen flex-column">
         <div className="header">
           <Titlebar />
         </div>

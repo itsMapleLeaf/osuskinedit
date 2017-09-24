@@ -18,8 +18,24 @@
 
     font-weight: 600;
     text-transform: uppercase;
+  }
 
+  > .divider {
+    width: 1px;
+    height: calc(100% - var(--padding-default) * 2);
+    border-left: 1px solid rgba(white, 0.2);
+    margin: var(--padding-default);
+  }
+
+  > .actions {
     flex-grow: 1;
+
+    display: flex;
+    -webkit-app-region: drag;
+  }
+
+  > .actions > .action {
+    -webkit-app-region: no-drag;
   }
 
   > .buttons {
@@ -55,4 +71,3 @@
     height: 18px;
   }
 }
-

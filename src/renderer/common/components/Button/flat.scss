@@ -1,0 +1,19 @@
+// @import './default';
+
+.FlatButton {
+  border: none;
+  padding: 0;
+  margin-right: var(--padding-default);
+
+  cursor: pointer;
+
+  font-weight: 600;
+  text-transform: uppercase;
+
+  transition: var(--transition-default);
+
+  &:hover {
+    background-color: transparent;
+    color: var(--color-accent);
+  }
+}
