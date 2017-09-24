@@ -1,0 +1,14 @@
+@import './index';
+
+.FlatButton {
+  @extend .Button;
+
+  border: none;
+  padding: 0;
+  margin-right: var(--padding-default);
+
+  &:hover {
+    background-color: transparent;
+    color: var(--color-accent);
+  }
+}
