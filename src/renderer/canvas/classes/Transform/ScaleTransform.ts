@@ -15,14 +15,10 @@ export default class ScaleTransform extends Transform {
   }
 
   apply(context: CanvasRenderingContext2D, drawable: Drawable) {
-    const { width, height } = drawable
+    const { x, y } = drawable.getAlignOffset()
 
-    const newWidth = width * this.scaleX
-    const newHeight = height * this.scaleY
-
-    drawable.canvas.width = newWidth
-    drawable.canvas.height = newHeight
-
+    context.translate(x, y)
     context.scale(this.scaleX, this.scaleY)
+    context.translate(-x, -y)
   }
 }

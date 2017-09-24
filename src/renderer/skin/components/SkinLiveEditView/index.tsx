@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react'
 import * as React from 'react'
 import { Scene } from 'renderer/canvas'
 import Drawable from 'renderer/canvas/classes/Drawable'
-import { Bitmap, DrawableAlignment } from 'renderer/canvas/drawables'
+import { Bitmap } from 'renderer/canvas/drawables'
 import { ColorizeFilter } from 'renderer/canvas/filters'
 import Skin from 'renderer/skin/models/Skin'
 import { SkinStore } from 'renderer/skin/stores/SkinStore'
@@ -74,15 +74,21 @@ class PreviewRenderer {
     const colorizer = new ColorizeFilter()
     colorizer.color = Color('hsla(170, 70%, 50%, 0.7)')
 
-    const hitCircle = new Bitmap({ image: skin.getImage('hitcircle').image })
+    const hitCircle = new Bitmap({
+      image: skin.getImage('hitcircle').image,
+      align: [0.5, 0.5],
+    })
     hitCircle.addFilter(colorizer)
 
-    const hitCircleOverlay = new Bitmap({ image: skin.getImage('hitcircleoverlay').image })
+    const hitCircleOverlay = new Bitmap({
+      image: skin.getImage('hitcircleoverlay').image,
+      align: [0.5, 0.5],
+    })
     // hitCircleOverlay.addFilter(colorizer)
 
     const approachCircle = new Bitmap({
       image: skin.getImage('approachcircle').image,
-      align: DrawableAlignment.center,
+      align: [0.5, 0.5],
     })
     approachCircle.addFilter(colorizer)
 
@@ -104,13 +110,13 @@ class PreviewRenderer {
     let time: number
 
     const runFrame = (frameTime: number) => {
-      // const elapsed = frameTime - (time || frameTime)
+      const elapsed = (frameTime - (time || frameTime)) / 1000
       time = frameTime
 
       const { approachScale } = this
 
       if (this.approachScale.scaleX > 1) {
-        const newScale = approachScale.scaleX - 0.03
+        const newScale = approachScale.scaleX - elapsed / 0.5
 
         this.approachScale.scaleX = newScale
         this.approachScale.scaleY = newScale

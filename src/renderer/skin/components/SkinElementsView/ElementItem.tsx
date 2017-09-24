@@ -12,17 +12,17 @@ interface ElementItemProps {
 
 @observer
 export default class ElementItem extends React.Component<ElementItemProps> {
-  canvasContext: CanvasRenderingContext2D
+  canvas: HTMLCanvasElement
 
   @bind
   getCanvasRef(ref: HTMLCanvasElement) {
-    if (ref) {
-      this.canvasContext = ref.getContext('2d')! // lol
-    }
+    this.canvas = ref
   }
 
   componentDidMount() {
-    this.props.element.render(this.canvasContext)
+    const { element } = this.props
+    element.resizeCanvasToImages(this.canvas)
+    element.render(this.canvas.getContext('2d')!)
   }
 
   render() {

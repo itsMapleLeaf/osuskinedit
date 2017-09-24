@@ -1,17 +1,17 @@
 import Filter from 'renderer/canvas/classes/Filter'
 import Transform from 'renderer/canvas/classes/Transform'
 
-export enum DrawableAlignment {
-  topLeft,
-  topCenter,
-  topRight,
-  centerLeft,
-  center,
-  centerRight,
-  bottomLeft,
-  bottomCenter,
-  bottomRight,
-}
+// export enum DrawableAlignment {
+//   topLeft,
+//   topCenter,
+//   topRight,
+//   centerLeft,
+//   center,
+//   centerRight,
+//   bottomLeft,
+//   bottomCenter,
+//   bottomRight,
+// }
 
 export interface DrawableProps {
   x?: number
@@ -19,7 +19,7 @@ export interface DrawableProps {
 
   width?: number
   height?: number
-  align?: DrawableAlignment
+  align?: [number, number]
 }
 
 export default abstract class Drawable {
@@ -35,7 +35,7 @@ export default abstract class Drawable {
   width = 100
   height = 100
 
-  align = DrawableAlignment.center
+  align = [0, 0]
 
   constructor(options: DrawableProps = {}) {
     Object.assign(this, options)
@@ -49,34 +49,22 @@ export default abstract class Drawable {
     this.transforms.push(tf)
   }
 
-  getPosition(boundingWidth: number, boundingHeight: number) {
-    const { align, x, y } = this
-    const { width, height } = this.canvas
+  getAlignOffset() {
+    return {
+      x: this.width * this.align[0],
+      y: this.height * this.align[1],
+    }
+  }
 
-    const centeredX = boundingWidth / 2 - width / 2 + x
-    const rightX = boundingWidth - width + x
-    const centeredY = boundingHeight / 2 - height / 2 + y
-    const bottomY = boundingHeight - height + y
-
-    if (align === DrawableAlignment.topLeft) return { x, y }
-    if (align === DrawableAlignment.topCenter) return { x: centeredX, y }
-    if (align === DrawableAlignment.topRight) return { x: rightX, y }
-
-    if (align === DrawableAlignment.centerLeft) return { x, y: centeredY }
-    if (align === DrawableAlignment.center) return { x: centeredX, y: centeredY }
-    if (align === DrawableAlignment.centerRight) return { x: rightX, y: centeredY }
-
-    if (align === DrawableAlignment.bottomLeft) return { x, y: bottomY }
-    if (align === DrawableAlignment.bottomCenter) return { x: centeredX, y: bottomY }
-    if (align === DrawableAlignment.bottomRight) return { x: rightX, y: bottomY }
-
-    return { x, y }
+  getAlignedPosition() {
+    const { x, y } = this.getAlignOffset()
+    return { x: this.x - x, y: this.y - y }
   }
 
   abstract draw(): void
 
-  transform() {
-    this.transforms.forEach(transform => transform.apply(this.context, this))
+  applyTransforms(context: CanvasRenderingContext2D) {
+    this.transforms.forEach(transform => transform.apply(context, this))
   }
 
   filter() {
@@ -86,17 +74,17 @@ export default abstract class Drawable {
   render() {
     const { canvas, context, width, height } = this
 
-    context.globalCompositeOperation = 'source-over'
-    context.scale(0, 0)
-
     canvas.width = width
     canvas.height = height
 
+    context.save()
+
     context.clearRect(0, 0, width, height)
 
-    this.transform()
     this.draw()
     this.filter()
+
+    context.restore()
 
     return this.canvas
   }

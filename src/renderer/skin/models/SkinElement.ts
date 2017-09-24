@@ -1,7 +1,7 @@
 import SkinImage from 'renderer/skin/models/SkinImage'
 
 import { Scene } from 'renderer/canvas'
-import { Bitmap, DrawableAlignment } from 'renderer/canvas/drawables'
+import { Bitmap } from 'renderer/canvas/drawables'
 import { ColorizeFilter } from 'renderer/canvas/filters'
 
 import Color from 'color'
@@ -57,17 +57,19 @@ export default class SkinElement {
     })
   }
 
-  prepareScene() {
+  get validMaps() {
+    return this.maps.filter(map => map.skinImage !== undefined)
+  }
+
+  prepareScene(context: CanvasRenderingContext2D) {
     this.scene = new Scene()
 
-    const validMaps = this.maps.filter(map => map.skinImage !== undefined)
-
-    const drawables = validMaps.map(map => {
+    this.validMaps.forEach(map => {
       const image = map.skinImage!.image
 
       const bitmap = new Bitmap({
         image: image,
-        align: DrawableAlignment.center,
+        align: [0.5, 0.5],
       })
 
       if (map.colored) {
@@ -78,14 +80,19 @@ export default class SkinElement {
         bitmap.addFilter(colorizeFilter)
       }
 
-      return bitmap
+      this.scene!.addDrawable(bitmap)
     })
-
-    drawables.forEach(drawable => this.scene!.addDrawable(drawable))
   }
 
   render(context: CanvasRenderingContext2D) {
-    if (this.scene === undefined) this.prepareScene()
+    if (this.scene === undefined) this.prepareScene(context)
     this.scene!.render(context)
+  }
+
+  resizeCanvasToImages(canvas: HTMLCanvasElement) {
+    const maxWidth = Math.max(...this.validMaps.map(m => m.skinImage!.image.width || 0))
+    const maxHeight = Math.max(...this.validMaps.map(m => m.skinImage!.image.height || 0))
+    canvas.width = maxWidth
+    canvas.height = maxHeight
   }
 }

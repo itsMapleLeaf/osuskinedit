@@ -11,10 +11,6 @@ export default class Bitmap extends Drawable {
 
   constructor(options: BitmapProps) {
     super(options)
-
-    const { width, height } = options.image
-
-    Object.assign(this, { width, height }, options)
   }
 
   draw() {

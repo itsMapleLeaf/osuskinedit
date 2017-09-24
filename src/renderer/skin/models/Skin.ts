@@ -132,6 +132,7 @@ export default class Skin {
     const { elements } = defaultSchema
 
     const skinElements = elements.map((elementOptions: any) => {
+      console.log(elementOptions.imageMap)
       return new SkinElement(elementOptions, elementOptions.imageMap, this.images)
     })
 

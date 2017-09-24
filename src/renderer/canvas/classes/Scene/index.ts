@@ -22,27 +22,25 @@ export default class Scene {
   }
 
   @bind
-  render(currentContext: CanvasRenderingContext2D) {
-    const { width, height } = this
-    const { canvas } = currentContext
+  render(context: CanvasRenderingContext2D) {
+    const { width, height } = context.canvas
 
-    const biggestWidth = Math.max(...this.drawables.map(d => d.width))
-    const biggestHeight = Math.max(...this.drawables.map(d => d.height))
-
-    const newWidth = width || biggestWidth
-    const newHeight = height || biggestHeight
-
-    canvas.width = newWidth
-    canvas.height = newHeight
-
-    currentContext.clearRect(0, 0, newWidth, newHeight)
+    context.clearRect(0, 0, width, height)
 
     this.drawables.forEach(drawable => {
-      const renderedCanvasLayer = drawable.render()
+      const { x, y } = drawable.getAlignedPosition()
+      const renderedDrawable = drawable.render()
 
-      const { x, y } = drawable.getPosition(newWidth, newHeight)
+      context.save()
 
-      currentContext.drawImage(renderedCanvasLayer, x, y)
+      context.translate(width / 2, height / 2)
+
+      context.translate(x, y)
+      drawable.applyTransforms(context)
+
+      context.drawImage(renderedDrawable, 0, 0)
+
+      context.restore()
     })
   }
 }

@@ -10,8 +10,6 @@
           "filename": "hitcircle",
           "x": 0,
           "y": 0,
-          "width": 128,
-          "height": 128,
           "colored": true,
           "align": "center"
         },
@@ -19,8 +17,6 @@
           "filename": "hitcircleoverlay",
           "x": 0,
           "y": 0,
-          "width": 128,
-          "height": 128,
           "align": "center"
         }
       ]
@@ -33,8 +29,6 @@
           "filename": "approachcircle",
           "x": 0,
           "y": 0,
-          "width": 192,
-          "height": 192,
           "align": "center",
           "colored": true
         }
@@ -48,8 +42,6 @@
           "filename": "cursor",
           "x": 0,
           "y": 0,
-          "width": 64,
-          "height": 64,
           "colored": false,
           "align": "center"
         }
@@ -63,8 +55,6 @@
           "filename": "spinner-glow",
           "x": 0,
           "y": 0,
-          "width": 128,
-          "height": 128,
           "colored": false,
           "align": "center"
         },
@@ -72,8 +62,6 @@
           "filename": "spinner-bottom",
           "x": 0,
           "y": 0,
-          "width": 128,
-          "height": 128,
           "colored": false,
           "align": "center"
         },
@@ -81,8 +69,6 @@
           "filename": "spinner-top",
           "x": 0,
           "y": 0,
-          "width": 128,
-          "height": 128,
           "colored": false,
           "align": "center"
         },
@@ -90,8 +76,6 @@
           "filename": "spinner-middle",
           "x": 0,
           "y": 0,
-          "width": 32,
-          "height": 32,
           "colored": false,
           "align": "center"
         }

@@ -9,9 +9,7 @@ export default class Layer extends Drawable {
 
   renderDrawables() {
     this.drawables.forEach(drawable => {
-      const { width, height } = this
-      const { x, y } = drawable.getPosition(width, height)
-
+      const { x, y } = drawable.getAlignedPosition()
       this.context.drawImage(drawable.render(), x, y)
     })
   }
