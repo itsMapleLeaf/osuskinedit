@@ -39,6 +39,8 @@ interface SkinElementOptions {
 export default class SkinElement {
   scene = new Scene()
 
+  isPrepared = false
+
   maps = [] as ImageMap[]
 
   constructor(public options: SkinElementOptions, imageMap: any, images: SkinImage[]) {
@@ -94,25 +96,31 @@ export default class SkinElement {
       const filters = []
 
       const layer = new Layer()
-      const bitmap = new Bitmap(map.skinImage!.rawImage.src)
+
+      const bitmap = new Bitmap({
+        image: map.skinImage!.rawImage
+      })
 
       if (map.colored) {
-        const colorizeFilter = new ColorizeFilter(Color('rgb(255, 85, 171)'))
+        const colorizeFilter = new ColorizeFilter({
+          color: Color('rgb(255, 85, 171)')
+        })
+
         filters.push(colorizeFilter)
       }
 
-      layer.assignDrawables([bitmap])
-      layer.assignFilters(filters)
+      layer.addDrawable(bitmap)
+
+      filters.forEach(filter => layer.addFilter(filter))
 
       return layer
     })
 
-    this.scene.assignLayers(layers)
-    this.scene.prepare()
+    layers.forEach(layer => this.scene.addLayer(layer))
   }
 
   render(context: CanvasRenderingContext2D) {
-    if (!this.scene.isPrepared) this.prepareScene()
+    if (!this.isPrepared) this.prepareScene()
 
     this.scene.setContext(context)
     this.scene.render()
