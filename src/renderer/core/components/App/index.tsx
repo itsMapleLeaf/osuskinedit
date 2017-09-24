@@ -18,7 +18,11 @@ export default class App extends React.Component<AppProps> {
   renderBody() {
     const skinStore = this.props.skinStore!
     if (skinStore.skin.loadStatus !== SkinLoadingState.finished) {
-      return 'Loading skin...'
+      return (
+        <div className="loading fill-area flex-center">
+          <h1>Loading skin...</h1>
+        </div>
+      )
     }
     return <AppRouterView />
   }
