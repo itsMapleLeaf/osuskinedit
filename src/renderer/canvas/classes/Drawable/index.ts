@@ -50,7 +50,8 @@ export default abstract class Drawable {
   }
 
   getPosition(boundingWidth: number, boundingHeight: number) {
-    const { align, x, y, width, height } = this
+    const { align, x, y } = this
+    const { width, height } = this.canvas
 
     const centeredX = boundingWidth / 2 - width / 2 + x
     const rightX = boundingWidth - width + x
@@ -72,32 +73,31 @@ export default abstract class Drawable {
     return { x, y }
   }
 
+  abstract draw(): void
+
+  transform() {
+    this.transforms.forEach(transform => transform.apply(this.context, this))
+  }
+
   filter() {
     this.filters.forEach(filter => filter.run(this.context))
   }
 
-  abstract draw(): void
-
   render() {
     const { canvas, context, width, height } = this
+
+    context.globalCompositeOperation = 'source-over'
+    context.scale(0, 0)
 
     canvas.width = width
     canvas.height = height
 
-    context.save()
-
-    context.globalCompositeOperation = 'source-over'
     context.clearRect(0, 0, width, height)
 
+    this.transform()
     this.draw()
     this.filter()
 
-    context.restore()
-
     return this.canvas
-  }
-
-  applyTransforms(context: CanvasRenderingContext2D) {
-    this.transforms.forEach(t => t.apply(context, this))
   }
 }

@@ -45,18 +45,11 @@ export default class Scene {
     currentContext.clearRect(0, 0, newWidth, newHeight)
 
     this.drawables.forEach(drawable => {
-      const { x, y } = drawable.getPosition(newWidth, newHeight)
-
       const renderedCanvasLayer = drawable.render()
 
-      currentContext.save()
+      const { x, y } = drawable.getPosition(newWidth, newHeight)
 
-      currentContext.translate(x, y)
-      drawable.applyTransforms(currentContext)
-
-      currentContext.drawImage(renderedCanvasLayer, 0, 0)
-
-      currentContext.restore()
+      currentContext.drawImage(renderedCanvasLayer, x, y)
     })
   }
 }
