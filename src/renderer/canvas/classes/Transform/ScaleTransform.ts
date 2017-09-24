@@ -1,16 +1,28 @@
 import Drawable from 'renderer/canvas/classes/Drawable'
-import Transform from './index'
+import Transform, { TransformProps } from './index'
+
+export interface ScaleTransformProps extends TransformProps {
+  scaleX?: number
+  scaleY?: number
+}
 
 export default class ScaleTransform extends Transform {
-  constructor(public scale = 1) {
-    super()
+  scaleX = 1
+  scaleY = 1
+
+  constructor(options: TransformProps = {}) {
+    super(options)
   }
 
   apply(context: CanvasRenderingContext2D, drawable: Drawable) {
     const { width, height } = drawable
 
-    context.translate(width / 2, height / 2)
-    context.scale(this.scale, this.scale)
-    context.translate(-width / 2, -height / 2)
+    const newWidth = width * this.scaleX
+    const newHeight = height * this.scaleY
+
+    drawable.canvas.width = newWidth
+    drawable.canvas.height = newHeight
+
+    context.scale(this.scaleX, this.scaleY)
   }
 }
