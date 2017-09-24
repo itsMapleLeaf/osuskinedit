@@ -57,7 +57,7 @@ export default class AppRouterView extends React.Component {
   render() {
     return (
       <Router history={this.history}>
-        <div className="AppRouterView">
+        <div className="AppRouterView flex-row flex-grow">
           <div className="sidebar">{routes.map(this.renderNavLink)}</div>
           {routes.map(this.renderRoute)}
         </div>

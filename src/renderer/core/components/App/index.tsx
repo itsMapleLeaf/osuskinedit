@@ -19,7 +19,7 @@ export default class App extends React.Component<AppProps> {
     const skinStore = this.props.skinStore!
     if (skinStore.skin.loadStatus !== SkinLoadingState.finished) {
       return (
-        <div className="loading fill-area flex-center">
+        <div className="fill-area flex-center">
           <h1>Loading skin...</h1>
         </div>
       )
@@ -29,7 +29,7 @@ export default class App extends React.Component<AppProps> {
 
   render() {
     return (
-      <main className="App">
+      <main className="App fullscreen flex-column">
         <div className="header">
           <Titlebar />
         </div>

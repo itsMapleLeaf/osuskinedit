@@ -3,7 +3,7 @@
 }
 
 .flex-column {
-  display: flex;
+  @extend .flex-row;
   flex-direction: column;
 }
 
@@ -11,4 +11,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.flex-align-stretch {
+  align-items: stretch;
 }
