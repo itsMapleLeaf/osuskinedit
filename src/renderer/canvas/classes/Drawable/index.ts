@@ -19,7 +19,10 @@ export interface DrawableProps {
 
   width?: number
   height?: number
+
   align?: DrawableAlignment
+
+  opacity?: number
 }
 
 export default abstract class Drawable {
@@ -36,6 +39,8 @@ export default abstract class Drawable {
   height = 100
 
   align = DrawableAlignment.center
+
+  opacity = 1
 
   constructor(options: DrawableProps = {}) {
     Object.assign(this, options)
@@ -87,6 +92,7 @@ export default abstract class Drawable {
     const { canvas, context, width, height } = this
 
     context.globalCompositeOperation = 'source-over'
+
     context.scale(0, 0)
 
     canvas.width = width
@@ -95,6 +101,9 @@ export default abstract class Drawable {
     context.clearRect(0, 0, width, height)
 
     this.transform()
+
+    context.globalAlpha = this.opacity
+
     this.draw()
     this.filter()
 
