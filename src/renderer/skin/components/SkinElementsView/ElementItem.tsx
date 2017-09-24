@@ -4,7 +4,6 @@ import * as React from 'react'
 
 import SkinElement from 'renderer/skin/models/SkinElement'
 
-import { logTime } from '../../../common/util/logTime'
 import './ElementItem.scss'
 
 interface ElementItemProps {
