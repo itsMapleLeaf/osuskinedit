@@ -23,7 +23,9 @@ export default class ElementItem extends React.Component<ElementItemProps> {
   }
 
   componentDidMount() {
-    this.props.element.render(this.canvasContext)
+    logTime(this.props.element.options.id, () => {
+      this.props.element.render(this.canvasContext)
+    })
   }
 
   render() {
@@ -34,7 +36,7 @@ export default class ElementItem extends React.Component<ElementItemProps> {
         <div className="thumbnail">
           <div className="background" />
           <div className="image">
-            <canvas width="175" height="175" className="canvas" ref={this.getCanvasRef} />
+            <canvas className="canvas" ref={this.getCanvasRef} />
           </div>
         </div>
         <div className="footer">

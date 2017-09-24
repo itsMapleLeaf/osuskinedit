@@ -10,6 +10,8 @@
           "filename": "hitcircle",
           "x": 0,
           "y": 0,
+          "width": 256,
+          "height": 256,
           "colored": true,
           "align": "center"
         },
@@ -17,6 +19,8 @@
           "filename": "hitcircleoverlay",
           "x": 0,
           "y": 0,
+          "width": 256,
+          "height": 256,
           "align": "center"
         },
         {
@@ -25,9 +29,7 @@
           "y": 0,
           "align": "center"
         }
-      ],
-      "width": 256,
-      "height": 256
+      ]
     },
     {
       "id": "cursor",

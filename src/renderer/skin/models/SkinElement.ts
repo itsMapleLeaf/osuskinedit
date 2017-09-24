@@ -1,7 +1,7 @@
 import SkinImage from 'renderer/skin/models/SkinImage'
 
-import { Layer, Scene } from 'renderer/canvas'
-import { Bitmap } from 'renderer/canvas/drawables'
+import { Scene } from 'renderer/canvas'
+import { Bitmap, DrawableAlignment } from 'renderer/canvas/drawables'
 import { ColorizeFilter } from 'renderer/canvas/filters'
 
 import Color from 'color'
@@ -12,6 +12,9 @@ class ImageMap {
 
   x: number
   y: number
+
+  width?: number
+  height?: number
 
   colored: boolean
   align: string
@@ -37,7 +40,7 @@ interface SkinElementOptions {
 }
 
 export default class SkinElement {
-  scene = new Scene()
+  scene: Scene
 
   isPrepared = false
 
@@ -90,15 +93,16 @@ export default class SkinElement {
   }*/
 
   prepareScene() {
+    this.scene = new Scene()
+
     const validMaps = this.maps.filter(map => map.skinImage !== undefined)
 
-    const layers = validMaps.map(map => {
-      const filters = []
-
-      const layer = new Layer()
+    const drawables = validMaps.map(map => {
+      const rawImage = map.skinImage!.rawImage
 
       const bitmap = new Bitmap({
-        image: map.skinImage!.rawImage
+        image: rawImage,
+        align: DrawableAlignment.center,
       })
 
       if (map.colored) {
@@ -106,17 +110,13 @@ export default class SkinElement {
           color: Color('rgb(255, 85, 171)')
         })
 
-        filters.push(colorizeFilter)
+        bitmap.addFilter(colorizeFilter)
       }
 
-      layer.addDrawable(bitmap)
-
-      filters.forEach(filter => layer.addFilter(filter))
-
-      return layer
+      return bitmap
     })
 
-    layers.forEach(layer => this.scene.addLayer(layer))
+    drawables.forEach(drawable => this.scene.addDrawable(drawable))
 
     this.isPrepared = true
   }

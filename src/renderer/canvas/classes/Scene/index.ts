@@ -1,17 +1,25 @@
-import Layer from 'renderer/canvas/classes/Layer'
+import Drawable from 'renderer/canvas/classes/Drawable'
 
 import { bind } from 'decko'
 
+export interface SceneProps {
+  width?: number | null,
+  height?: number | null,
+}
+
 export default class Scene {
   currentContext: CanvasRenderingContext2D
+  drawables = [] as Drawable[]
 
-  layers = [] as Layer[]
+  width = null
+  height = null
 
-  isPrepared = false
-  isAnimated = false
+  constructor(options: SceneProps = {}) {
+    Object.assign(this, options)
+  }
 
-  addLayer(layer: Layer) {
-    this.layers.push(layer)
+  addDrawable(drawable: Drawable) {
+    this.drawables.push(drawable)
   }
 
   setContext(context: CanvasRenderingContext2D) {
@@ -22,14 +30,29 @@ export default class Scene {
   render() {
     if (!this.currentContext) throw new Error('Scene requires a context to render')
 
-    const { width, height } = this.currentContext.canvas
-    this.currentContext.clearRect(0, 0, width, height)
+    const { width, height, currentContext } = this
+    const { canvas } = currentContext
 
-    this.layers.forEach(layer => {
-      const renderedCanvasLayer = layer.render()
-      this.currentContext.drawImage(renderedCanvasLayer, 0, 0)
+    const biggestWidth = Math.max(...this.drawables.map(d => d.width))
+    const biggestHeight = Math.max(...this.drawables.map(d => d.height))
+
+    const newWidth = width || biggestWidth
+    const newHeight = height || biggestHeight
+
+    canvas.width = newWidth
+    canvas.height = newHeight
+
+    currentContext.clearRect(0, 0, newWidth, newHeight)
+
+    this.drawables.forEach(drawable => {
+      const { x, y } = drawable.getPosition(newWidth, newHeight)
+
+      console.log(newWidth, newHeight)
+      console.log(x, y)
+
+      const renderedCanvasLayer = drawable.render()
+
+      currentContext.drawImage(renderedCanvasLayer, x, y)
     })
-
-    if (this.isAnimated) requestAnimationFrame(this.render)
   }
 }

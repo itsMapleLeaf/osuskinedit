@@ -17,17 +17,11 @@ export default class Bitmap extends Drawable {
       width: image.width,
       height: image.height,
     }, options)
-
-
   }
 
-  render() {
-    const canvas = super.render()
+  draw() {
+    const { context, width, height } = this
 
-    const { context } = this
-
-    context.drawImage(this.image, 0, 0)
-
-    return canvas
+    context.drawImage(this.image, 0, 0, width, height)
   }
 }
