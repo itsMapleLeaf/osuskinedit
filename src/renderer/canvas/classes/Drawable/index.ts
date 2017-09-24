@@ -6,7 +6,7 @@ export interface DrawableProps {
   hight?: number
 }
 
-export default class Drawable {
+export default abstract class Drawable {
   canvas = document.createElement('canvas')
   context = this.canvas.getContext('2d')!
 
