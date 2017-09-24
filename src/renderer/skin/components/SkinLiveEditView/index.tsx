@@ -48,7 +48,7 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
 
   private startAnimation() {
     this.preview = new PreviewRenderer(this.canvasContext, this.skin)
-    // this.preview.start()
+    this.preview.start()
   }
 
   @bind
@@ -61,6 +61,7 @@ class PreviewRenderer {
   running = false
   hitCircle: Drawable
   scene: Scene
+  approachScale: ScaleTransform
 
   constructor(context: CanvasRenderingContext2D, skin: Skin) {
     const { width, height } = context.canvas
@@ -71,7 +72,7 @@ class PreviewRenderer {
     })
 
     const colorizer = new ColorizeFilter()
-    colorizer.color = Color('hsla(170, 70%, 50%, 0.3)')
+    colorizer.color = Color('hsla(170, 70%, 50%, 0.7)')
 
     const hitCircle = new Bitmap({ image: skin.getImage('hitcircle').image })
     hitCircle.addFilter(colorizer)
@@ -85,14 +86,17 @@ class PreviewRenderer {
     })
     approachCircle.addFilter(colorizer)
 
-    const approachScale = new ScaleTransform(1.5)
+    const approachScale = this.approachScale = new ScaleTransform({
+      scaleX: 3,
+      scaleY: 3
+    })
+
     approachCircle.addTransform(approachScale)
 
     this.scene.addDrawable(hitCircle)
     this.scene.addDrawable(hitCircleOverlay)
     this.scene.addDrawable(approachCircle)
     this.scene.setContext(context)
-    this.scene.render()
   }
 
   start() {
@@ -103,6 +107,20 @@ class PreviewRenderer {
     const runFrame = (frameTime: number) => {
       // const elapsed = frameTime - (time || frameTime)
       time = frameTime
+
+      const { approachScale } = this
+
+      if (this.approachScale.scaleX > 1) {
+        const newScale = approachScale.scaleX - 0.03
+
+        this.approachScale.scaleX = newScale
+        this.approachScale.scaleY = newScale
+      } else {
+        this.approachScale.scaleX = 3
+        this.approachScale.scaleY = 3
+      }
+
+      this.scene.render()
 
       if (this.running) {
         requestAnimationFrame(runFrame)
