@@ -118,23 +118,23 @@ export default class HitCircle extends Layer {
     this.approachCircleDrawable = approachCircleDrawable
   }
 
-  frame() {
+  update(dt: number) {
     if (!this.hasApproached && !this.hasClicked) {
-      this.hitCircleLayer.opacity = Math.min(this.hitCircleLayer.opacity + 0.08, 1)
+      this.hitCircleLayer.opacity = Math.min(this.hitCircleLayer.opacity + dt * 3, 1)
     }
 
     if (this.hasClicked) {
       if (this.waitTimer < 0) return this.resetAnimation()
 
-      this.waitTimer -= 0.03
+      this.waitTimer -= dt
 
       return
     }
 
     if (this.hasApproached) {
-      this.fadeOutCircle()
+      this.fadeOutCircle(dt)
     } else {
-      this.decreaseApproachCircle()
+      this.decreaseApproachCircle(dt)
     }
   }
 
@@ -153,17 +153,15 @@ export default class HitCircle extends Layer {
     this.approachCircleDrawable.opacity = 0
     this.numberDrawable.opacity = 1
 
-    // debugger
-
     this.hasClicked = false
     this.hasApproached = false
     this.waitTimer = 2
   }
 
-  decreaseApproachCircle() {
-    const newScale = this.approachScaleTransform.scaleX - 0.03
+  decreaseApproachCircle(dt: number) {
+    const newScale = this.approachScaleTransform.scaleX - dt * 2
 
-    this.approachCircleDrawable.opacity += 0.01
+    this.approachCircleDrawable.opacity += dt * 1
 
     Object.assign(this.approachScaleTransform, {
       scaleX: newScale,
@@ -176,9 +174,9 @@ export default class HitCircle extends Layer {
     }
   }
 
-  fadeOutCircle() {
-    const newScale = this.hitCircleScaleTransform.scaleX + 0.03
-    const newOpacity = this.hitCircleLayer.opacity - 0.05
+  fadeOutCircle(dt: number) {
+    const newScale = this.hitCircleScaleTransform.scaleX + dt * 2
+    const newOpacity = this.hitCircleLayer.opacity - dt * 5
 
     this.numberDrawable.opacity = 0
 
@@ -213,7 +211,6 @@ export default class HitCircle extends Layer {
   }
 
   draw() {
-    this.frame()
     this.renderDrawables()
   }
 }

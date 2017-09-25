@@ -20,16 +20,17 @@ export default class StandardPreviewRenderer {
       height,
     })
 
-    const hitCircle = new HitCircle({
+    this.hitCircle = new HitCircle({
       skin: skin,
       anchor: DrawableAnchor.center,
     })
 
-    this.scene.addDrawable(hitCircle)
+    this.scene.addDrawable(this.hitCircle)
   }
 
   @bind
-  tick() {
+  tick(dt: number) {
+    this.hitCircle.update(dt)
     this.scene.render(this.context)
   }
 
