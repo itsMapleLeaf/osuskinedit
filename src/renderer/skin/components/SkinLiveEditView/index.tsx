@@ -2,13 +2,8 @@ import { bind } from 'decko'
 import { computed } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import * as React from 'react'
-import { Scene } from 'renderer/canvas'
-import Drawable from 'renderer/canvas/classes/Drawable'
 
-import { DrawableAnchor } from 'renderer/canvas/drawables'
-import HitCircle from 'renderer/skin/drawables/HitCircle'
-
-import Skin from 'renderer/skin/models/Skin'
+import StandardPreviewRenderer from 'renderer/skin/previews/StandardPreviewRenderer'
 import { SkinStore } from 'renderer/skin/stores/SkinStore'
 
 import './index.scss'
@@ -21,7 +16,7 @@ interface SkinLiveEditViewProps {
 @observer
 export default class SkinLiveEditView extends React.Component<SkinLiveEditViewProps> {
   canvasContext: CanvasRenderingContext2D
-  private preview: PreviewRenderer
+  private preview: StandardPreviewRenderer
 
   componentDidMount() {
     this.startAnimation()
@@ -48,57 +43,12 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
   }
 
   private startAnimation() {
-    this.preview = new PreviewRenderer(this.canvasContext, this.skin)
+    this.preview = new StandardPreviewRenderer(this.canvasContext, this.skin)
     this.preview.start()
   }
 
   @bind
   private getCanvasRef(el: HTMLCanvasElement | null) {
     if (el) this.canvasContext = el.getContext('2d')!
-  }
-}
-
-class PreviewRenderer {
-  running = false
-  hitCircle: Drawable
-  scene: Scene
-
-  constructor(private context: CanvasRenderingContext2D, skin: Skin) {
-    const { width, height } = context.canvas
-
-    this.scene = new Scene({
-      width,
-      height,
-    })
-
-    const hitCircle = new HitCircle({
-      skin: skin,
-      anchor: DrawableAnchor.center,
-    })
-
-    this.scene.addDrawable(hitCircle)
-  }
-
-  start() {
-    this.running = true
-
-    let time: number
-
-    const runFrame = (frameTime: number) => {
-      // const elapsed = frameTime - (time || frameTime)
-      time = frameTime
-
-      this.scene.render(this.context)
-
-      if (this.running) {
-        requestAnimationFrame(runFrame)
-      }
-    }
-
-    requestAnimationFrame(runFrame)
-  }
-
-  stop() {
-    this.running = false
   }
 }
