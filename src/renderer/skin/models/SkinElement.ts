@@ -57,7 +57,7 @@ export default class SkinElement {
     })
   }
 
-  prepareScene() {
+  prepareScene(context: CanvasRenderingContext2D) {
     this.scene = new Scene()
 
     const validMaps = this.maps.filter(map => map.skinImage !== undefined)
@@ -81,11 +81,16 @@ export default class SkinElement {
       return bitmap
     })
 
+    const { canvas } = context
+
     drawables.forEach(drawable => this.scene!.addDrawable(drawable))
+
+    canvas.width = Math.max(...drawables.map(d => d.width))
+    canvas.height = Math.max(...drawables.map(d => d.height))
   }
 
   render(context: CanvasRenderingContext2D) {
-    if (this.scene === undefined) this.prepareScene()
+    if (this.scene === undefined) this.prepareScene(context)
     this.scene!.render(context)
   }
 }
