@@ -10,9 +10,6 @@ export interface SceneProps {
 export default class Scene {
   drawables = [] as Drawable[]
 
-  width = null
-  height = null
-
   constructor(options: SceneProps = {}) {
     Object.assign(this, options)
   }
