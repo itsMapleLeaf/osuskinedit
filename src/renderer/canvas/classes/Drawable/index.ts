@@ -91,21 +91,20 @@ export default abstract class Drawable {
   render() {
     const { canvas, context, width, height } = this
 
-    context.globalCompositeOperation = 'source-over'
-
-    context.scale(0, 0)
-
     canvas.width = width
     canvas.height = height
 
-    context.clearRect(0, 0, width, height)
+    context.save()
 
     this.transform()
 
     context.globalAlpha = this.opacity
 
+    context.clearRect(0, 0, width, height)
     this.draw()
     this.filter()
+
+    context.restore()
 
     return this.canvas
   }
