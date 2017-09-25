@@ -82,15 +82,22 @@ export default class SkinElement {
     })
 
     const { canvas } = context
-
-    drawables.forEach(drawable => this.scene!.addDrawable(drawable))
-
     canvas.width = Math.max(...drawables.map(d => d.width))
     canvas.height = Math.max(...drawables.map(d => d.height))
+
+    drawables.forEach(drawable => this.scene!.addDrawable(drawable))
+  }
+
+  fitCanvasToDrawables(canvas: HTMLCanvasElement) {
+    if (this.scene) {
+      canvas.width = Math.max(...this.scene.drawables.map(d => d.width))
+      canvas.height = Math.max(...this.scene.drawables.map(d => d.height))
+    }
   }
 
   render(context: CanvasRenderingContext2D) {
     if (this.scene === undefined) this.prepareScene(context)
+    this.fitCanvasToDrawables(context.canvas)
     this.scene!.render(context)
   }
 }
