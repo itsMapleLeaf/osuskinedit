@@ -1,7 +1,6 @@
 import { bind } from 'decko'
 
 import { Scene } from 'renderer/canvas'
-import { DrawableAnchor } from 'renderer/canvas/drawables'
 import Ticker from 'renderer/common/classes/Ticker'
 import HitCircle from 'renderer/skin/drawables/HitCircle'
 import Skin from 'renderer/skin/models/Skin'
@@ -22,7 +21,6 @@ export default class StandardPreviewRenderer {
 
     this.hitCircle = new HitCircle({
       skin: skin,
-      anchor: DrawableAnchor.center,
     })
 
     this.scene.addDrawable(this.hitCircle)

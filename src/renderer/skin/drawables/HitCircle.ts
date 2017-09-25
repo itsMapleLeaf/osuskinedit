@@ -1,4 +1,4 @@
-import { Bitmap, DrawableAnchor, DrawableProps, Layer } from 'renderer/canvas/drawables'
+import { Bitmap, DrawableProps, Layer } from 'renderer/canvas/drawables'
 
 import { ColorizeFilter } from 'renderer/canvas/filters'
 import { ScaleTransform } from 'renderer/canvas/transforms'
@@ -74,7 +74,6 @@ export default class HitCircle extends Layer {
     const layer = new Layer({
       width: width,
       height: height,
-      anchor: DrawableAnchor.center,
       opacity: 0,
     })
 
@@ -88,7 +87,6 @@ export default class HitCircle extends Layer {
 
     const numberDrawable = (this.numberDrawable = new Bitmap({
       image: numberImage,
-      anchor: DrawableAnchor.center,
     }))
 
     hitCircleDrawable.addFilter(this.colorizeFilter)
@@ -108,7 +106,6 @@ export default class HitCircle extends Layer {
 
     const approachCircleDrawable = new Bitmap({
       image: approachCircleImage,
-      anchor: DrawableAnchor.center,
       opacity: 0,
     })
 
@@ -208,9 +205,7 @@ export default class HitCircle extends Layer {
 
     this.width = width
     this.height = height
-  }
 
-  draw() {
-    this.renderDrawables()
+    this.approachCircleDrawable.render()
   }
 }

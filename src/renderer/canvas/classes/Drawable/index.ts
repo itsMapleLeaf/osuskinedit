@@ -1,1 +1,1 @@
-export { default, DrawableAnchor, DrawableProps } from './Drawable'
+export { default, DrawableProps } from './Drawable'

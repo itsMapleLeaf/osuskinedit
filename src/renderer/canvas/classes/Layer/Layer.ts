@@ -9,13 +9,7 @@ export default class Layer extends Drawable {
 
   renderDrawables() {
     this.drawables.forEach(drawable => {
-      const { width, height } = this
-
-      const renderedCanvasLayer = drawable.render()
-
-      const { x, y } = drawable.getPosition(width, height)
-
-      this.context.drawImage(renderedCanvasLayer, x, y)
+      drawable.renderToContext(this.context)
     })
   }
 

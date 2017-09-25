@@ -1,7 +1,7 @@
 import SkinImage from 'renderer/skin/models/SkinImage'
 
 import { Scene } from 'renderer/canvas'
-import { Bitmap, DrawableAnchor } from 'renderer/canvas/drawables'
+import { Bitmap } from 'renderer/canvas/drawables'
 import { ColorizeFilter } from 'renderer/canvas/filters'
 
 import Color from 'color'
@@ -67,7 +67,6 @@ export default class SkinElement {
 
       const bitmap = new Bitmap({
         image: image,
-        anchor: DrawableAnchor.center,
       })
 
       if (map.colored) {

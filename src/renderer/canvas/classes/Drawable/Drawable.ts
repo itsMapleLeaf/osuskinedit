@@ -1,17 +1,7 @@
 import Filter from 'renderer/canvas/classes/Filter'
 import Transform from 'renderer/canvas/classes/Transform'
 
-export enum DrawableAnchor {
-  topLeft,
-  topCenter,
-  topRight,
-  centerLeft,
-  center,
-  centerRight,
-  bottomLeft,
-  bottomCenter,
-  bottomRight,
-}
+const debugMode = false
 
 export interface DrawableProps {
   x?: number
@@ -20,7 +10,8 @@ export interface DrawableProps {
   width?: number
   height?: number
 
-  anchor?: DrawableAnchor
+  anchor?: [number, number]
+  align?: [number, number]
 
   opacity?: number
 }
@@ -38,7 +29,8 @@ export default abstract class Drawable {
   width = 100
   height = 100
 
-  anchor = DrawableAnchor.center
+  anchor: [number, number] = [0.5, 0.5]
+  align: [number, number] = [0.5, 0.5]
 
   opacity = 1
 
@@ -54,34 +46,28 @@ export default abstract class Drawable {
     this.transforms.push(tf)
   }
 
-  getPosition(boundingWidth: number, boundingHeight: number) {
-    const { anchor, x, y } = this
-    const { width, height } = this.canvas
+  getAnchorOffset(): [number, number] {
+    const [ax, ay] = this.anchor
 
-    const centeredX = boundingWidth / 2 - width / 2 + x
-    const rightX = boundingWidth - width + x
-    const centeredY = boundingHeight / 2 - height / 2 + y
-    const bottomY = boundingHeight - height + y
+    const anchoredX = this.width * ax
+    const anchoredY = this.height * ay
 
-    if (anchor === DrawableAnchor.topLeft) return { x, y }
-    if (anchor === DrawableAnchor.topCenter) return { x: centeredX, y }
-    if (anchor === DrawableAnchor.topRight) return { x: rightX, y }
+    return [anchoredX, anchoredY]
+  }
 
-    if (anchor === DrawableAnchor.centerLeft) return { x, y: centeredY }
-    if (anchor === DrawableAnchor.center) return { x: centeredX, y: centeredY }
-    if (anchor === DrawableAnchor.centerRight) return { x: rightX, y: centeredY }
+  getAlignmentOffset(contextWidth: number, contextHeight: number): [number, number] {
+    const [ax, ay] = this.align
 
-    if (anchor === DrawableAnchor.bottomLeft) return { x, y: bottomY }
-    if (anchor === DrawableAnchor.bottomCenter) return { x: centeredX, y: bottomY }
-    if (anchor === DrawableAnchor.bottomRight) return { x: rightX, y: bottomY }
+    const alignedX = contextWidth * ax
+    const alignedY = contextHeight * ay
 
-    return { x, y }
+    return [alignedX, alignedY]
   }
 
   abstract draw(): void
 
-  transform() {
-    this.transforms.forEach(transform => transform.apply(this.context, this))
+  applyTransform(context: CanvasRenderingContext2D) {
+    this.transforms.forEach(transform => transform.apply(context, this))
   }
 
   filter() {
@@ -96,16 +82,38 @@ export default abstract class Drawable {
 
     context.save()
 
-    this.transform()
-
+    context.clearRect(0, 0, width, height)
     context.globalAlpha = this.opacity
 
-    context.clearRect(0, 0, width, height)
     this.draw()
     this.filter()
 
     context.restore()
 
     return this.canvas
+  }
+
+  renderToContext(context: CanvasRenderingContext2D) {
+    const { width, height } = context.canvas
+
+    const rendered = this.render()
+    const [alignX, alignY] = this.getAlignmentOffset(width, height)
+    const [anchorX, anchorY] = this.getAnchorOffset()
+
+    context.save()
+
+    context.translate(alignX, alignY)
+    this.applyTransform(context)
+    context.translate(-anchorX, -anchorY)
+
+    context.drawImage(rendered, 0, 0)
+
+    if (debugMode) {
+      context.strokeStyle = 'white'
+      context.lineWidth = 2
+      context.strokeRect(0, 0, rendered.width, rendered.height)
+    }
+
+    context.restore()
   }
 }
