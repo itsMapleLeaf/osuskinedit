@@ -22,16 +22,16 @@ export default class Scene {
   }
 
   @bind
-  render(currentContext: CanvasRenderingContext2D) {
-    const { width, height } = currentContext.canvas
-    currentContext.clearRect(0, 0, width, height)
+  render(context: CanvasRenderingContext2D) {
+    const { width, height } = context.canvas
+    context.clearRect(0, 0, width, height)
 
     this.drawables.forEach(drawable => {
       const renderedCanvasLayer = drawable.render()
 
       const { x, y } = drawable.getPosition(width, height)
 
-      currentContext.drawImage(renderedCanvasLayer, x, y)
+      context.drawImage(renderedCanvasLayer, x, y)
     })
   }
 }
