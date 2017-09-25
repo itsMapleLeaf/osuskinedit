@@ -1,9 +1,4 @@
-import {
-  DrawableProps,
-  DrawableAlignment,
-  Layer,
-  Bitmap
-} from 'renderer/canvas/drawables'
+import { DrawableProps, DrawableAnchor, Layer, Bitmap } from 'renderer/canvas/drawables'
 
 import { ColorizeFilter } from 'renderer/canvas/filters'
 import { ScaleTransform } from 'renderer/canvas/transforms'
@@ -46,7 +41,7 @@ export default class HitCircle extends Layer {
 
   createFiltersAndTransforms() {
     this.colorizeFilter = new ColorizeFilter({
-      color: Color('blue')
+      color: Color('blue'),
     })
 
     this.approachScaleTransform = new ScaleTransform({
@@ -65,7 +60,7 @@ export default class HitCircle extends Layer {
 
     return {
       width: approachCircleImage.width * this.approachCircleScale,
-      height: approachCircleImage.height * this.approachCircleScale
+      height: approachCircleImage.height * this.approachCircleScale,
     }
   }
 
@@ -81,21 +76,21 @@ export default class HitCircle extends Layer {
     const layer = new Layer({
       width: width,
       height: height,
-      align: DrawableAlignment.center
+      anchor: DrawableAnchor.center,
     })
 
     const hitCircleDrawable = new Bitmap({
-      image: hitCircleImage
+      image: hitCircleImage,
     })
 
     const hitCircleOverlayDrawable = new Bitmap({
-      image: hitCircleOverlayImage
+      image: hitCircleOverlayImage,
     })
 
-    const numberDrawable = this.numberDrawable = new Bitmap({
+    const numberDrawable = (this.numberDrawable = new Bitmap({
       image: numberImage,
-      align: DrawableAlignment.center
-    })
+      anchor: DrawableAnchor.center,
+    }))
 
     hitCircleDrawable.addFilter(this.colorizeFilter)
 
@@ -114,8 +109,8 @@ export default class HitCircle extends Layer {
 
     const approachCircleDrawable = new Bitmap({
       image: approachCircleImage,
-      align: DrawableAlignment.center,
-      opacity: 0
+      anchor: DrawableAnchor.center,
+      opacity: 0,
     })
 
     approachCircleDrawable.addFilter(this.colorizeFilter)
@@ -143,12 +138,12 @@ export default class HitCircle extends Layer {
   resetAnimation() {
     Object.assign(this.approachScaleTransform, {
       scaleX: this.approachCircleScale,
-      scaleY: this.approachCircleScale
+      scaleY: this.approachCircleScale,
     })
 
     Object.assign(this.hitCircleScaleTransform, {
       scaleX: 1,
-      scaleY: 1
+      scaleY: 1,
     })
 
     this.hitCircleLayer.opacity = 1
@@ -169,7 +164,7 @@ export default class HitCircle extends Layer {
 
     Object.assign(this.approachScaleTransform, {
       scaleX: newScale,
-      scaleY: newScale
+      scaleY: newScale,
     })
 
     if (newScale < 1) {
@@ -192,7 +187,7 @@ export default class HitCircle extends Layer {
 
     Object.assign(this.hitCircleScaleTransform, {
       scaleX: newScale,
-      scaleY: newScale
+      scaleY: newScale,
     })
 
     if (newOpacity < 0) {

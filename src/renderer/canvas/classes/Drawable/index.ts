@@ -1,7 +1,7 @@
 import Filter from 'renderer/canvas/classes/Filter'
 import Transform from 'renderer/canvas/classes/Transform'
 
-export enum DrawableAlignment {
+export enum DrawableAnchor {
   topLeft,
   topCenter,
   topRight,
@@ -20,7 +20,7 @@ export interface DrawableProps {
   width?: number
   height?: number
 
-  align?: DrawableAlignment
+  anchor?: DrawableAnchor
 
   opacity?: number
 }
@@ -38,7 +38,7 @@ export default abstract class Drawable {
   width = 100
   height = 100
 
-  align = DrawableAlignment.center
+  anchor = DrawableAnchor.center
 
   opacity = 1
 
@@ -55,7 +55,7 @@ export default abstract class Drawable {
   }
 
   getPosition(boundingWidth: number, boundingHeight: number) {
-    const { align, x, y } = this
+    const { anchor, x, y } = this
     const { width, height } = this.canvas
 
     const centeredX = boundingWidth / 2 - width / 2 + x
@@ -63,17 +63,17 @@ export default abstract class Drawable {
     const centeredY = boundingHeight / 2 - height / 2 + y
     const bottomY = boundingHeight - height + y
 
-    if (align === DrawableAlignment.topLeft) return { x, y }
-    if (align === DrawableAlignment.topCenter) return { x: centeredX, y }
-    if (align === DrawableAlignment.topRight) return { x: rightX, y }
+    if (anchor === DrawableAnchor.topLeft) return { x, y }
+    if (anchor === DrawableAnchor.topCenter) return { x: centeredX, y }
+    if (anchor === DrawableAnchor.topRight) return { x: rightX, y }
 
-    if (align === DrawableAlignment.centerLeft) return { x, y: centeredY }
-    if (align === DrawableAlignment.center) return { x: centeredX, y: centeredY }
-    if (align === DrawableAlignment.centerRight) return { x: rightX, y: centeredY }
+    if (anchor === DrawableAnchor.centerLeft) return { x, y: centeredY }
+    if (anchor === DrawableAnchor.center) return { x: centeredX, y: centeredY }
+    if (anchor === DrawableAnchor.centerRight) return { x: rightX, y: centeredY }
 
-    if (align === DrawableAlignment.bottomLeft) return { x, y: bottomY }
-    if (align === DrawableAlignment.bottomCenter) return { x: centeredX, y: bottomY }
-    if (align === DrawableAlignment.bottomRight) return { x: rightX, y: bottomY }
+    if (anchor === DrawableAnchor.bottomLeft) return { x, y: bottomY }
+    if (anchor === DrawableAnchor.bottomCenter) return { x: centeredX, y: bottomY }
+    if (anchor === DrawableAnchor.bottomRight) return { x: rightX, y: bottomY }
 
     return { x, y }
   }

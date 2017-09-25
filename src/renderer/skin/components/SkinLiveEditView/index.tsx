@@ -5,7 +5,7 @@ import * as React from 'react'
 import { Scene } from 'renderer/canvas'
 import Drawable from 'renderer/canvas/classes/Drawable'
 
-import { DrawableAlignment } from 'renderer/canvas/drawables'
+import { DrawableAnchor } from 'renderer/canvas/drawables'
 import HitCircle from 'renderer/skin/drawables/HitCircle'
 
 import Skin from 'renderer/skin/models/Skin'
@@ -75,7 +75,7 @@ class PreviewRenderer {
 
     const hitCircle = new HitCircle({
       skin: skin,
-      align: DrawableAlignment.center,
+      anchor: DrawableAnchor.center,
     })
 
     this.scene.addDrawable(hitCircle)
