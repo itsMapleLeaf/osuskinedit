@@ -1,4 +1,4 @@
-import { DrawableProps, DrawableAnchor, Layer, Bitmap } from 'renderer/canvas/drawables'
+import { Bitmap, DrawableAnchor, DrawableProps, Layer } from 'renderer/canvas/drawables'
 
 import { ColorizeFilter } from 'renderer/canvas/filters'
 import { ScaleTransform } from 'renderer/canvas/transforms'
@@ -77,6 +77,7 @@ export default class HitCircle extends Layer {
       width: width,
       height: height,
       anchor: DrawableAnchor.center,
+      opacity: 0,
     })
 
     const hitCircleDrawable = new Bitmap({
@@ -120,6 +121,10 @@ export default class HitCircle extends Layer {
   }
 
   frame() {
+    if (!this.hasApproached && !this.hasClicked) {
+      this.hitCircleLayer.opacity = Math.min(this.hitCircleLayer.opacity + 0.08, 1)
+    }
+
     if (this.hasClicked) {
       if (this.waitTimer < 0) return this.resetAnimation()
 
@@ -146,7 +151,7 @@ export default class HitCircle extends Layer {
       scaleY: 1,
     })
 
-    this.hitCircleLayer.opacity = 1
+    this.hitCircleLayer.opacity = 0
     this.approachCircleDrawable.opacity = 0
     this.numberDrawable.opacity = 1
 
