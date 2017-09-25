@@ -1,5 +1,1 @@
-export default class Filter {
-  run(context: CanvasRenderingContext2D) {
-    return
-  }
-}
+export { default } from './Filter'
