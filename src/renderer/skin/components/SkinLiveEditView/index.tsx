@@ -78,28 +78,6 @@ class PreviewRenderer {
       align: DrawableAlignment.center,
     })
 
-    /**const colorizer = new ColorizeFilter()
-    colorizer.color = Color('hsla(170, 70%, 50%, 0.7)')
-
-    const hitCircle = new Bitmap({ image: skin.getImage('hitcircle').image })
-    hitCircle.addFilter(colorizer)
-
-    const hitCircleOverlay = new Bitmap({ image: skin.getImage('hitcircleoverlay').image })
-    // hitCircleOverlay.addFilter(colorizer)
-
-    const approachCircle = new Bitmap({
-      image: skin.getImage('approachcircle').image,
-      align: DrawableAlignment.center,
-    })
-    approachCircle.addFilter(colorizer)
-
-    const approachScale = (this.approachScale = new ScaleTransform({
-      scaleX: 3,
-      scaleY: 3,
-    }))
-
-    approachCircle.addTransform(approachScale)**/
-
     this.scene.addDrawable(hitCircle)
   }
 
