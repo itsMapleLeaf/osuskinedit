@@ -35,8 +35,6 @@ export default class HitCircle extends Layer {
     Object.assign(this, options)
 
     this.prepare()
-
-    console.log(this)
   }
 
   createFiltersAndTransforms() {

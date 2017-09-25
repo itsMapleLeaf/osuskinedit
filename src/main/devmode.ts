@@ -4,7 +4,7 @@ const devmode = process.argv.includes('--dev')
 
 export function handleDevMode(win: Electron.BrowserWindow) {
   if (devmode) {
-    console.log('devmode enabled')
+    console.info('devmode enabled')
 
     win.webContents.openDevTools()
 

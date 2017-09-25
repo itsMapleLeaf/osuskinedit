@@ -24,9 +24,7 @@ export default class SkinLiveEditView extends React.Component<SkinLiveEditViewPr
   private preview: PreviewRenderer
 
   componentDidMount() {
-    console.log('hi')
     this.startAnimation()
-    console.log('bye')
   }
 
   componentWillUnmount() {

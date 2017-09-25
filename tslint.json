@@ -3,6 +3,7 @@
   "defaultSeverity": "warn",
   "rules": {
     "ordered-imports": true,
-    "no-empty": false
+    "no-empty": false,
+    "no-console": [true, "log"]
   }
 }

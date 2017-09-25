@@ -1,5 +1,5 @@
 export function logTime(name: string, fn: Function) {
   const now = performance.now()
   fn()
-  console.log(`Time for ${name}: ${performance.now() - now}ms`)
+  console.info(`Time for ${name}: ${performance.now() - now}ms`)
 }
