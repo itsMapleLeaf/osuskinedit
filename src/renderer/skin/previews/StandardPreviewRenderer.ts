@@ -1,13 +1,16 @@
+import { bind } from 'decko'
+
 import { Scene } from 'renderer/canvas'
-import Drawable from 'renderer/canvas/classes/Drawable'
 import { DrawableAnchor } from 'renderer/canvas/drawables'
+import Ticker from 'renderer/common/classes/Ticker'
 import HitCircle from 'renderer/skin/drawables/HitCircle'
 import Skin from 'renderer/skin/models/Skin'
 
 export default class StandardPreviewRenderer {
   running = false
-  hitCircle: Drawable
+  hitCircle: HitCircle
   scene: Scene
+  ticker = new Ticker(this.tick)
 
   constructor(private context: CanvasRenderingContext2D, skin: Skin) {
     const { width, height } = context.canvas
@@ -25,26 +28,16 @@ export default class StandardPreviewRenderer {
     this.scene.addDrawable(hitCircle)
   }
 
+  @bind
+  tick() {
+    this.scene.render(this.context)
+  }
+
   start() {
-    this.running = true
-
-    let time: number
-
-    const runFrame = (frameTime: number) => {
-      // const elapsed = frameTime - (time || frameTime)
-      time = frameTime
-
-      this.scene.render(this.context)
-
-      if (this.running) {
-        requestAnimationFrame(runFrame)
-      }
-    }
-
-    requestAnimationFrame(runFrame)
+    this.ticker.start()
   }
 
   stop() {
-    this.running = false
+    this.ticker.stop()
   }
 }
